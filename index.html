@@ -11,6 +11,8 @@
     flex-direction: column;
     align-items: center;
     padding-top: 10vh;
+    min-height: 100vh;
+    margin: 0;
   }
 
   h1 {
@@ -82,6 +84,14 @@
     filter: invert(100%);
     width: 100%;
   }
+
+  footer {
+    margin-top: auto;
+    padding: 20px;
+    font-size: 0.8rem;
+    color: #00ff00;
+    text-transform: uppercase;
+  }
 </style>
 </head>
 <body>
@@ -104,6 +114,10 @@
     <audio id="player" controls></audio>
   </div>
 
+  <footer>
+    © copyright by Leha Normalnyi
+  </footer>
+
   <script>
     const player = document.getElementById('player');
 
@@ -125,7 +139,7 @@
 
       if (playPromise !== undefined) {
         playPromise.catch(error => {
-          console.log("Autoplay prevented by browser. Click play manually.");
+          console.log("Playback interaction required.");
         });
       }
     }
