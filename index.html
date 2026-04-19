@@ -66,7 +66,7 @@
     max-width: 500px;
   }
 
-  #music-list {
+  .music-container {
     margin-top: 30px;
     background: rgba(0, 0, 0, 0.85);
     border: 2px dashed #00ff00;
@@ -121,17 +121,24 @@
   <select id="album-select" onchange="toggleAlbum()">
     <option value="">-- SELECT ALBUM --</option>
     <option value="cspg">Constant Stimulation of Penial Glands</option>
+    <option value="tbs">The Burning Ship</option>
   </select>
 
-  <div id="music-list">
+  <div id="list-cspg" class="music-container">
     <div class="track" data-file="Third World War.mp3" onclick="playTrack(this)">[PLAY] 01_Third World War.mp3</div>
     <div class="track" data-file="Last Breaths of Baal.mp3" onclick="playTrack(this)">[PLAY] 02_Last Breaths of Baal.mp3</div>
     <div class="track" data-file="The Fourth Coming of Christ.mp3" onclick="playTrack(this)">[PLAY] 03_The Fourth Coming of Christ.mp3</div>
     <div class="track" data-file="War on Europa.mp3" onclick="playTrack(this)">[PLAY] 04_War on Europa.mp3</div>
     <div class="track" data-file="Continous Existence of Judaism.mp3" onclick="playTrack(this)">[PLAY] 05_Continous Existence of Judaism.mp3</div>
-      
-    <audio id="player" controls></audio>
+    <div class="track" data-file="Lizards That Live Underground.mp3" onclick="playTrack(this)">[PLAY] 06_Lizards That Live Underground.mp3</div>
+    <div class="track" data-file="Dismembered Body Found in the Stale Basement of a Nice Old Lady I Once Knew As Roberta.mp3" onclick="playTrack(this)">[PLAY] 07_Dismembered Body Found in the Stale Basement of a Nice Old Lady I Once Knew As Roberta.mp3</div>
   </div>
+
+  <div id="list-tbs" class="music-container">
+    <div class="track" data-file="Deadly Sin.mp3" onclick="playTrack(this)">[PLAY] 01_Deadly Sin.mp3</div>
+  </div>
+
+  <audio id="player" controls style="margin-top: 20px; width: 90%; max-width: 500px; filter: invert(100%); display: none;"></audio>
 
   <footer>
     © 2026 copyright by Leha Normalnyi
@@ -140,15 +147,22 @@
   <script>
     const player = document.getElementById('player');
     const select = document.getElementById('album-select');
-    const list = document.getElementById('music-list');
 
     function toggleAlbum() {
+      const lists = document.querySelectorAll('.music-container');
+      lists.forEach(l => l.style.display = 'none');
+      
       if (select.value === 'cspg') {
-        list.style.display = 'block';
+        document.getElementById('list-cspg').style.display = 'block';
         document.body.style.backgroundImage = "url('csopgnew.png')";
+        player.style.display = 'block';
+      } else if (select.value === 'tbs') {
+        document.getElementById('list-tbs').style.display = 'block';
+        document.body.style.backgroundImage = "url('tbscover.png')";
+        player.style.display = 'block';
       } else {
-        list.style.display = 'none';
         document.body.style.backgroundImage = "none";
+        player.style.display = 'none';
       }
     }
 
