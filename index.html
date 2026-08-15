@@ -50,7 +50,7 @@
     border: 3px double currentColor;
     padding: 10px;
     margin-bottom: 5px;
-    text-shadow: 2px 2px var(--shadow-color, #ff00ff);
+    text-shadow: 2px 2px var(--shadow-color, #ffffff);
     text-align: center;
     background: var(--header-bg, rgba(0, 0, 0, 0.85));
     transition: all 0.5s ease;
@@ -110,7 +110,7 @@
     width: 100%;
     cursor: pointer;
     text-align: center;
-    box-shadow: 3px 3px var(--btn-shadow, #ff00ff);
+    box-shadow: 3px 3px var(--btn-shadow, #ffffff);
     transition: background 0.2s, transform 0.1s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
     position: relative;
     overflow: hidden;
@@ -174,7 +174,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(2px 2px var(--shadow-color, #ff00ff));
+    filter: drop-shadow(2px 2px #ffffff);
   }
 
   .social-icon-btn:hover {
@@ -196,12 +196,21 @@
     text-align: left;
   }
 
+  /* Specific override for Album 22 container to stretch it wider for single-line track names */
+  #list-22.music-container {
+    max-width: 750px;
+    width: 95%;
+  }
+
   .track {
     margin: 10px 0;
     padding: 5px;
     border-bottom: 1px solid currentColor;
     font-size: 0.9rem;
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .track.active {
@@ -248,7 +257,7 @@
     text-transform: uppercase;
     text-align: center;
     text-decoration: none;
-    box-shadow: 2px 2px var(--shadow-color, #ff00ff);
+    box-shadow: 2px 2px var(--shadow-color, #ffffff);
     transition: background 0.2s, color 0.2s, transform 0.1s;
     position: relative;
     overflow: hidden;
@@ -304,7 +313,7 @@
   }
 </style>
 </head>
-<body id="page-body" style="--btn-bg: #00ff00; --btn-color: #000; --btn-border: #00ff00; --btn-shadow: #ff00ff; --btn-hover-bg: #ffff00; --btn-hover-color: #000; --active-track-bg: #00ff00; --active-track-color: #000; --footer-bg: rgba(0, 0, 0, 0.85); --footer-color: #00ff00; --header-bg: rgba(0, 0, 0, 0.85); --container-bg: rgba(0, 0, 0, 0.9); --stream-btn-bg: #000; --shadow-color: #ff00ff;">
+<body id="page-body" style="--btn-bg: #00ff00; --btn-color: #000; --btn-border: #00ff00; --btn-shadow: #ffffff; --btn-hover-bg: #ffff00; --btn-hover-color: #000; --active-track-bg: #00ff00; --active-track-color: #000; --footer-bg: rgba(0, 0, 0, 0.85); --footer-color: #00ff00; --header-bg: rgba(0, 0, 0, 0.85); --container-bg: rgba(0, 0, 0, 0.9); --stream-btn-bg: #000; --shadow-color: #ffffff;">
 
   <div class="main-content">
     <h1 id="main-title">Потлатий & Партнери</h1>
@@ -463,23 +472,23 @@
 
       // Show/Hide Lists, Set Backgrounds & High-Contrast Readability Themes based on cover art palettes
       if (val === '22') {
-        // Theme: Album 22 (Blue / Document vibe with high-contrast readable dark blue text & solid readable panels)
+        // Theme: Album 22 (Blue / Document vibe with brighter high-contrast text)
         pageBody.style.backgroundColor = "#d0e3f8";
-        pageBody.style.color = "#0f172a";
+        pageBody.style.color = "#ffffff";
         pageBody.style.setProperty('--btn-bg', '#1e40af');
         pageBody.style.setProperty('--btn-color', '#ffffff');
-        pageBody.style.setProperty('--btn-border', '#0f172a');
-        pageBody.style.setProperty('--btn-shadow', '#3b82f6');
+        pageBody.style.setProperty('--btn-border', '#ffffff');
+        pageBody.style.setProperty('--btn-shadow', '#ffffff');
         pageBody.style.setProperty('--btn-hover-bg', '#2563eb');
         pageBody.style.setProperty('--btn-hover-color', '#ffffff');
         pageBody.style.setProperty('--active-track-bg', '#1e40af');
         pageBody.style.setProperty('--active-track-color', '#ffffff');
         pageBody.style.setProperty('--footer-bg', 'rgba(15, 23, 42, 0.95)');
         pageBody.style.setProperty('--footer-color', '#ffffff');
-        pageBody.style.setProperty('--header-bg', 'rgba(255, 255, 255, 0.95)');
-        pageBody.style.setProperty('--container-bg', 'rgba(255, 255, 255, 0.95)');
+        pageBody.style.setProperty('--header-bg', 'rgba(15, 23, 42, 0.95)');
+        pageBody.style.setProperty('--container-bg', 'rgba(15, 23, 42, 0.95)');
         pageBody.style.setProperty('--stream-btn-bg', '#1e40af');
-        pageBody.style.setProperty('--shadow-color', '#93c5fd');
+        pageBody.style.setProperty('--shadow-color', '#ffffff');
 
         document.getElementById('list-22').style.display = 'block';
         pageBody.style.backgroundImage = "url('22albumcov.png')";
@@ -489,23 +498,23 @@
         playerSection.style.display = 'flex';
         updateLinks('22');
       } else if (val === 'cspg') {
-        // Theme: Constant Stimulation of Penial Glands (Brain parchment / Sepia medical vibe with dark high-contrast text & solid panels)
+        // Theme: Constant Stimulation of Penial Glands (Brain parchment / Sepia medical vibe with brighter text)
         pageBody.style.backgroundColor = "#ece3cb";
-        pageBody.style.color = "#2c1e12";
+        pageBody.style.color = "#ffffff";
         pageBody.style.setProperty('--btn-bg', '#5c3a21');
-        pageBody.style.setProperty('--btn-color', '#fef3c7');
-        pageBody.style.setProperty('--btn-border', '#2c1e12');
-        pageBody.style.setProperty('--btn-shadow', '#b45309');
+        pageBody.style.setProperty('--btn-color', '#ffffff');
+        pageBody.style.setProperty('--btn-border', '#ffffff');
+        pageBody.style.setProperty('--btn-shadow', '#ffffff');
         pageBody.style.setProperty('--btn-hover-bg', '#784d2d');
-        pageBody.style.setProperty('--btn-hover-color', '#fef3c7');
+        pageBody.style.setProperty('--btn-hover-color', '#ffffff');
         pageBody.style.setProperty('--active-track-bg', '#5c3a21');
-        pageBody.style.setProperty('--active-track-color', '#fef3c7');
+        pageBody.style.setProperty('--active-track-color', '#ffffff');
         pageBody.style.setProperty('--footer-bg', 'rgba(44, 30, 18, 0.95)');
-        pageBody.style.setProperty('--footer-color', '#fef3c7');
-        pageBody.style.setProperty('--header-bg', 'rgba(253, 246, 227, 0.95)');
-        pageBody.style.setProperty('--container-bg', 'rgba(253, 246, 227, 0.95)');
+        pageBody.style.setProperty('--footer-color', '#ffffff');
+        pageBody.style.setProperty('--header-bg', 'rgba(44, 30, 18, 0.95)');
+        pageBody.style.setProperty('--container-bg', 'rgba(44, 30, 18, 0.95)');
         pageBody.style.setProperty('--stream-btn-bg', '#5c3a21');
-        pageBody.style.setProperty('--shadow-color', '#d97706');
+        pageBody.style.setProperty('--shadow-color', '#ffffff');
 
         document.getElementById('list-cspg').style.display = 'block';
         pageBody.style.backgroundImage = "url('csopgnew.png')";
@@ -515,23 +524,23 @@
         playerSection.style.display = 'flex';
         updateLinks('cspg');
       } else if (val === 'cvp') {
-        // Theme: Clip v Parische (Historic Paris postcard vibe with rich dark brown contrast and solid panels)
+        // Theme: Clip v Parische (Historic Paris postcard vibe with brighter text)
         pageBody.style.backgroundColor = "#c9bc9c";
-        pageBody.style.color = "#1f1715";
+        pageBody.style.color = "#ffffff";
         pageBody.style.setProperty('--btn-bg', '#3d2b1f');
-        pageBody.style.setProperty('--btn-color', '#fdf8f0');
-        pageBody.style.setProperty('--btn-border', '#1f1715');
-        pageBody.style.setProperty('--btn-shadow', '#78350f');
+        pageBody.style.setProperty('--btn-color', '#ffffff');
+        pageBody.style.setProperty('--btn-border', '#ffffff');
+        pageBody.style.setProperty('--btn-shadow', '#ffffff');
         pageBody.style.setProperty('--btn-hover-bg', '#543b2b');
-        pageBody.style.setProperty('--btn-hover-color', '#fdf8f0');
+        pageBody.style.setProperty('--btn-hover-color', '#ffffff');
         pageBody.style.setProperty('--active-track-bg', '#3d2b1f');
-        pageBody.style.setProperty('--active-track-color', '#fdf8f0');
+        pageBody.style.setProperty('--active-track-color', '#ffffff');
         pageBody.style.setProperty('--footer-bg', 'rgba(31, 23, 21, 0.95)');
-        pageBody.style.setProperty('--footer-color', '#fdf8f0');
-        pageBody.style.setProperty('--header-bg', 'rgba(245, 239, 230, 0.95)');
-        pageBody.style.setProperty('--container-bg', 'rgba(245, 239, 230, 0.95)');
+        pageBody.style.setProperty('--footer-color', '#ffffff');
+        pageBody.style.setProperty('--header-bg', 'rgba(31, 23, 21, 0.95)');
+        pageBody.style.setProperty('--container-bg', 'rgba(31, 23, 21, 0.95)');
         pageBody.style.setProperty('--stream-btn-bg', '#3d2b1f');
-        pageBody.style.setProperty('--shadow-color', '#92400e');
+        pageBody.style.setProperty('--shadow-color', '#ffffff');
 
         document.getElementById('list-cvp').style.display = 'block';
         pageBody.style.backgroundImage = "url('clipcover.png')";
@@ -547,7 +556,7 @@
         pageBody.style.setProperty('--btn-bg', '#00ff00');
         pageBody.style.setProperty('--btn-color', '#000');
         pageBody.style.setProperty('--btn-border', '#00ff00');
-        pageBody.style.setProperty('--btn-shadow', '#ff00ff');
+        pageBody.style.setProperty('--btn-shadow', '#ffffff');
         pageBody.style.setProperty('--btn-hover-bg', '#ffff00');
         pageBody.style.setProperty('--btn-hover-color', '#000');
         pageBody.style.setProperty('--active-track-bg', '#00ff00');
@@ -557,7 +566,7 @@
         pageBody.style.setProperty('--header-bg', 'rgba(0, 0, 0, 0.85)');
         pageBody.style.setProperty('--container-bg', 'rgba(0, 0, 0, 0.9)');
         pageBody.style.setProperty('--stream-btn-bg', '#000');
-        pageBody.style.setProperty('--shadow-color', '#ff00ff');
+        pageBody.style.setProperty('--shadow-color', '#ffffff');
 
         pageBody.style.backgroundImage = "none";
         playerSection.style.display = 'none';
