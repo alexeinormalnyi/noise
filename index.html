@@ -44,7 +44,7 @@
   .tagline-container {
     width: 100%;
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     min-height: 1.5em;
   }
 
@@ -64,6 +64,16 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  .controls-container {
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
   select {
     background: #c0c0c0;
     color: #000;
@@ -71,12 +81,35 @@
     font-weight: bold;
     padding: 10px;
     border: 4px inset #fff;
-    width: 90%;
-    max-width: 500px;
+    width: 100%;
+  }
+
+  .promo-btn {
+    background: #00ff00;
+    color: #000;
+    font-family: inherit;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 12px;
+    border: 4px outset #00ff00;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 3px 3px #ff00ff;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .promo-btn:hover {
+    background: #ffff00;
+  }
+
+  .promo-btn:active {
+    border-style: inset;
+    transform: translate(2px, 2px);
   }
 
   .music-container {
-    margin-top: 30px;
+    margin-top: 10px;
     background: rgba(0, 0, 0, 0.85);
     border: 2px dashed #00ff00;
     padding: 20px;
@@ -128,12 +161,16 @@
     <span id="tagline" class="tagline">P&P AND ALEXEI DOOMOVICH RECORDS</span>
   </div>
 
-  <select id="album-select" onchange="toggleAlbum()">
-    <option value="">-- SELECT ALBUM --</option>
-    <option value="22" data-tag="Album 22">22</option>
-    <option value="cspg" data-tag="Constant Stimulation of Penial Glands">Constant Stimulation of Penial Glands</option>
-    <option value="cvp" data-tag="Clip v Parische">Clip v Parische</option>
-  </select>
+  <div class="controls-container">
+    <select id="album-select" onchange="toggleAlbum()">
+      <option value="">-- SELECT ALBUM --</option>
+      <option value="22" data-tag="Album 22">22</option>
+      <option value="cspg" data-tag="Constant Stimulation of Penial Glands">Constant Stimulation of Penial Glands</option>
+      <option value="cvp" data-tag="Clip v Parische">Clip v Parische</option>
+    </select>
+
+    <button id="promo-btn" class="promo-btn" onclick="selectAlbum22()">New Album Release 22</button>
+  </div>
 
   <!-- Album 22 -->
   <div id="list-22" class="music-container">
@@ -183,11 +220,12 @@
     © 2026 copyright by Потлатий & Партнери
   </footer>
 
-<script>
+  <script>
     const player = document.getElementById('player');
     const select = document.getElementById('album-select');
     const title = document.getElementById('main-title');
     const tagline = document.getElementById('tagline');
+    const promoBtn = document.getElementById('promo-btn');
 
     function toggleAlbum() {
       const lists = document.querySelectorAll('.music-container');
@@ -195,6 +233,13 @@
       
       lists.forEach(l => l.style.display = 'none');
       
+      // Handle Button Visibility: Show only if no album is selected
+      if (select.value === "") {
+        promoBtn.style.display = "block";
+      } else {
+        promoBtn.style.display = "none";
+      }
+
       // Handle Title Change
       if (select.value === 'cspg') {
         title.innerText = "Constant Stimulation of Penial Glands";
@@ -208,6 +253,11 @@
         tagline.offsetHeight; // trigger reflow
         tagline.style.animation = 'fadeIn 0.5s ease-in';
         tagline.innerText = selectedOption.getAttribute('data-tag');
+      } else {
+        tagline.style.animation = 'none';
+        tagline.offsetHeight;
+        tagline.style.animation = 'fadeIn 0.5s ease-in';
+        tagline.innerText = "P&P AND ALEXEI DOOMOVICH RECORDS";
       }
 
       // Show/Hide Lists and Set Backgrounds
@@ -227,6 +277,11 @@
         document.body.style.backgroundImage = "none";
         player.style.display = 'none';
       }
+    }
+
+    function selectAlbum22() {
+      select.value = '22';
+      toggleAlbum();
     }
 
     function playTrack(element) {
