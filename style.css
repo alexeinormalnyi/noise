@@ -143,6 +143,7 @@ h1 {
 .social-icon-btn.soundcloud:hover {
   background: #FF5500;
   border-color: #FF5500;
+  box-shadow: 0 0 20px rgba(255, 85, 0, 0.8);
 }
 
 .social-icon-btn.tiktok:hover {
@@ -221,19 +222,27 @@ h1 {
 }
 
 .expanded-modal {
-  --accent: #ffffff;
+  --accent: #0088ff;
+  --glow: rgba(0, 136, 255, 0.5);
 
   position: fixed;
-  inset: 2vh 2vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95vw;
+  max-width: 1100px;
+  height: auto;
+  max-height: 90vh;
   z-index: 2000;
   display: none;
   flex-direction: column;
-  padding: 20px;
-  background: #0a0a0a !important;
+  padding: 24px;
+  background: #080808 !important;
+  background-image: radial-gradient(circle at 50% 30%, var(--glow) 0%, transparent 80%) !important;
   border: 2px solid var(--accent);
+  box-shadow: 0 0 60px var(--glow), inset 0 0 30px var(--glow);
   border-radius: 20px;
   overflow-y: auto;
-  box-shadow: none;
 }
 
 .expanded-modal.active {
@@ -242,8 +251,8 @@ h1 {
 
 .expanded-modal .glass-panel {
   border-color: var(--accent);
-  background: rgba(18, 18, 18, 0.98);
-  box-shadow: none;
+  background: rgba(12, 12, 12, 0.95);
+  box-shadow: 0 0 25px var(--glow);
 }
 
 .modal-header {
@@ -260,20 +269,19 @@ h1 {
   font-weight: 900;
   letter-spacing: 2px;
   color: var(--accent);
+  text-shadow: 0 0 15px var(--glow);
 }
 
 .expanded-layout {
   display: flex;
   gap: 20px;
   align-items: stretch;
-  flex: 1;
 }
 
 .panel-left {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   max-width: 380px;
   padding: 20px;
 }
@@ -292,8 +300,8 @@ h1 {
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 15px;
-  border: 1px solid var(--accent);
-  box-shadow: none;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 25px var(--glow);
 }
 
 .album-cover-frame img {
@@ -308,6 +316,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: auto;
 }
 
 audio {
@@ -338,7 +347,7 @@ audio {
 .expanded-modal .glass-btn:hover {
   background: var(--accent);
   color: #000000;
-  box-shadow: none;
+  box-shadow: 0 0 20px var(--glow);
 }
 
 .panel-title {
@@ -349,6 +358,7 @@ audio {
   border-bottom: 1px solid var(--accent);
   padding-bottom: 6px;
   font-weight: 800;
+  text-shadow: 0 0 10px var(--glow);
 }
 
 .track-list-box {
@@ -378,7 +388,7 @@ audio {
   background: var(--accent);
   color: #000000;
   font-weight: 900;
-  box-shadow: none;
+  box-shadow: 0 0 20px var(--glow);
 }
 
 .lyrics-container {
@@ -394,6 +404,7 @@ audio {
   color: var(--accent);
   margin-bottom: 10px;
   font-weight: 800;
+  text-shadow: 0 0 10px var(--glow);
 }
 
 .lyrics-content {
@@ -416,7 +427,12 @@ footer {
 }
 
 @media (max-width: 820px) {
-  .expanded-modal { inset: 1vh 1vw; }
+  .expanded-modal {
+    width: 98vw;
+    top: 2vh;
+    left: 1vw;
+    transform: none;
+  }
   .expanded-layout { flex-direction: column; }
   .panel-left { max-width: 100%; width: 100%; }
 }
