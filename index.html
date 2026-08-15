@@ -7,69 +7,60 @@
   <link rel="icon" type="image/x-icon" href="icon.ico">
   <link rel="stylesheet" href="style.css">
 </head>
-<body id="page-body">
+<body>
 
-  <div class="main-content">
-    <!-- Header Block (Pure B&W) -->
+  <!-- MAIN PAGE (STRICTLY PURE BLACK & WHITE) -->
+  <div class="main-content" id="main-page">
     <header class="header-glass">
-      <h1 id="main-title">Потлатий & Партнери</h1>
+      <h1 id="main-title">ПОТЛАТИЙ & ПАРТНЕРИ</h1>
       <div class="tagline-container">
         <span id="tagline" class="tagline">P&P AND ALEXEI DOOMOVICH RECORDS</span>
       </div>
     </header>
 
-    <!-- Main Controls & Restored Social Icons -->
     <div class="controls-container">
-      <button id="promo-btn-22" class="promo-btn glass-card" onclick="openAlbum('22', this)">
+      <button id="promo-btn-22" class="promo-btn glass-card" onclick="openAlbum('22')">
         <span class="arrow-left">→</span> New Album Release 22 <span class="arrow-right">←</span>
       </button>
-      <button id="promo-btn-cspg" class="promo-btn glass-card" onclick="openAlbum('cspg', this)">
+      <button id="promo-btn-cspg" class="promo-btn glass-card" onclick="openAlbum('cspg')">
         <span class="arrow-left">→</span> Олексій Нормальний - Класика <span class="arrow-right">←</span>
       </button>
 
-      <!-- Restored Original Social Media Icons -->
+      <!-- Restored Social Media Icons with Original Brand Colors -->
       <div id="social-icons" class="social-icons-container">
-        <a href="https://www.tiktok.com/@potlatiy_3.14tushara" target="_blank" class="social-icon-btn tiktok" title="TikTok">
-          <img src="tt.png" alt="TikTok" onerror="this.outerHTML='<span class=\'icon-fallback\'>TT</span>'">
-        </a>
-        <a href="https://www.youtube.com/@ReVanced-j1o" target="_blank" class="social-icon-btn youtube" title="YouTube">
-          <img src="yt.png" alt="YouTube" onerror="this.outerHTML='<span class=\'icon-fallback\'>YT</span>'">
-        </a>
-        <a href="https://www.instagram.com/potlatiypartnyori/" target="_blank" class="social-icon-btn instagram" title="Instagram">
-          <img src="inst.png" alt="Instagram" onerror="this.outerHTML='<span class=\'icon-fallback\'>IG</span>'">
-        </a>
-        <a href="https://x.com/ptlty_i_part" target="_blank" class="social-icon-btn x-twitter" title="X">
-          <img src="x.png" alt="X" onerror="this.outerHTML='<span class=\'icon-fallback\'>X</span>'">
-        </a>
+        <a href="https://www.tiktok.com/@potlatiy_3.14tushara" target="_blank" class="social-icon-btn tiktok" title="TikTok"><img src="tt.png" alt="TikTok"></a>
+        <a href="https://www.youtube.com/@ReVanced-j1o" target="_blank" class="social-icon-btn youtube" title="YouTube"><img src="yt.png" alt="YouTube"></a>
+        <a href="https://www.instagram.com/potlatiypartnyori/" target="_blank" class="social-icon-btn instagram" title="Instagram"><img src="inst.png" alt="Instagram"></a>
+        <a href="https://x.com/ptlty_i_part" target="_blank" class="social-icon-btn x-twitter" title="X"><img src="x.png" alt="X"></a>
       </div>
     </div>
 
-    <!-- Album Grid Selectors -->
+    <!-- Album Selectors Grid -->
     <div id="albums-grid" class="album-grid">
-      <div class="album-card glass-card" onclick="openAlbum('22', this)">
+      <div class="album-card glass-card" onclick="openAlbum('22')">
         <div class="album-card-cover">
-          <img src="22albumcov.png" alt="Album 22 Cover" onerror="this.src='icon.ico'">
+          <img src="22albumcov.png" alt="Album 22" onerror="this.src='icon.ico'">
         </div>
         <div class="album-card-title">22</div>
       </div>
 
-      <div class="album-card glass-card" onclick="openAlbum('cspg', this)">
+      <div class="album-card glass-card" onclick="openAlbum('cspg')">
         <div class="album-card-cover">
-          <img src="csopgnew.png" alt="CSPG Cover" onerror="this.src='icon.ico'">
+          <img src="csopgnew.png" alt="CSPG" onerror="this.src='icon.ico'">
         </div>
         <div class="album-card-title">Constant Stimulation of Penial Glands</div>
       </div>
 
-      <div class="album-card glass-card" onclick="openAlbum('cvp', this)">
+      <div class="album-card glass-card" onclick="openAlbum('cvp')">
         <div class="album-card-cover">
-          <img src="clipcover.png" alt="Clip v Parische Cover" onerror="this.src='icon.ico'">
+          <img src="clipcover.png" alt="Clip v Parische" onerror="this.src='icon.ico'">
         </div>
         <div class="album-card-title">Clip v Parische</div>
       </div>
     </div>
   </div>
 
-  <!-- Animated Fullscreen Player Overlay (Dynamic Expressive Colors) -->
+  <!-- EXPANDED FULLSCREEN PLAYER (EXPRESSIVE ALBUM COLOR MODE) -->
   <div id="expanded-view" class="expanded-modal">
     <div class="modal-header">
       <span id="expanded-album-title" class="expanded-title">ALBUM PLAYER</span>
@@ -77,7 +68,7 @@
     </div>
 
     <div class="expanded-layout">
-      <!-- LEFT PANEL: Cover, Player, Streaming -->
+      <!-- Left Panel: Cover & Audio Player -->
       <div class="panel-left glass-panel">
         <div class="album-cover-frame">
           <img id="expanded-cover" src="" alt="Album Cover">
@@ -100,7 +91,7 @@
         </div>
       </div>
 
-      <!-- RIGHT PANEL: Tracklist & Lyrics -->
+      <!-- Right Panel: Tracklist & Lyrics -->
       <div class="panel-right glass-panel">
         <h2 class="panel-title">TRACKLIST</h2>
 
@@ -146,14 +137,10 @@
           <div class="track" data-file="Clip v Parische.mp3" onclick="playTrack(this)">01. Clip v Parische</div>
         </div>
 
-        <!-- Lyrics Display -->
+        <!-- Lyrics Container -->
         <div class="lyrics-container glass-panel">
-          <div class="lyrics-header">
-            <span>↻ LYRICS</span>
-          </div>
-          <div id="lyrics-box" class="lyrics-content">
-            Select a track to view lyrics...
-          </div>
+          <div class="lyrics-header">↻ LYRICS</div>
+          <div id="lyrics-box" class="lyrics-content">Select a track to view lyrics...</div>
         </div>
       </div>
     </div>
@@ -174,24 +161,24 @@
     const appleLink = document.getElementById('apple-link');
     const ytmusicLink = document.getElementById('ytmusic-link');
 
-    // Album palette definitions correlating to album covers
+    // Rich Palette Data Correlated to Album Covers
     const albumData = {
       '22': {
         title: "Потлатий & Партнери",
         tag: "Album 22",
         cover: "22albumcov.png",
-        accent: "#ff3366",
-        glow: "rgba(255, 51, 102, 0.35)",
-        bgGrad: "radial-gradient(circle at 50% 30%, #3a0010 0%, #080003 85%)",
+        accent: "#FF0055",
+        glow: "rgba(255, 0, 85, 0.6)",
+        bgGrad: "radial-gradient(circle at 50% 30%, #4a0018 0%, #080003 90%)",
         links: { spotify: '#', apple: '#', ytmusic: '#' }
       },
       'cspg': {
         title: "Alexei Normalnyi",
         tag: "Constant Stimulation of Penial Glands",
         cover: "csopgnew.png",
-        accent: "#00ff88",
-        glow: "rgba(0, 255, 136, 0.35)",
-        bgGrad: "radial-gradient(circle at 50% 30%, #003319 0%, #000a04 85%)",
+        accent: "#00FF66",
+        glow: "rgba(0, 255, 102, 0.6)",
+        bgGrad: "radial-gradient(circle at 50% 30%, #004d25 0%, #000d06 90%)",
         links: {
           spotify: 'https://open.spotify.com/album/2Xt4WIICyGiVKsSUJqeXxN?go=1&nd=1',
           apple: 'https://music.apple.com/ua/album/constant-stimulation-of-penial-glands/1895401622',
@@ -202,9 +189,9 @@
         title: "Потлатий & Партнери",
         tag: "Clip v Parische",
         cover: "clipcover.png",
-        accent: "#9d4edd",
-        glow: "rgba(157, 78, 221, 0.35)",
-        bgGrad: "radial-gradient(circle at 50% 30%, #240046 0%, #05000a 85%)",
+        accent: "#A855F7",
+        glow: "rgba(168, 85, 247, 0.6)",
+        bgGrad: "radial-gradient(circle at 50% 30%, #3b0764 0%, #090014 90%)",
         links: {
           spotify: 'https://open.spotify.com/album/79kVW8XxLtFkNkto2YdtZl?go=1&nd=1',
           apple: 'https://music.apple.com/ua/album/clip-v-parische-single/1889513888',
@@ -213,29 +200,27 @@
       }
     };
 
-    function openAlbum(albumKey, element) {
+    function openAlbum(albumKey) {
       if (!albumData[albumKey]) return;
       const data = albumData[albumKey];
 
-      // Apply Dynamic Colors to CSS Custom Properties
-      expandedView.style.setProperty('--accent-color', data.accent);
-      expandedView.style.setProperty('--glow-color', data.glow);
-      expandedView.style.setProperty('--modal-bg', data.bgGrad);
+      // Inject Expressive Color Variables into the Expanded Player
+      expandedView.style.setProperty('--accent', data.accent);
+      expandedView.style.setProperty('--glow', data.glow);
+      expandedView.style.setProperty('--bg-gradient', data.bgGrad);
 
       expandedCover.src = data.cover;
       expandedAlbumTitle.innerText = `${data.title} — ${data.tag}`;
 
-      // Toggle Active Tracklists
       document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
       const activeList = document.getElementById(`list-${albumKey}`);
       if (activeList) activeList.style.display = 'block';
 
-      // Update Streaming Links
       spotifyLink.href = data.links.spotify;
       appleLink.href = data.links.apple;
       ytmusicLink.href = data.links.ytmusic;
 
-      // Trigger Expand Animation
+      // Trigger Fullscreen Expansion Animation
       expandedView.classList.add('active');
     }
 
@@ -264,16 +249,12 @@
 
     function prevTrack() {
       const activeTrack = document.querySelector('.track.active');
-      if (activeTrack && activeTrack.previousElementSibling) {
-        playTrack(activeTrack.previousElementSibling);
-      }
+      if (activeTrack && activeTrack.previousElementSibling) playTrack(activeTrack.previousElementSibling);
     }
 
     function nextTrack() {
       const activeTrack = document.querySelector('.track.active');
-      if (activeTrack && activeTrack.nextElementSibling) {
-        playTrack(activeTrack.nextElementSibling);
-      }
+      if (activeTrack && activeTrack.nextElementSibling) playTrack(activeTrack.nextElementSibling);
     }
 
     player.addEventListener('ended', nextTrack);
