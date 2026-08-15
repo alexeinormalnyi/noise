@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- ADDED: Viewport meta tag for mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="icon.ico">
 <style>
   * {
@@ -34,6 +36,14 @@
     padding-bottom: 20px;
     box-sizing: border-box;
     min-height: 100vh;
+  }
+
+  /* ADDED: Mobile responsiveness adjustments */
+  @media (max-width: 600px) {
+    body { padding-top: 4vh; }
+    h1 { font-size: 1.8rem !important; }
+    .controls-container, .music-container, footer { width: 95% !important; }
+    .streaming-links { flex-direction: column; gap: 5px; }
   }
 
   .main-content {
