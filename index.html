@@ -15,7 +15,7 @@
     background-color: #000080;
     background-image: none;
     background-repeat: repeat;
-    background-size: auto;
+    background-size: 300px auto;
     background-position: top left;
     background-attachment: scroll;
     transition: background-image 0.8s ease-in-out;
@@ -152,10 +152,52 @@
     color: #000;
   }
 
-  audio {
+  .player-section {
+    width: 90%;
+    max-width: 500px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
     margin-top: 20px;
+  }
+
+  audio {
     filter: invert(100%);
     width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .streaming-links {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .stream-btn {
+    flex: 1;
+    background: #000;
+    color: #00ff00;
+    border: 2px outset #00ff00;
+    padding: 8px 5px;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 2px 2px #ff00ff;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .stream-btn:hover {
+    background: #00ff00;
+    color: #000;
+  }
+
+  .stream-btn:active {
+    border-style: inset;
+    transform: translate(1px, 1px);
   }
 
   footer {
@@ -230,7 +272,14 @@
     <div class="track" data-file="Clip v Parische.mp3" onclick="playTrack(this)">[PLAY] 01_Clip v Parische.mp3</div>
   </div>
 
-  <audio id="player" controls style="margin-top: 20px; width: 90%; max-width: 500px; filter: invert(100%); display: none;"></audio>
+  <div id="player-section" class="player-section">
+    <audio id="player" controls></audio>
+    <div class="streaming-links">
+      <a id="spotify-link" href="#" target="_blank" class="stream-btn">Spotify</a>
+      <a id="apple-link" href="#" target="_blank" class="stream-btn">Apple Music</a>
+      <a id="ytmusic-link" href="#" target="_blank" class="stream-btn">YT Music</a>
+    </div>
+  </div>
 
   <footer>
     © 2026 copyright by Потлатий & Партнери
@@ -238,20 +287,45 @@
 
   <script>
     const player = document.getElementById('player');
+    const playerSection = document.getElementById('player-section');
     const select = document.getElementById('album-select');
     const title = document.getElementById('main-title');
     const tagline = document.getElementById('tagline');
     const promoBtn22 = document.getElementById('promo-btn-22');
     const promoBtnCspg = document.getElementById('promo-btn-cspg');
+    
+    const spotifyLink = document.getElementById('spotify-link');
+    const appleLink = document.getElementById('apple-link');
+    const ytmusicLink = document.getElementById('ytmusic-link');
+
+    // Configure your streaming links per album here:
+    const albumLinks = {
+      '22': {
+        spotify: 'https://spotify.com/your-album-22',
+        apple: 'https://music.apple.com/your-album-22',
+        ytmusic: 'https://music.youtube.com/your-album-22'
+      },
+      'cspg': {
+        spotify: 'https://spotify.com/your-cspg-album',
+        apple: 'https://music.apple.com/your-cspg-album',
+        ytmusic: 'https://music.youtube.com/your-cspg-album'
+      },
+      'cvp': {
+        spotify: 'https://spotify.com/your-cvp-album',
+        apple: 'https://music.apple.com/your-cvp-album',
+        ytmusic: 'https://music.youtube.com/your-cvp-album'
+      }
+    };
 
     function toggleAlbum() {
       const lists = document.querySelectorAll('.music-container');
       const selectedOption = select.options[select.selectedIndex];
+      const val = select.value;
       
       lists.forEach(l => l.style.display = 'none');
       
-      // Handle Button Visibility: Show only if no album is selected
-      if (select.value === "") {
+      // Handle Button Visibility: Show promo buttons only if no album is selected
+      if (val === "") {
         promoBtn22.style.display = "block";
         promoBtnCspg.style.display = "block";
       } else {
@@ -260,14 +334,14 @@
       }
 
       // Handle Title Change
-      if (select.value === 'cspg') {
+      if (val === 'cspg') {
         title.innerText = "Constant Stimulation of Penial Glands";
       } else {
         title.innerText = "Потлатий & Партнери";
       }
 
       // Handle Tagline Animation
-      if (select.value !== "") {
+      if (val !== "") {
         tagline.style.animation = 'none';
         tagline.offsetHeight; // trigger reflow
         tagline.style.animation = 'fadeIn 0.5s ease-in';
@@ -279,31 +353,42 @@
         tagline.innerText = "P&P AND ALEXEI DOOMOVICH RECORDS";
       }
 
-      // Show/Hide Lists and Set Repeating Backgrounds
-      if (select.value === '22') {
+      // Show/Hide Lists, Set Background Sizes/Repeats, and Update Streaming Links
+      if (val === '22') {
         document.getElementById('list-22').style.display = 'block';
         document.body.style.backgroundImage = "url('22albumcov.png')";
         document.body.style.backgroundRepeat = "repeat";
-        document.body.style.backgroundSize = "auto";
+        document.body.style.backgroundSize = "250px auto"; // Fixed sizing so it repeats cleanly
         document.body.style.backgroundAttachment = "scroll";
-        player.style.display = 'block';
-      } else if (select.value === 'cspg') {
+        playerSection.style.display = 'flex';
+        updateLinks('22');
+      } else if (val === 'cspg') {
         document.getElementById('list-cspg').style.display = 'block';
         document.body.style.backgroundImage = "url('csopgnew.png')";
         document.body.style.backgroundRepeat = "repeat";
-        document.body.style.backgroundSize = "auto";
+        document.body.style.backgroundSize = "250px auto";
         document.body.style.backgroundAttachment = "scroll";
-        player.style.display = 'block';
-      } else if (select.value === 'cvp') {
+        playerSection.style.display = 'flex';
+        updateLinks('cspg');
+      } else if (val === 'cvp') {
         document.getElementById('list-cvp').style.display = 'block';
         document.body.style.backgroundImage = "url('clipcover.png')";
         document.body.style.backgroundRepeat = "repeat";
-        document.body.style.backgroundSize = "auto";
+        document.body.style.backgroundSize = "250px auto";
         document.body.style.backgroundAttachment = "scroll";
-        player.style.display = 'block';
+        playerSection.style.display = 'flex';
+        updateLinks('cvp');
       } else {
         document.body.style.backgroundImage = "none";
-        player.style.display = 'none';
+        playerSection.style.display = 'none';
+      }
+    }
+
+    function updateLinks(albumKey) {
+      if (albumLinks[albumKey]) {
+        spotifyLink.href = albumLinks[albumKey].spotify;
+        appleLink.href = albumLinks[albumKey].apple;
+        ytmusicLink.href = albumLinks[albumKey].ytmusic;
       }
     }
 
