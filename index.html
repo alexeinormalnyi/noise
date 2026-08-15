@@ -174,7 +174,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(2px 2px var(--shadow-color));
+    filter: drop-shadow(2px 2px var(--shadow-color, #ff00ff));
   }
 
   .social-icon-btn:hover {
@@ -249,12 +249,39 @@
     text-align: center;
     text-decoration: none;
     box-shadow: 2px 2px var(--shadow-color, #ff00ff);
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stream-btn .arrow-left,
+  .stream-btn .arrow-right {
+    display: inline-block;
+    opacity: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .stream-btn .arrow-left {
+    transform: translateX(-10px);
+  }
+
+  .stream-btn .arrow-right {
+    transform: translateX(10px);
   }
 
   .stream-btn:hover {
-    background: currentColor;
-    color: #000;
+    background: var(--btn-hover-bg, #ffff00);
+    color: var(--btn-hover-color, #000);
+  }
+
+  .stream-btn:hover .arrow-left {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .stream-btn:hover .arrow-right {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   .stream-btn:active {
