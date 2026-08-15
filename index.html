@@ -158,13 +158,15 @@
         tag: "Album 22",
         cover: "22albumcov.png",
         accent: "#0088ff",
+        glow: "rgba(0, 136, 255, 0.5)",
         links: { spotify: '#', apple: '#', ytmusic: '#' }
       },
       'cspg': {
         title: "Alexei Normalnyi",
         tag: "Constant Stimulation of Penial Glands",
         cover: "csopgnew.png",
-        accent: "#c89666",
+        accent: "#d28844",
+        glow: "rgba(210, 136, 68, 0.5)",
         links: {
           spotify: 'https://open.spotify.com/album/2Xt4WIICyGiVKsSUJqeXxN?go=1&nd=1',
           apple: 'https://music.apple.com/ua/album/constant-stimulation-of-penial-glands/1895401622',
@@ -176,6 +178,7 @@
         tag: "Clip v Parische",
         cover: "clipcover.png",
         accent: "#ffffff",
+        glow: "rgba(255, 255, 255, 0.5)",
         links: {
           spotify: 'https://open.spotify.com/album/79kVW8XxLtFkNkto2YdtZl?go=1&nd=1',
           apple: 'https://music.apple.com/ua/album/clip-v-parische-single/1889513888',
@@ -192,6 +195,7 @@
       expandedAlbumTitle.innerText = `${data.title} — ${data.tag}`;
 
       expandedView.style.setProperty('--accent', data.accent);
+      expandedView.style.setProperty('--glow', data.glow);
 
       document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
       const activeList = document.getElementById(`list-${albumKey}`);
