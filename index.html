@@ -1,330 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
 <head>
-    <!-- ADDED: Viewport meta tag for mobile responsiveness -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="icon.ico">
-<style>
-  * {
-    cursor: url('icon.ico'), auto;
-  }
-
-  *:active {
-    cursor: url('iconclicked.ico'), auto;
-  }
-
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
-
-  body {
-    background-color: #000080;
-    background-image: none;
-    background-repeat: repeat;
-    background-size: 300px auto;
-    background-position: top left;
-    background-attachment: scroll;
-    transition: background-color 0.8s ease-in-out, background-image 0.8s ease-in-out, color 0.8s ease-in-out;
-    
-    color: #00ff00;
-    font-family: "Courier New", Courier, monospace;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 8vh;
-    padding-bottom: 20px;
-    box-sizing: border-box;
-    min-height: 100vh;
-  }
-
-  /* ADDED: Mobile responsiveness adjustments */
-  @media (max-width: 600px) {
-    body { padding-top: 4vh; }
-    h1 { font-size: 1.8rem !important; }
-    .controls-container, .music-container, footer { width: 95% !important; }
-    .streaming-links { flex-direction: column; gap: 5px; }
-  }
-
-  .main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    flex: 1;
-  }
-
-  h1 {
-    font-size: 3rem;
-    text-transform: uppercase;
-    border: 3px double currentColor;
-    padding: 10px;
-    margin-bottom: 5px;
-    text-shadow: 2px 2px var(--shadow-color, #ffffff);
-    text-align: center;
-    background: var(--header-bg, rgba(0, 0, 0, 0.85));
-    transition: all 0.5s ease;
-  }
-
-  .tagline-container {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
-    min-height: 1.5em;
-  }
-
-  .tagline {
-    font-style: italic;
-    font-weight: bold;
-    color: var(--tagline-color, #ffff00);
-    text-decoration: underline;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 2px 10px;
-    display: inline-block;
-    animation: fadeIn 0.5s ease-in;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .controls-container {
-    width: 90%;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
-  }
-
-  select {
-    background: #c0c0c0;
-    color: #000;
-    font-family: inherit;
-    font-weight: bold;
-    padding: 10px;
-    border: 4px inset #fff;
-    width: 100%;
-  }
-
-  .promo-btn {
-    background: var(--btn-bg, #00ff00);
-    color: var(--btn-color, #000);
-    font-family: inherit;
-    font-weight: bold;
-    text-transform: uppercase;
-    padding: 12px;
-    border: 4px outset var(--btn-border, #00ff00);
-    width: 100%;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 3px 3px var(--btn-shadow, #ffffff);
-    transition: background 0.2s, transform 0.1s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .promo-btn .arrow-left,
-  .promo-btn .arrow-right {
-    display: inline-block;
-    opacity: 0;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-  }
-
-  .promo-btn .arrow-left {
-    transform: translateX(-10px);
-  }
-
-  .promo-btn .arrow-right {
-    transform: translateX(10px);
-  }
-
-  .promo-btn:hover {
-    background: var(--btn-hover-bg, #ffff00);
-    color: var(--btn-hover-color, #000);
-  }
-
-  .promo-btn:hover .arrow-left {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .promo-btn:hover .arrow-right {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .promo-btn:active {
-    border-style: inset;
-    transform: translate(2px, 2px);
-  }
-
-  /* Social Icons Bar */
-  .social-icons-container {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-
-  .social-icon-btn {
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    width: 36px;
-    height: 36px;
-    transition: transform 0.15s ease, filter 0.15s ease;
-  }
-
-  .social-icon-btn img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(2px 2px #ffffff);
-  }
-
-  .social-icon-btn:hover {
-    transform: scale(1.15);
-  }
-
-  .social-icon-btn:active {
-    transform: scale(0.95);
-  }
-
-  .music-container {
-    margin-top: 10px;
-    background: var(--container-bg, rgba(0, 0, 0, 0.9));
-    border: 2px dashed currentColor;
-    padding: 20px;
-    display: none;
-    width: 90%;
-    max-width: 500px;
-    text-align: left;
-  }
-
-  #list-22.music-container {
-    max-width: 750px;
-    width: 95%;
-  }
-
-  .track {
-    margin: 10px 0;
-    padding: 5px;
-    border-bottom: 1px solid currentColor;
-    font-size: 0.9rem;
-    cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .track.active {
-    background: var(--active-track-bg, #00ff00);
-    color: var(--active-track-color, #000);
-  }
-
-  .track:hover {
-    background: var(--active-track-bg, #00ff00);
-    color: var(--active-track-color, #000);
-  }
-
-  .player-section {
-    width: 90%;
-    max-width: 500px;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-  }
-
-  audio {
-    filter: invert(100%);
-    width: 100%;
-    margin-bottom: 15px;
-  }
-
-  .streaming-links {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .stream-btn {
-    flex: 1;
-    background: var(--stream-btn-bg, #000);
-    color: var(--stream-btn-color, currentColor);
-    border: 2px outset currentColor;
-    padding: 8px 5px;
-    font-family: inherit;
-    font-size: 0.75rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: center;
-    text-decoration: none;
-    box-shadow: 2px 2px var(--shadow-color, #ffffff);
-    transition: background 0.2s, color 0.2s, transform 0.1s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .stream-btn .arrow-left,
-  .stream-btn .arrow-right {
-    display: inline-block;
-    opacity: 0;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-  }
-
-  .stream-btn .arrow-left {
-    transform: translateX(-10px);
-  }
-
-  .stream-btn .arrow-right {
-    transform: translateX(10px);
-  }
-
-  .stream-btn:hover {
-    background: var(--btn-hover-bg, #ffff00);
-    color: var(--btn-hover-color, #000);
-  }
-
-  .stream-btn:hover .arrow-left {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .stream-btn:hover .arrow-right {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .stream-btn:active {
-    border-style: inset;
-    transform: translate(1px, 1px);
-  }
-
-  footer {
-    margin-top: auto;
-    padding: 15px 20px;
-    font-size: 0.8rem;
-    color: var(--footer-color, currentColor);
-    text-transform: uppercase;
-    background: var(--footer-bg, rgba(0, 0, 0, 0.85));
-    border-top: 1px dashed currentColor;
-    text-align: center;
-    width: 100%;
-    max-width: 500px;
-    box-sizing: border-box;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Потлатий & Партнери</title>
+  <link rel="icon" type="image/x-icon" href="icon.ico">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body id="page-body" style="--btn-bg: #00ff00; --btn-color: #000; --btn-border: #00ff00; --btn-shadow: #ffffff; --btn-hover-bg: #ffff00; --btn-hover-color: #000; --active-track-bg: #00ff00; --active-track-color: #000; --footer-bg: rgba(0, 0, 0, 0.85); --footer-color: #00ff00; --header-bg: rgba(0, 0, 0, 0.85); --container-bg: rgba(0, 0, 0, 0.9); --stream-btn-bg: #000; --shadow-color: #ffffff;">
+<body id="page-body">
 
   <div class="main-content">
+    <!-- Header Block (From Image 1 Sketch) -->
     <h1 id="main-title">Потлатий & Партнери</h1>
     
     <div class="tagline-container">
@@ -332,15 +18,19 @@
     </div>
 
     <div class="controls-container">
-      <select id="album-select" onchange="toggleAlbum()">
+      <select id="album-select" onchange="handleSelectChange()">
         <option value="">-- SELECT ALBUM --</option>
         <option value="22" data-tag="Album 22">22</option>
         <option value="cspg" data-tag="Constant Stimulation of Penial Glands">Constant Stimulation of Penial Glands</option>
         <option value="cvp" data-tag="Clip v Parische">Clip v Parische</option>
       </select>
 
-      <button id="promo-btn-22" class="promo-btn" onclick="selectAlbum('22')"><span class="arrow-left">&gt;</span> New Album Release 22 <span class="arrow-right">&lt;</span></button>
-      <button id="promo-btn-cspg" class="promo-btn" onclick="selectAlbum('cspg')"><span class="arrow-left">&gt;</span> Олексій Нормальний - Класика <span class="arrow-right">&lt;</span></button>
+      <button id="promo-btn-22" class="promo-btn" onclick="openAlbum('22')">
+        <span class="arrow-left">&gt;</span> New Album Release 22 <span class="arrow-right">&lt;</span>
+      </button>
+      <button id="promo-btn-cspg" class="promo-btn" onclick="openAlbum('cspg')">
+        <span class="arrow-left">&gt;</span> Олексій Нормальний - Класика <span class="arrow-right">&lt;</span>
+      </button>
 
       <div id="social-icons" class="social-icons-container">
         <a href="https://www.tiktok.com/@potlatiy_3.14tushara" target="_blank" class="social-icon-btn" title="TikTok"><img src="tt.png" alt="TikTok"></a>
@@ -350,54 +40,116 @@
       </div>
     </div>
 
-    <!-- Album 22 -->
-    <div id="list-22" class="music-container">
-      <div class="track" data-file="01 blyuaha muha.mp3" onclick="playTrack(this)">[PLAY] 01_blyuaha muha.mp3</div>
-      <div class="track" data-file="02 ce eksperimentalniy hip hop suki.mp3" onclick="playTrack(this)">[PLAY] 02_це експериментальний хiп хоп суки.mp3</div>
-      <div class="track" data-file="03 hype melstroy che.mp3" onclick="playTrack(this)">[PLAY] 03_hype melstroy che.mp3</div>
-      <div class="track" data-file="04 sintisator noobprohakergod.mp3" onclick="playTrack(this)">[PLAY] 04_sintisator noobprohakergod.mp3</div>
-      <div class="track" data-file="05 vitaliy ventilator (feat. Vitalya).mp3" onclick="playTrack(this)">[PLAY] 05_vitaliy ventilator (feat. Vitalya).mp3</div>
-      <div class="track" data-file="06 status.mp3" onclick="playTrack(this)">[PLAY] 06_status.mp3</div>
-      <div class="track" data-file="07 altuha nomer 16.mp3" onclick="playTrack(this)">[PLAY] 07_альтуха номер 16.mp3</div>
-      <div class="track" data-file="08 mezhkontinentalniy zvonok (intro).mp3" onclick="playTrack(this)">[PLAY] 08_межконтинентальний звонок (intro).mp3</div>
-      <div class="track" data-file="09 22.mp3" onclick="playTrack(this)">[PLAY] 09_22.mp3</div>
-      <div class="track" data-file="10 running (za bitom).mp3" onclick="playTrack(this)">[PLAY] 10_running (за бiтом).mp3</div>
-      <div class="track" data-file="11 sperma na dzinsax (feat. chaykovskiy, floor...).mp3" onclick="playTrack(this)">[PLAY] 11_sperma na dzinsax (feat. chaykovskiy, floor...).mp3</div>
-      <div class="track" data-file="12 martin.mp3" onclick="playTrack(this)">[PLAY] 12_martin.mp3</div>
-      <div class="track" data-file="13 dimon hendryx.mp3" onclick="playTrack(this)">[PLAY] 13_dimon hendryx.mp3</div>
-      <div class="track" data-file="14 seks narkota i partneri (prod. Alexei N...).mp3" onclick="playTrack(this)">[PLAY] 14_секс наркота i партнери (prod. Alexei N...).mp3</div>
-      <div class="track" data-file="15 death grips - fors.mp3" onclick="playTrack(this)">[PLAY] 15_death grips - форс.mp3</div>
-      <div class="track" data-file="16 jpegmafia - loh.mp3" onclick="playTrack(this)">[PLAY] 16_jpegmafia - лох.mp3</div>
-      <div class="track" data-file="17 tolko lyudey ne zaplakalo ot etoy pesni.mp3" onclick="playTrack(this)">[PLAY] 17_только 5% людей не заплакало от этой песни.mp3</div>
-      <div class="track" data-file="18 Clip v Parische (House Limited Edition).mp3" onclick="playTrack(this)">[PLAY] 18_Clip v Parische (House Limited Edition).mp3</div>
-      <div class="track" data-file="19 companiya zla.mp3" onclick="playTrack(this)">[PLAY] 19_companiya zla.mp3</div>
-      <div class="track" data-file="20 smert navalnogo 16.02.24.mp3" onclick="playTrack(this)">[PLAY] 20_smert navalnogo 16.02.24.mp3</div>
-      <div class="track" data-file="21 gemini pizdun.mp3" onclick="playTrack(this)">[PLAY] 21_gemini piz#dun.mp3</div>
-      <div class="track" data-file="22 konec alboma (gotovo).mp3" onclick="playTrack(this)">[PLAY] 22_konec alboma (gotovo).mp3</div>
+    <!-- Main Album Grid (Image 1 View) -->
+    <div id="albums-grid" class="album-grid">
+      <div class="album-card" onclick="openAlbum('22')">
+        <div class="album-card-cover">
+          <img src="22albumcov.png" alt="Album 22 Cover" onerror="this.src='icon.ico'">
+        </div>
+        <div class="album-card-title">22</div>
+      </div>
+
+      <div class="album-card" onclick="openAlbum('cspg')">
+        <div class="album-card-cover">
+          <img src="csopgnew.png" alt="CSPG Cover" onerror="this.src='icon.ico'">
+        </div>
+        <div class="album-card-title">Constant Stimulation of Penial Glands</div>
+      </div>
+
+      <div class="album-card" onclick="openAlbum('cvp')">
+        <div class="album-card-cover">
+          <img src="clipcover.png" alt="Clip v Parische Cover" onerror="this.src='icon.ico'">
+        </div>
+        <div class="album-card-title">Clip v Parische</div>
+      </div>
     </div>
 
-    <!-- CSPG -->
-    <div id="list-cspg" class="music-container">
-      <div class="track" data-file="Constant Stimulation of Penial Glands.mp3" onclick="playTrack(this)">[PLAY] 01_Constant Stimulation of Penial Glands.mp3</div>
-      <div class="track" data-file="Last Breaths of Baal.mp3" onclick="playTrack(this)">[PLAY] 02_Last Breaths of Baal.mp3</div>
-      <div class="track" data-file="The Fourth Coming of Christ.mp3" onclick="playTrack(this)">[PLAY] 03_The Fourth Coming of Christ.mp3</div>
-      <div class="track" data-file="War on Europa.mp3" onclick="playTrack(this)">[PLAY] 04_War on Europa.mp3</div>
-      <div class="track" data-file="Continous Existence of Judaism.mp3" onclick="playTrack(this)">[PLAY] 05_Continous Existence of Judaism.mp3</div>
-      <div class="track" data-file="Lizards That Live Underground.mp3" onclick="playTrack(this)">[PLAY] 06_Lizards That Live Underground.mp3</div>
-      <div class="track" data-file="Dismembered Body Found in the Stale Basement of a Nice Old Lady I Once Knew As Roberta.mp3" onclick="playTrack(this)">[PLAY] 07_Dismembered Body Found in the Stale Basement of a Nice Old Lady I Once Knew As Roberta.mp3</div>
-    </div>
+    <!-- Expanded Album View (Image 2 View with 2 Panels) -->
+    <div id="expanded-view" class="expanded-view">
+      <button class="back-btn" onclick="closeExpandedAlbum()">
+        <span class="arrow-left">&gt;</span> &lt;&lt; BACK TO ALBUMS <span class="arrow-right">&lt;</span>
+      </button>
 
-    <!-- Clip v Parische -->
-    <div id="list-cvp" class="music-container">
-      <div class="track" data-file="Clip v Parische.mp3" onclick="playTrack(this)">[PLAY] 01_Clip v Parische.mp3</div>
-    </div>
+      <div class="expanded-layout">
+        <!-- LEFT PANEL: Album Cover, Player, Play/Stop/Skip Controls -->
+        <div class="panel-left">
+          <div class="album-cover-frame">
+            <img id="expanded-cover" src="" alt="Album Cover">
+          </div>
 
-    <div id="player-section" class="player-section">
-      <audio id="player" controls></audio>
-      <div class="streaming-links">
-        <a id="spotify-link" href="#" target="_blank" class="stream-btn"><span class="arrow-left">&gt;</span> Spotify <span class="arrow-right">&lt;</span></a>
-        <a id="apple-link" href="#" target="_blank" class="stream-btn"><span class="arrow-left">&gt;</span> Apple Music <span class="arrow-right">&lt;</span></a>
-        <a id="ytmusic-link" href="#" target="_blank" class="stream-btn"><span class="arrow-left">&gt;</span> YT Music <span class="arrow-right">&lt;</span></a>
+          <div class="player-controls">
+            <audio id="player" controls></audio>
+            
+            <div class="custom-playback-buttons">
+              <button class="control-btn" onclick="prevTrack()">&lt;&lt; PREV</button>
+              <button class="control-btn" onclick="togglePlayPause()">PLAY / STOP</button>
+              <button class="control-btn" onclick="nextTrack()">NEXT &gt;&gt;</button>
+            </div>
+
+            <div class="streaming-links">
+              <a id="spotify-link" href="#" target="_blank" class="stream-btn"><span class="arrow-left">&gt;</span> Spotify <span class="arrow-right">&lt;</span></a>
+              <a id="apple-link" href="#" target="_blank" class="stream-btn"><span class="arrow-left">&gt;</span> Apple <span class="arrow-right">&lt;</span></a>
+              <a id="ytmusic-link" href="#" target="_blank" class="stream-btn"><span class="arrow-left">&gt;</span> YT Music <span class="arrow-right">&lt;</span></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL: Tracklist & Lyrics Box -->
+        <div class="panel-right">
+          <h2 class="panel-title">[ TRACKLIST ]</h2>
+          
+          <!-- Album 22 Tracks -->
+          <div id="list-22" class="music-container track-list-box">
+            <div class="track" data-file="01 blyuaha muha.mp3" data-lyrics="01_blyuaha muha lyrics..." onclick="playTrack(this)">[PLAY] 01_blyuaha muha.mp3</div>
+            <div class="track" data-file="02 ce eksperimentalniy hip hop suki.mp3" data-lyrics="02_це експериментальний хiп хоп..." onclick="playTrack(this)">[PLAY] 02_це експериментальний хiп хоп суки.mp3</div>
+            <div class="track" data-file="03 hype melstroy che.mp3" data-lyrics="03_hype melstroy che..." onclick="playTrack(this)">[PLAY] 03_hype melstroy che.mp3</div>
+            <div class="track" data-file="04 sintisator noobprohakergod.mp3" onclick="playTrack(this)">[PLAY] 04_sintisator noobprohakergod.mp3</div>
+            <div class="track" data-file="05 vitaliy ventilator (feat. Vitalya).mp3" onclick="playTrack(this)">[PLAY] 05_vitaliy ventilator (feat. Vitalya).mp3</div>
+            <div class="track" data-file="06 status.mp3" onclick="playTrack(this)">[PLAY] 06_status.mp3</div>
+            <div class="track" data-file="07 altuha nomer 16.mp3" onclick="playTrack(this)">[PLAY] 07_альтуха номер 16.mp3</div>
+            <div class="track" data-file="08 mezhkontinentalniy zvonok (intro).mp3" onclick="playTrack(this)">[PLAY] 08_межконтинентальний звонок (intro).mp3</div>
+            <div class="track" data-file="09 22.mp3" onclick="playTrack(this)">[PLAY] 09_22.mp3</div>
+            <div class="track" data-file="10 running (za bitom).mp3" onclick="playTrack(this)">[PLAY] 10_running (за бiтом).mp3</div>
+            <div class="track" data-file="11 sperma na dzinsax (feat. chaykovskiy, floor...).mp3" onclick="playTrack(this)">[PLAY] 11_sperma na dzinsax.mp3</div>
+            <div class="track" data-file="12 martin.mp3" onclick="playTrack(this)">[PLAY] 12_martin.mp3</div>
+            <div class="track" data-file="13 dimon hendryx.mp3" onclick="playTrack(this)">[PLAY] 13_dimon hendryx.mp3</div>
+            <div class="track" data-file="14 seks narkota i partneri (prod. Alexei N...).mp3" onclick="playTrack(this)">[PLAY] 14_секс наркота i партнери.mp3</div>
+            <div class="track" data-file="15 death grips - fors.mp3" onclick="playTrack(this)">[PLAY] 15_death grips - форс.mp3</div>
+            <div class="track" data-file="16 jpegmafia - loh.mp3" onclick="playTrack(this)">[PLAY] 16_jpegmafia - лох.mp3</div>
+            <div class="track" data-file="17 tolko lyudey ne zaplakalo ot etoy pesni.mp3" onclick="playTrack(this)">[PLAY] 17_только 5% людей не заплакало.mp3</div>
+            <div class="track" data-file="18 Clip v Parische (House Limited Edition).mp3" onclick="playTrack(this)">[PLAY] 18_Clip v Parische (House Limited).mp3</div>
+            <div class="track" data-file="19 companiya zla.mp3" onclick="playTrack(this)">[PLAY] 19_companiya zla.mp3</div>
+            <div class="track" data-file="20 smert navalnogo 16.02.24.mp3" onclick="playTrack(this)">[PLAY] 20_smert navalnogo 16.02.24.mp3</div>
+            <div class="track" data-file="21 gemini pizdun.mp3" onclick="playTrack(this)">[PLAY] 21_gemini piz#dun.mp3</div>
+            <div class="track" data-file="22 konec alboma (gotovo).mp3" onclick="playTrack(this)">[PLAY] 22_konec alboma (gotovo).mp3</div>
+          </div>
+
+          <!-- CSPG Tracks -->
+          <div id="list-cspg" class="music-container track-list-box">
+            <div class="track" data-file="Constant Stimulation of Penial Glands.mp3" onclick="playTrack(this)">[PLAY] 01_Constant Stimulation of Penial Glands.mp3</div>
+            <div class="track" data-file="Last Breaths of Baal.mp3" onclick="playTrack(this)">[PLAY] 02_Last Breaths of Baal.mp3</div>
+            <div class="track" data-file="The Fourth Coming of Christ.mp3" onclick="playTrack(this)">[PLAY] 03_The Fourth Coming of Christ.mp3</div>
+            <div class="track" data-file="War on Europa.mp3" onclick="playTrack(this)">[PLAY] 04_War on Europa.mp3</div>
+            <div class="track" data-file="Continous Existence of Judaism.mp3" onclick="playTrack(this)">[PLAY] 05_Continous Existence of Judaism.mp3</div>
+            <div class="track" data-file="Lizards That Live Underground.mp3" onclick="playTrack(this)">[PLAY] 06_Lizards That Live Underground.mp3</div>
+            <div class="track" data-file="Dismembered Body Found in the Stale Basement of a Nice Old Lady I Once Knew As Roberta.mp3" onclick="playTrack(this)">[PLAY] 07_Dismembered Body Found in the Stale Basement.mp3</div>
+          </div>
+
+          <!-- Clip v Parische Track -->
+          <div id="list-cvp" class="music-container track-list-box">
+            <div class="track" data-file="Clip v Parische.mp3" onclick="playTrack(this)">[PLAY] 01_Clip v Parische.mp3</div>
+          </div>
+
+          <!-- Lyrics Display Box (From Image 2 Sketch) -->
+          <div class="lyrics-container">
+            <div class="lyrics-header">
+              <span>↻ LYRICS</span>
+            </div>
+            <div id="lyrics-box" class="lyrics-content">
+              Select a track to view lyrics...
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -408,195 +160,185 @@
 
   <script>
     const player = document.getElementById('player');
-    const playerSection = document.getElementById('player-section');
     const select = document.getElementById('album-select');
     const title = document.getElementById('main-title');
-    const taglineContainer = document.getElementById('tagline').parentElement;
     const tagline = document.getElementById('tagline');
-    const promoBtn22 = document.getElementById('promo-btn-22');
-    const promoBtnCspg = document.getElementById('promo-btn-cspg');
-    const socialIcons = document.getElementById('social-icons');
     const pageBody = document.getElementById('page-body');
-    
+    const albumsGrid = document.getElementById('albums-grid');
+    const expandedView = document.getElementById('expanded-view');
+    const expandedCover = document.getElementById('expanded-cover');
+    const lyricsBox = document.getElementById('lyrics-box');
+
     const spotifyLink = document.getElementById('spotify-link');
     const appleLink = document.getElementById('apple-link');
     const ytmusicLink = document.getElementById('ytmusic-link');
 
-    const albumLinks = {
+    const albumData = {
+      '22': {
+        title: "Потлатий & Партнери",
+        tag: "Album 22",
+        cover: "22albumcov.png",
+        bgColor: "#d0e3f8",
+        color: "#ffffff",
+        btnBg: "#1e40af",
+        btnHoverBg: "#2563eb",
+        footerBg: "rgba(15, 23, 42, 0.95)",
+        containerBg: "rgba(15, 23, 42, 0.95)",
+        links: {
+          spotify: '#',
+          apple: '#',
+          ytmusic: '#'
+        }
+      },
       'cspg': {
-        spotify: 'https://open.spotify.com/album/2Xt4WIICyGiVKsSUJqeXxN?go=1&nd=1',
-        apple: 'https://music.apple.com/ua/album/constant-stimulation-of-penial-glands/1895401622',
-        ytmusic: 'https://music.youtube.com/playlist?list=OLAK5uy_mBKeQ6psKyPgW90CNi_EKRHSkR4EyxBy4'
+        title: "Alexei Normalnyi",
+        tag: "Constant Stimulation of Penial Glands",
+        cover: "csopgnew.png",
+        bgColor: "#ece3cb",
+        color: "#ffffff",
+        btnBg: "#5c3a21",
+        btnHoverBg: "#784d2d",
+        footerBg: "rgba(44, 30, 18, 0.95)",
+        containerBg: "rgba(44, 30, 18, 0.95)",
+        links: {
+          spotify: 'https://open.spotify.com/album/2Xt4WIICyGiVKsSUJqeXxN?go=1&nd=1',
+          apple: 'https://music.apple.com/ua/album/constant-stimulation-of-penial-glands/1895401622',
+          ytmusic: 'https://music.youtube.com/playlist?list=OLAK5uy_mBKeQ6psKyPgW90CNi_EKRHSkR4EyxBy4'
+        }
       },
       'cvp': {
-        spotify: 'https://open.spotify.com/album/79kVW8XxLtFkNkto2YdtZl?go=1&nd=1',
-        apple: 'https://music.apple.com/ua/album/clip-v-parische-single/1889513888',
-        ytmusic: 'https://music.youtube.com/playlist?list=OLAK5uy_nKaLl6EU7TxB2G0NKvtaWVETPKnfGyg98'
+        title: "Потлатий & Партнери",
+        tag: "Clip v Parische",
+        cover: "clipcover.png",
+        bgColor: "#c9bc9c",
+        color: "#ffffff",
+        btnBg: "#3d2b1f",
+        btnHoverBg: "#543b2b",
+        footerBg: "rgba(31, 23, 21, 0.95)",
+        containerBg: "rgba(31, 23, 21, 0.95)",
+        links: {
+          spotify: 'https://open.spotify.com/album/79kVW8XxLtFkNkto2YdtZl?go=1&nd=1',
+          apple: 'https://music.apple.com/ua/album/clip-v-parische-single/1889513888',
+          ytmusic: 'https://music.youtube.com/playlist?list=OLAK5uy_nKaLl6EU7TxB2G0NKvtaWVETPKnfGyg98'
+        }
       }
     };
 
-    function toggleAlbum() {
-      const lists = document.querySelectorAll('.music-container');
-      const selectedOption = select.options[select.selectedIndex];
+    function handleSelectChange() {
       const val = select.value;
-      
-      lists.forEach(l => l.style.display = 'none');
-      
-      if (val === "") {
-        promoBtn22.style.display = "block";
-        promoBtnCspg.style.display = "block";
-        socialIcons.style.display = "flex";
-        taglineContainer.style.display = "block";
-      } else {
-        promoBtn22.style.display = "none";
-        promoBtnCspg.style.display = "none";
-        socialIcons.style.display = "none";
-        taglineContainer.style.display = "none";
-      }
-
-      if (val === 'cspg') {
-        title.innerText = "Alexei Normalnyi";
-      } else {
-        title.innerText = "Потлатий & Партнери";
-      }
-
       if (val !== "") {
-        tagline.style.animation = 'none';
-        tagline.offsetHeight;
-        tagline.style.animation = 'fadeIn 0.5s ease-in';
-        tagline.innerText = selectedOption.getAttribute('data-tag');
+        openAlbum(val);
       } else {
-        tagline.style.animation = 'none';
-        tagline.offsetHeight;
-        tagline.style.animation = 'fadeIn 0.5s ease-in';
-        tagline.innerText = "P&P AND ALEXEI DOOMOVICH RECORDS";
-      }
-
-      if (val === '22') {
-        pageBody.style.backgroundColor = "#d0e3f8";
-        pageBody.style.color = "#ffffff";
-        pageBody.style.setProperty('--btn-bg', '#1e40af');
-        pageBody.style.setProperty('--btn-color', '#ffffff');
-        pageBody.style.setProperty('--btn-border', '#ffffff');
-        pageBody.style.setProperty('--btn-shadow', '#ffffff');
-        pageBody.style.setProperty('--btn-hover-bg', '#2563eb');
-        pageBody.style.setProperty('--btn-hover-color', '#ffffff');
-        pageBody.style.setProperty('--active-track-bg', '#1e40af');
-        pageBody.style.setProperty('--active-track-color', '#ffffff');
-        pageBody.style.setProperty('--footer-bg', 'rgba(15, 23, 42, 0.95)');
-        pageBody.style.setProperty('--footer-color', '#ffffff');
-        pageBody.style.setProperty('--header-bg', 'rgba(15, 23, 42, 0.95)');
-        pageBody.style.setProperty('--container-bg', 'rgba(15, 23, 42, 0.95)');
-        pageBody.style.setProperty('--stream-btn-bg', '#1e40af');
-        pageBody.style.setProperty('--shadow-color', '#ffffff');
-
-        document.getElementById('list-22').style.display = 'block';
-        pageBody.style.backgroundImage = "url('22albumcov.png')";
-        pageBody.style.backgroundRepeat = "repeat";
-        pageBody.style.backgroundSize = "300px auto";
-        pageBody.style.backgroundAttachment = "scroll";
-        playerSection.style.display = 'flex';
-        updateLinks('22');
-      } else if (val === 'cspg') {
-        pageBody.style.backgroundColor = "#ece3cb";
-        pageBody.style.color = "#ffffff";
-        pageBody.style.setProperty('--btn-bg', '#5c3a21');
-        pageBody.style.setProperty('--btn-color', '#ffffff');
-        pageBody.style.setProperty('--btn-border', '#ffffff');
-        pageBody.style.setProperty('--btn-shadow', '#ffffff');
-        pageBody.style.setProperty('--btn-hover-bg', '#784d2d');
-        pageBody.style.setProperty('--btn-hover-color', '#ffffff');
-        pageBody.style.setProperty('--active-track-bg', '#5c3a21');
-        pageBody.style.setProperty('--active-track-color', '#ffffff');
-        pageBody.style.setProperty('--footer-bg', 'rgba(44, 30, 18, 0.95)');
-        pageBody.style.setProperty('--footer-color', '#ffffff');
-        pageBody.style.setProperty('--header-bg', 'rgba(44, 30, 18, 0.95)');
-        pageBody.style.setProperty('--container-bg', 'rgba(44, 30, 18, 0.95)');
-        pageBody.style.setProperty('--stream-btn-bg', '#5c3a21');
-        pageBody.style.setProperty('--shadow-color', '#ffffff');
-
-        document.getElementById('list-cspg').style.display = 'block';
-        pageBody.style.backgroundImage = "url('csopgnew.png')";
-        pageBody.style.backgroundRepeat = "repeat";
-        pageBody.style.backgroundSize = "300px auto";
-        pageBody.style.backgroundAttachment = "scroll";
-        playerSection.style.display = 'flex';
-        updateLinks('cspg');
-      } else if (val === 'cvp') {
-        pageBody.style.backgroundColor = "#c9bc9c";
-        pageBody.style.color = "#ffffff";
-        pageBody.style.setProperty('--btn-bg', '#3d2b1f');
-        pageBody.style.setProperty('--btn-color', '#ffffff');
-        pageBody.style.setProperty('--btn-border', '#ffffff');
-        pageBody.style.setProperty('--btn-shadow', '#ffffff');
-        pageBody.style.setProperty('--btn-hover-bg', '#543b2b');
-        pageBody.style.setProperty('--btn-hover-color', '#ffffff');
-        pageBody.style.setProperty('--active-track-bg', '#3d2b1f');
-        pageBody.style.setProperty('--active-track-color', '#ffffff');
-        pageBody.style.setProperty('--footer-bg', 'rgba(31, 23, 21, 0.95)');
-        pageBody.style.setProperty('--footer-color', '#ffffff');
-        pageBody.style.setProperty('--header-bg', 'rgba(31, 23, 21, 0.95)');
-        pageBody.style.setProperty('--container-bg', 'rgba(31, 23, 21, 0.95)');
-        pageBody.style.setProperty('--stream-btn-bg', '#3d2b1f');
-        pageBody.style.setProperty('--shadow-color', '#ffffff');
-
-        document.getElementById('list-cvp').style.display = 'block';
-        pageBody.style.backgroundImage = "url('clipcover.png')";
-        pageBody.style.backgroundRepeat = "repeat";
-        pageBody.style.backgroundSize = "300px auto";
-        pageBody.style.backgroundAttachment = "scroll";
-        playerSection.style.display = 'flex';
-        updateLinks('cvp');
-      } else {
-        pageBody.style.backgroundColor = "#000080";
-        pageBody.style.color = "#00ff00";
-        pageBody.style.setProperty('--btn-bg', '#00ff00');
-        pageBody.style.setProperty('--btn-color', '#000');
-        pageBody.style.setProperty('--btn-border', '#00ff00');
-        pageBody.style.setProperty('--btn-shadow', '#ffffff');
-        pageBody.style.setProperty('--btn-hover-bg', '#ffff00');
-        pageBody.style.setProperty('--btn-hover-color', '#000');
-        pageBody.style.setProperty('--active-track-bg', '#00ff00');
-        pageBody.style.setProperty('--active-track-color', '#000');
-        pageBody.style.setProperty('--footer-bg', 'rgba(0, 0, 0, 0.85)');
-        pageBody.style.setProperty('--footer-color', '#00ff00');
-        pageBody.style.setProperty('--header-browser-bg', 'rgba(0, 0, 0, 0.85)');
-        pageBody.style.setProperty('--container-bg', 'rgba(0, 0, 0, 0.9)');
-        pageBody.style.setProperty('--stream-btn-bg', '#000');
-        pageBody.style.setProperty('--shadow-color', '#ffffff');
-
-        pageBody.style.backgroundImage = "none";
-        playerSection.style.display = 'none';
+        closeExpandedAlbum();
       }
     }
 
-    function updateLinks(albumKey) {
-      if (albumLinks[albumKey]) {
-        spotifyLink.href = albumLinks[albumKey].spotify;
-        appleLink.href = albumLinks[albumKey].apple;
-        ytmusicLink.href = albumLinks[albumKey].ytmusic;
-      }
+    function openAlbum(albumKey) {
+      if (!albumData[albumKey]) return;
+      const data = albumData[albumKey];
+
+      select.value = albumKey;
+      title.innerText = data.title;
+      tagline.innerText = data.tag;
+      expandedCover.src = data.cover;
+
+      // Theme Colors
+      pageBody.style.backgroundColor = data.bgColor;
+      pageBody.style.color = data.color;
+      pageBody.style.backgroundImage = `url('${data.cover}')`;
+      pageBody.style.setProperty('--btn-bg', data.btnBg);
+      pageBody.style.setProperty('--btn-color', '#ffffff');
+      pageBody.style.setProperty('--btn-hover-bg', data.btnHoverBg);
+      pageBody.style.setProperty('--active-track-bg', data.btnBg);
+      pageBody.style.setProperty('--active-track-color', '#ffffff');
+      pageBody.style.setProperty('--footer-bg', data.footerBg);
+      pageBody.style.setProperty('--header-bg', data.footerBg);
+      pageBody.style.setProperty('--container-bg', data.containerBg);
+      pageBody.style.setProperty('--stream-btn-bg', data.btnBg);
+
+      // Hide Grid & Expand View with Animation
+      albumsGrid.style.display = 'none';
+      expandedView.classList.remove('active');
+      
+      // Toggle tracklists
+      document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
+      const activeList = document.getElementById(`list-${albumKey}`);
+      if (activeList) activeList.style.display = 'block';
+
+      // Update Streaming Links
+      spotifyLink.href = data.links.spotify;
+      appleLink.href = data.links.apple;
+      ytmusicLink.href = data.links.ytmusic;
+
+      // Trigger Expand Animation
+      setTimeout(() => {
+        expandedView.classList.add('active');
+      }, 10);
     }
 
-    function selectAlbum(albumValue) {
-      select.value = albumValue;
-      toggleAlbum();
+    function closeExpandedAlbum() {
+      select.value = "";
+      expandedView.classList.remove('active');
+      albumsGrid.style.display = 'flex';
+
+      title.innerText = "Потлатий & Партнери";
+      tagline.innerText = "P&P AND ALEXEI DOOMOVICH RECORDS";
+
+      // Reset Theme to Default Navy
+      pageBody.style.backgroundColor = "#000080";
+      pageBody.style.color = "#00ff00";
+      pageBody.style.backgroundImage = "none";
+      pageBody.style.setProperty('--btn-bg', '#00ff00');
+      pageBody.style.setProperty('--btn-color', '#000');
+      pageBody.style.setProperty('--btn-hover-bg', '#ffff00');
+      pageBody.style.setProperty('--active-track-bg', '#00ff00');
+      pageBody.style.setProperty('--active-track-color', '#000');
+      pageBody.style.setProperty('--footer-bg', 'rgba(0, 0, 0, 0.85)');
+      pageBody.style.setProperty('--header-bg', 'rgba(0, 0, 0, 0.85)');
+      pageBody.style.setProperty('--container-bg', 'rgba(0, 0, 0, 0.9)');
+      pageBody.style.setProperty('--stream-btn-bg', '#000');
+
+      player.pause();
     }
 
     function playTrack(element) {
-      const allTracks = document.querySelectorAll('.track');
-      allTracks.forEach(t => t.classList.remove('active'));
+      const currentList = element.parentElement;
+      currentList.querySelectorAll('.track').forEach(t => t.classList.remove('active'));
       element.classList.add('active');
-      player.src = element.getAttribute('data-file');
-      player.load(); 
-      player.play().catch(e => console.log("Play failed"));
+
+      const fileName = element.getAttribute('data-file');
+      const lyrics = element.getAttribute('data-lyrics') || "Lyrics for this track are not available.";
+      lyricsBox.innerText = lyrics;
+
+      player.src = fileName;
+      player.load();
+      player.play().catch(e => console.log("Playback interrupted"));
+    }
+
+    function togglePlayPause() {
+      if (player.paused) {
+        player.play();
+      } else {
+        player.pause();
+      }
+    }
+
+    function prevTrack() {
+      const activeTrack = document.querySelector('.track.active');
+      if (activeTrack && activeTrack.previousElementSibling) {
+        playTrack(activeTrack.previousElementSibling);
+      }
+    }
+
+    function nextTrack() {
+      const activeTrack = document.querySelector('.track.active');
+      if (activeTrack && activeTrack.nextElementSibling) {
+        playTrack(activeTrack.nextElementSibling);
+      }
     }
 
     player.addEventListener('ended', function() {
-      const currentTrack = document.querySelector('.track.active');
-      if (currentTrack && currentTrack.nextElementSibling) {
-        playTrack(currentTrack.nextElementSibling);
-      }
+      nextTrack();
     });
   </script>
 </body>
