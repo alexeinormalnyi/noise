@@ -403,6 +403,7 @@
     const playerSection = document.getElementById('player-section');
     const select = document.getElementById('album-select');
     const title = document.getElementById('main-title');
+    const taglineContainer = document.getElementById('tagline').parentElement;
     const tagline = document.getElementById('tagline');
     const promoBtn22 = document.getElementById('promo-btn-22');
     const promoBtnCspg = document.getElementById('promo-btn-cspg');
@@ -444,10 +445,12 @@
         promoBtn22.style.display = "block";
         promoBtnCspg.style.display = "block";
         socialIcons.style.display = "flex";
+        taglineContainer.style.display = "block";
       } else {
         promoBtn22.style.display = "none";
         promoBtnCspg.style.display = "none";
         socialIcons.style.display = "none";
+        taglineContainer.style.display = "none";
       }
 
       // Handle Title Change
