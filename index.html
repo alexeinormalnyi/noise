@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <!-- MAIN PAGE (STRICTLY PURE BLACK & WHITE) -->
+  <!-- MAIN PAGE (FULL COLOR COVERS) -->
   <div class="main-content" id="main-page">
     <header class="header-glass">
       <h1 id="main-title">ПОТЛАТИЙ & ПАРТНЕРИ</h1>
@@ -26,8 +26,9 @@
         <span class="arrow-left">→</span> Олексій Нормальний - Класика <span class="arrow-right">←</span>
       </button>
 
-      <!-- Restored Social Media Icons with Original Brand Colors -->
+      <!-- Social Media Icons (Including SoundCloud) -->
       <div id="social-icons" class="social-icons-container">
+        <a href="https://soundcloud.com" target="_blank" class="social-icon-btn soundcloud" title="SoundCloud"><img src="snd.png" alt="SoundCloud"></a>
         <a href="https://www.tiktok.com/@potlatiy_3.14tushara" target="_blank" class="social-icon-btn tiktok" title="TikTok"><img src="tt.png" alt="TikTok"></a>
         <a href="https://www.youtube.com/@ReVanced-j1o" target="_blank" class="social-icon-btn youtube" title="YouTube"><img src="yt.png" alt="YouTube"></a>
         <a href="https://www.instagram.com/potlatiypartnyori/" target="_blank" class="social-icon-btn instagram" title="Instagram"><img src="inst.png" alt="Instagram"></a>
@@ -60,16 +61,15 @@
     </div>
   </div>
 
-  <!-- EXPANDED FULLSCREEN PLAYER (MATERIAL YOU DYNAMIC COLOR MODE) -->
+  <!-- EXPANDED FULLSCREEN PLAYER -->
   <div id="expanded-view" class="expanded-modal">
     <div class="modal-header">
       <span id="expanded-album-title" class="expanded-title">ALBUM PLAYER</span>
-      <!-- Text removed: Icon-only close button -->
       <button class="close-btn glass-btn" onclick="closeExpandedAlbum()" aria-label="Close">✕</button>
     </div>
 
     <div class="expanded-layout">
-      <!-- Left Panel: Cover & Audio Player -->
+      <!-- Left Panel: Stretched Cover & Audio Player -->
       <div class="panel-left glass-panel">
         <div class="album-cover-frame">
           <img id="expanded-cover" src="" alt="Album Cover">
@@ -167,12 +167,14 @@
         title: "Потлатий & Партнери",
         tag: "Album 22",
         cover: "22albumcov.png",
+        accent: "#FF3366", // Bright pink
         links: { spotify: '#', apple: '#', ytmusic: '#' }
       },
       'cspg': {
         title: "Alexei Normalnyi",
         tag: "Constant Stimulation of Penial Glands",
         cover: "csopgnew.png",
+        accent: "#D2691E", // Vibrant Warm Brown
         links: {
           spotify: 'https://open.spotify.com/album/2Xt4WIICyGiVKsSUJqeXxN?go=1&nd=1',
           apple: 'https://music.apple.com/ua/album/constant-stimulation-of-penial-glands/1895401622',
@@ -183,6 +185,7 @@
         title: "Потлатий & Партнери",
         tag: "Clip v Parische",
         cover: "clipcover.png",
+        accent: "#B866FF", // Bright Violet
         links: {
           spotify: 'https://open.spotify.com/album/79kVW8XxLtFkNkto2YdtZl?go=1&nd=1',
           apple: 'https://music.apple.com/ua/album/clip-v-parische-single/1889513888',
@@ -191,51 +194,13 @@
       }
     };
 
-    /**
-     * Material You style dynamic color extraction from album art using Canvas API
-     */
-    function applyMaterialYouColors(imgSrc) {
-      const img = new Image();
-      img.src = imgSrc;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = 40;
-        canvas.height = 40;
-        ctx.drawImage(img, 0, 0, 40, 40);
+    function applyThemeColors(accentColor) {
+      const glow = accentColor + '80'; // 50% glow transparency
+      const bgGrad = `radial-gradient(circle at 50% 20%, ${accentColor}25 0%, #080808 85%)`;
 
-        const imgData = ctx.getImageData(0, 0, 40, 40).data;
-        let maxSaturation = -1;
-        let dominantR = 255, dominantG = 0, dominantB = 120;
-
-        // Sample pixels to find the most vibrant dynamic color
-        for (let i = 0; i < imgData.length; i += 16) {
-          const r = imgData[i];
-          const g = imgData[i + 1];
-          const b = imgData[i + 2];
-
-          const max = Math.max(r, g, b);
-          const min = Math.min(r, g, b);
-          const sat = max === 0 ? 0 : (max - min) / max;
-          const brightness = max / 255;
-
-          // Target saturated, non-extreme brightness colors
-          if (sat > maxSaturation && brightness > 0.2 && brightness < 0.95) {
-            maxSaturation = sat;
-            dominantR = r;
-            dominantG = g;
-            dominantB = b;
-          }
-        }
-
-        const accent = `rgb(${dominantR}, ${dominantG}, ${dominantB})`;
-        const glow = `rgba(${dominantR}, ${dominantG}, ${dominantB}, 0.6)`;
-        const bgGrad = `radial-gradient(circle at 50% 30%, rgba(${dominantR}, ${dominantG}, ${dominantB}, 0.25) 0%, #080808 90%)`;
-
-        expandedView.style.setProperty('--accent', accent);
-        expandedView.style.setProperty('--glow', glow);
-        expandedView.style.setProperty('--bg-gradient', bgGrad);
-      };
+      expandedView.style.setProperty('--accent', accentColor);
+      expandedView.style.setProperty('--glow', glow);
+      expandedView.style.setProperty('--bg-gradient', bgGrad);
     }
 
     function openAlbum(albumKey) {
@@ -245,8 +210,8 @@
       expandedCover.src = data.cover;
       expandedAlbumTitle.innerText = `${data.title} — ${data.tag}`;
 
-      // Dynamically extract colors from image
-      applyMaterialYouColors(data.cover);
+      // Apply explicitly tuned bright colors (Brown for CSPG)
+      applyThemeColors(data.accent);
 
       document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
       const activeList = document.getElementById(`list-${albumKey}`);
