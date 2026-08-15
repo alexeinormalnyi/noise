@@ -14,9 +14,10 @@
   body {
     background-color: #000080;
     background-image: none;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background-repeat: repeat;
+    background-size: auto;
+    background-position: top left;
+    background-attachment: scroll;
     transition: background-image 0.8s ease-in-out;
     
     color: #00ff00;
@@ -99,8 +100,22 @@
     transition: background 0.2s, transform 0.1s;
   }
 
+  .promo-btn .arrow-left,
+  .promo-btn .arrow-right {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
   .promo-btn:hover {
     background: #ffff00;
+  }
+
+  .promo-btn:hover .arrow-left {
+    transform: translateX(6px);
+  }
+
+  .promo-btn:hover .arrow-right {
+    transform: translateX(-6px);
   }
 
   .promo-btn:active {
@@ -169,7 +184,8 @@
       <option value="cvp" data-tag="Clip v Parische">Clip v Parische</option>
     </select>
 
-    <button id="promo-btn" class="promo-btn" onclick="selectAlbum22()">New Album Release 22</button>
+    <button id="promo-btn-22" class="promo-btn" onclick="selectAlbum('22')"><span class="arrow-left">&gt;</span> New Album Release 22 <span class="arrow-right">&lt;</span></button>
+    <button id="promo-btn-cspg" class="promo-btn" onclick="selectAlbum('cspg')"><span class="arrow-left">&gt;</span> Олексій Нормальний - Класика <span class="arrow-right">&lt;</span></button>
   </div>
 
   <!-- Album 22 -->
@@ -225,7 +241,8 @@
     const select = document.getElementById('album-select');
     const title = document.getElementById('main-title');
     const tagline = document.getElementById('tagline');
-    const promoBtn = document.getElementById('promo-btn');
+    const promoBtn22 = document.getElementById('promo-btn-22');
+    const promoBtnCspg = document.getElementById('promo-btn-cspg');
 
     function toggleAlbum() {
       const lists = document.querySelectorAll('.music-container');
@@ -235,9 +252,11 @@
       
       // Handle Button Visibility: Show only if no album is selected
       if (select.value === "") {
-        promoBtn.style.display = "block";
+        promoBtn22.style.display = "block";
+        promoBtnCspg.style.display = "block";
       } else {
-        promoBtn.style.display = "none";
+        promoBtn22.style.display = "none";
+        promoBtnCspg.style.display = "none";
       }
 
       // Handle Title Change
@@ -260,18 +279,27 @@
         tagline.innerText = "P&P AND ALEXEI DOOMOVICH RECORDS";
       }
 
-      // Show/Hide Lists and Set Backgrounds
+      // Show/Hide Lists and Set Repeating Backgrounds
       if (select.value === '22') {
         document.getElementById('list-22').style.display = 'block';
         document.body.style.backgroundImage = "url('22albumcov.png')";
+        document.body.style.backgroundRepeat = "repeat";
+        document.body.style.backgroundSize = "auto";
+        document.body.style.backgroundAttachment = "scroll";
         player.style.display = 'block';
       } else if (select.value === 'cspg') {
         document.getElementById('list-cspg').style.display = 'block';
         document.body.style.backgroundImage = "url('csopgnew.png')";
+        document.body.style.backgroundRepeat = "repeat";
+        document.body.style.backgroundSize = "auto";
+        document.body.style.backgroundAttachment = "scroll";
         player.style.display = 'block';
       } else if (select.value === 'cvp') {
         document.getElementById('list-cvp').style.display = 'block';
         document.body.style.backgroundImage = "url('clipcover.png')";
+        document.body.style.backgroundRepeat = "repeat";
+        document.body.style.backgroundSize = "auto";
+        document.body.style.backgroundAttachment = "scroll";
         player.style.display = 'block';
       } else {
         document.body.style.backgroundImage = "none";
@@ -279,8 +307,8 @@
       }
     }
 
-    function selectAlbum22() {
-      select.value = '22';
+    function selectAlbum(albumValue) {
+      select.value = albumValue;
       toggleAlbum();
     }
 
