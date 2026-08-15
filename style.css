@@ -1,146 +1,131 @@
 /* Base & Global Reset */
 * {
-  cursor: url('icon.ico'), auto;
   box-sizing: border-box;
-}
-
-*:active {
-  cursor: url('iconclicked.ico'), auto;
-}
-
-html, body {
-  height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 body {
-  background-color: #000080;
-  background-image: none;
-  background-repeat: repeat;
-  background-size: 300px auto;
-  background-position: top left;
-  background-attachment: scroll;
-  transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out;
-  
-  color: #00ff00;
-  font-family: "Courier New", Courier, monospace;
+  background-color: #050505;
+  background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 75%);
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 4vh;
+  padding-top: 5vh;
   padding-bottom: 20px;
-  min-height: 100vh;
 }
 
-/* Layout Main Content */
+/* Glassmorphism Reusable Classes */
+.glass-panel,
+.glass-card,
+.glass-modal,
+.header-glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+}
+
+.glass-btn {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.glass-btn:active {
+  transform: translateY(1px);
+}
+
+/* Layout Container */
 .main-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1000px;
   flex: 1;
-  padding: 0 15px;
+  padding: 0 20px;
+}
+
+/* Header */
+.header-glass {
+  padding: 20px 40px;
+  text-align: center;
+  margin-bottom: 25px;
+  width: 100%;
+  max-width: 600px;
 }
 
 h1 {
-  font-size: 2.8rem;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  border: 3px double currentColor;
-  padding: 10px 20px;
-  margin-bottom: 5px;
-  text-shadow: 2px 2px var(--shadow-color, #ffffff);
-  text-align: center;
-  background: var(--header-bg, rgba(0, 0, 0, 0.85));
-  transition: all 0.5s ease;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
 
 .tagline-container {
   width: 100%;
   text-align: center;
-  margin-bottom: 20px;
-  min-height: 1.5em;
 }
 
 .tagline {
-  font-style: italic;
-  font-weight: bold;
-  color: var(--tagline-color, #ffff00);
-  text-decoration: underline;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 4px 12px;
-  display: inline-block;
-  animation: fadeIn 0.5s ease-in;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Controls Header Container */
+/* Controls Container */
 .controls-container {
   width: 100%;
   max-width: 500px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 25px;
-}
-
-select {
-  background: #c0c0c0;
-  color: #000;
-  font-family: inherit;
-  font-weight: bold;
-  padding: 10px;
-  border: 4px inset #fff;
-  width: 100%;
+  gap: 15px;
+  margin-bottom: 35px;
 }
 
 .promo-btn {
-  background: var(--btn-bg, #00ff00);
-  color: var(--btn-color, #000);
-  font-family: inherit;
-  font-weight: bold;
+  padding: 14px 20px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  font-weight: 600;
   text-transform: uppercase;
-  padding: 12px;
-  border: 4px outset var(--btn-border, #00ff00);
-  width: 100%;
   cursor: pointer;
   text-align: center;
-  box-shadow: 3px 3px var(--btn-shadow, #ffffff);
-  transition: background 0.2s, transform 0.1s, color 0.2s, border-color 0.2s;
-  position: relative;
-  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.promo-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .promo-btn .arrow-left,
 .promo-btn .arrow-right {
   display: inline-block;
-  opacity: 0;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
-.promo-btn .arrow-left { transform: translateX(-10px); }
-.promo-btn .arrow-right { transform: translateX(10px); }
-
-.promo-btn:hover {
-  background: var(--btn-hover-bg, #ffff00);
-  color: #000;
-}
-
-.promo-btn:hover .arrow-left,
-.promo-btn:hover .arrow-right {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.promo-btn:active {
-  border-style: inset;
-  transform: translate(2px, 2px);
-}
+.promo-btn:hover .arrow-left { transform: translateX(-4px); }
+.promo-btn:hover .arrow-right { transform: translateX(4px); }
 
 /* Social Icons */
 .social-icons-container {
@@ -151,142 +136,162 @@ select {
 }
 
 .social-icon-btn {
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  width: 36px;
-  height: 36px;
-  transition: transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
 }
 
 .social-icon-btn img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(2px 2px #ffffff);
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
 }
 
-.social-icon-btn:hover { transform: scale(1.15); }
-.social-icon-btn:active { transform: scale(0.95); }
+.social-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.08);
+}
 
-/* GRID VIEW (Matching Sketch 1) */
+/* Square Album Grid Selectors */
 .album-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 25px;
+  gap: 30px;
   justify-content: center;
   width: 100%;
-  margin-top: 10px;
-  margin-bottom: 30px;
 }
 
 .album-card {
-  background: var(--container-bg, rgba(0, 0, 0, 0.85));
-  border: 3px double currentColor;
-  padding: 12px;
-  width: 260px;
+  padding: 16px;
+  width: 240px;
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  box-shadow: 4px 4px var(--shadow-color, #ffffff);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .album-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 6px 6px var(--shadow-color, #ffff00);
+  transform: translateY(-8px) scale(1.02);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
 }
 
 .album-card-cover {
   width: 100%;
-  height: 220px;
-  border: 2px solid currentColor;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
   overflow: hidden;
-  background: #000;
+  margin-bottom: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .album-card-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.album-card:hover .album-card-cover img {
+  transform: scale(1.05);
 }
 
 .album-card-title {
-  margin-top: 10px;
-  font-weight: bold;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   text-align: center;
   text-transform: uppercase;
-  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-/* EXPANDED VIEW & ANIMATION (Matching Sketch 2) */
-.expanded-view {
+/* Almost Fullscreen Player Modal Overlay */
+.expanded-modal {
+  position: fixed;
+  inset: 3vh 3vw;
+  z-index: 1000;
   display: none;
-  width: 100%;
+  flex-direction: column;
+  padding: 25px;
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+  overflow-y: auto;
   opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  margin-bottom: 30px;
+  transform: scale(0.96);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.expanded-view.active {
-  display: block;
+.expanded-modal.active {
+  display: flex;
   opacity: 1;
   transform: scale(1);
 }
 
-.back-btn {
-  background: var(--btn-bg, #00ff00);
-  color: var(--btn-color, #000);
-  border: 2px outset currentColor;
-  padding: 10px 18px;
-  font-family: inherit;
-  font-weight: bold;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-  cursor: pointer;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.back-btn:hover {
-  background: var(--btn-hover-bg, #ffff00);
+.expanded-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-/* 2-Column Expansion Layout */
+.close-btn {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Modal Two-Column Expansion Layout */
 .expanded-layout {
   display: flex;
   gap: 25px;
-  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.panel-left,
+.panel-right {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .panel-left {
   flex: 1;
-  min-width: 320px;
-  background: var(--container-bg, rgba(0, 0, 0, 0.9));
-  border: 3px double currentColor;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  max-width: 420px;
 }
 
 .panel-right {
-  flex: 1.2;
-  min-width: 340px;
-  background: var(--container-bg, rgba(0, 0, 0, 0.9));
-  border: 3px double currentColor;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+  flex: 1.4;
+  min-width: 320px;
 }
 
 .album-cover-frame {
   width: 100%;
-  max-width: 380px;
-  height: 380px;
-  border: 3px inset currentColor;
-  margin-bottom: 15px;
-  background: #000;
+  max-width: 300px;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .album-cover-frame img {
@@ -295,150 +300,127 @@ select {
   object-fit: cover;
 }
 
-/* Player & Control Buttons Below Cover */
 .player-controls {
   width: 100%;
 }
 
 audio {
-  filter: invert(100%);
   width: 100%;
-  margin-bottom: 12px;
+  height: 36px;
+  margin-bottom: 15px;
+  filter: invert(1);
+  opacity: 0.85;
 }
 
 .custom-playback-buttons {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 15px;
 }
 
 .control-btn {
   flex: 1;
-  background: var(--btn-bg, #00ff00);
-  color: var(--btn-color, #000);
-  font-family: inherit;
-  font-weight: bold;
-  border: 2px outset currentColor;
-  padding: 8px 4px;
+  padding: 10px 5px;
   font-size: 0.75rem;
-  cursor: pointer;
-  text-align: center;
+  font-weight: 600;
 }
 
-.control-btn:hover {
-  background: var(--btn-hover-bg, #ffff00);
-}
-
-/* Streaming Links Buttons */
 .streaming-links {
   display: flex;
-  gap: 8px;
-  width: 100%;
+  gap: 10px;
 }
 
 .stream-btn {
   flex: 1;
-  background: var(--stream-btn-bg, #000);
-  color: var(--stream-btn-color, currentColor);
-  border: 2px outset currentColor;
-  padding: 8px 4px;
-  font-family: inherit;
+  padding: 10px;
   font-size: 0.75rem;
-  font-weight: bold;
-  text-transform: uppercase;
+  font-weight: 600;
   text-align: center;
   text-decoration: none;
-  box-shadow: 2px 2px var(--shadow-color, #ffffff);
-  transition: background 0.2s, color 0.2s;
 }
 
-.stream-btn:hover {
-  background: var(--btn-hover-bg, #ffff00);
-  color: #000;
-}
-
-/* Right Panel: Tracklist & Lyrics Box */
+/* Right Side: Tracklist & Lyrics */
 .panel-title {
-  margin: 0 0 10px 0;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  border-bottom: 2px dashed currentColor;
-  padding-bottom: 5px;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 6px;
 }
 
 .track-list-box {
-  max-height: 220px;
+  max-height: 200px;
   overflow-y: auto;
-  border: 1px dashed currentColor;
-  padding: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  padding-right: 5px;
 }
 
 .track {
-  margin: 6px 0;
-  padding: 6px;
-  border-bottom: 1px dotted currentColor;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 6px;
   font-size: 0.85rem;
   cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.track:hover,
-.track.active {
-  background: var(--active-track-bg, #00ff00);
-  color: var(--active-track-color, #000);
+.track:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* Lyrics Container Box (From Image 2) */
+.track.active {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+}
+
 .lyrics-container {
-  border: 2px dashed currentColor;
-  padding: 12px;
   flex: 1;
+  padding: 16px;
   min-height: 180px;
   display: flex;
   flex-direction: column;
 }
 
 .lyrics-header {
-  font-weight: bold;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .lyrics-content {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
   white-space: pre-wrap;
   overflow-y: auto;
-  max-height: 180px;
-  line-height: 1.4;
-  opacity: 0.9;
+  max-height: 200px;
 }
 
 /* Footer */
 footer {
   margin-top: auto;
-  padding: 15px 20px;
-  font-size: 0.8rem;
-  color: var(--footer-color, currentColor);
-  text-transform: uppercase;
-  background: var(--footer-bg, rgba(0, 0, 0, 0.85));
-  border-top: 1px dashed currentColor;
+  padding: 20px;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4);
   text-align: center;
   width: 100%;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  body { padding-top: 2vh; }
-  h1 { font-size: 1.8rem; }
+/* Responsive Styles */
+@media (max-width: 820px) {
+  .expanded-modal { inset: 2vh 2vw; }
   .expanded-layout { flex-direction: column; }
-  .panel-left, .panel-right { min-width: 100%; }
-  .album-cover-frame { height: 280px; }
+  .panel-left { max-width: 100%; }
   .streaming-links { flex-direction: column; }
 }
