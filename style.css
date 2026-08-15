@@ -1,4 +1,4 @@
-/* Base & Pure Black/White Main Theme */
+/* GLOBAL RESET & STARK B&W BASE */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #000000;
+  background-color: #000000 !important;
   color: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   min-height: 100vh;
@@ -17,47 +17,45 @@ body {
   padding-bottom: 20px;
 }
 
-/* Glassmorphism Containers - Pure Stark B&W */
+/* MAIN PAGE FORCE STRICT BLACK & WHITE */
+#main-page {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+  flex: 1;
+}
+
+/* Monochrome Glassmorphism */
 .glass-panel,
 .glass-card,
 .header-glass {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  border: 1px solid #ffffff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
   border-radius: 16px;
 }
 
 .glass-btn {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #000000;
+  border: 1px solid #ffffff;
   color: #ffffff;
   border-radius: 8px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s ease;
   cursor: pointer;
 }
 
 .glass-btn:hover {
   background: #ffffff;
   color: #000000;
-  border-color: #ffffff;
-  transform: translateY(-2px);
+  box-shadow: 0 0 15px #ffffff;
 }
 
-/* Main Layout */
-.main-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 1000px;
-  flex: 1;
-  padding: 0 20px;
-}
-
-/* Stark Header */
+/* Header */
 .header-glass {
   padding: 24px 40px;
   text-align: center;
@@ -70,15 +68,14 @@ h1 {
   font-size: 2.2rem;
   letter-spacing: 3px;
   text-transform: uppercase;
-  font-weight: 800;
-  margin-bottom: 8px;
+  font-weight: 900;
+  color: #ffffff;
 }
 
 .tagline {
   font-size: 0.8rem;
   letter-spacing: 3px;
-  color: #888888;
-  text-transform: uppercase;
+  color: #aaaaaa;
 }
 
 /* Controls Container */
@@ -106,10 +103,9 @@ h1 {
 .promo-btn:hover {
   background: #ffffff;
   color: #000000;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-/* Restored Original Social Media Icons Styling */
+/* RESTORED BRAND-COLORED SOCIAL MEDIA ICONS */
 .social-icons-container {
   display: flex;
   gap: 16px;
@@ -121,12 +117,12 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
   text-decoration: none;
 }
 
@@ -136,42 +132,39 @@ h1 {
   object-fit: contain;
 }
 
-.icon-fallback {
-  font-size: 0.75rem;
-  font-weight: bold;
-  color: #fff;
+.social-icon-btn:hover {
+  transform: scale(1.15);
 }
 
-/* Individual Brand Color Hover Effects */
 .social-icon-btn.tiktok:hover {
   background: #000000;
   border-color: #00f2fe;
-  box-shadow: 0 0 15px #00f2fe, -3px 0 10px #ff0050;
+  box-shadow: 0 0 20px #00f2fe, -3px 0 12px #ff0050;
 }
 
 .social-icon-btn.youtube:hover {
   background: #FF0000;
   border-color: #FF0000;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
 }
 
 .social-icon-btn.instagram:hover {
   background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
   border-color: #dc2743;
-  box-shadow: 0 0 15px rgba(220, 39, 67, 0.6);
+  box-shadow: 0 0 20px rgba(220, 39, 67, 0.8);
 }
 
 .social-icon-btn.x-twitter:hover {
   background: #ffffff;
   border-color: #ffffff;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
 }
 
 .social-icon-btn.x-twitter:hover img {
   filter: invert(1);
 }
 
-/* Album Grid Selectors */
+/* ALBUM SELECTORS (PURE BLACK & WHITE ON MAIN SCREEN) */
 .album-grid {
   display: flex;
   flex-wrap: wrap;
@@ -187,84 +180,86 @@ h1 {
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.album-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: #ffffff;
-  box-shadow: 0 12px 35px rgba(255, 255, 255, 0.15);
-}
-
+/* Force Grayscale on Main Page Covers */
 .album-card-cover {
   width: 100%;
   aspect-ratio: 1 / 1;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #ffffff;
 }
 
 .album-card-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.album-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.album-card:hover .album-card-cover img {
+  filter: grayscale(0%);
+  transform: scale(1.05);
 }
 
 .album-card-title {
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 1px;
   text-align: center;
   text-transform: uppercase;
 }
 
-/* Fullscreen Player Modal Overlay - Dynamic Palette */
+/* EXPANDED FULLSCREEN MODAL (EXPRESSIVE COLOR MODE) */
 .expanded-modal {
-  --accent-color: #ffffff;
-  --glow-color: rgba(255, 255, 255, 0.2);
-  --modal-bg: #0d0d0d;
+  --accent: #ffffff;
+  --glow: rgba(255, 255, 255, 0.3);
+  --bg-gradient: #0d0d0d;
 
   position: fixed;
   inset: 2vh 2vw;
-  z-index: 1000;
+  z-index: 2000;
   display: none;
   flex-direction: column;
   padding: 25px;
-  background: var(--modal-bg);
-  border: 1px solid var(--accent-color);
-  box-shadow: 0 0 60px var(--glow-color);
+  background: var(--bg-gradient);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 80px var(--glow);
   border-radius: 20px;
   overflow-y: auto;
-  opacity: 0;
-  transform: scale(0.85);
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Expansion Animation Trigger */
+/* EXPAND ANIMATION */
 .expanded-modal.active {
   display: flex;
-  animation: expandAnimation 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: smoothExpand 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes expandAnimation {
+@keyframes smoothExpand {
   0% {
     opacity: 0;
-    transform: scale(0.8);
-    backdrop-filter: blur(0px);
+    transform: scale(0.6);
   }
   100% {
     opacity: 1;
     transform: scale(1);
-    backdrop-filter: blur(25px);
   }
 }
 
-/* Modal Internal Vibrant Elements */
+/* Colorized Inner Glass Elements */
 .expanded-modal .glass-panel {
-  border-color: var(--glow-color);
-  background: rgba(0, 0, 0, 0.4);
+  border-color: var(--accent);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 25px var(--glow);
 }
 
 .modal-header {
@@ -273,15 +268,15 @@ h1 {
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--glow-color);
+  border-bottom: 1px solid var(--accent);
 }
 
 .expanded-title {
-  font-size: 1.1rem;
-  font-weight: 800;
+  font-size: 1.2rem;
+  font-weight: 900;
   letter-spacing: 2px;
-  color: var(--accent-color);
-  text-shadow: 0 0 10px var(--glow-color);
+  color: var(--accent);
+  text-shadow: 0 0 12px var(--glow);
 }
 
 .expanded-layout {
@@ -311,14 +306,15 @@ h1 {
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 20px;
-  border: 2px solid var(--accent-color);
-  box-shadow: 0 0 25px var(--glow-color);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 30px var(--glow);
 }
 
 .album-cover-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: none !important;
 }
 
 .player-controls { width: 100%; }
@@ -345,21 +341,24 @@ audio {
   text-decoration: none;
 }
 
-/* Dynamic Hover Effects inside Expanded View */
-.expanded-modal .glass-btn:hover {
-  background: var(--accent-color);
-  color: #000000;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 15px var(--glow-color);
+.expanded-modal .glass-btn {
+  border-color: var(--accent);
+  color: #ffffff;
 }
 
-/* Tracklist & Active Expressive Highlight */
+.expanded-modal .glass-btn:hover {
+  background: var(--accent);
+  color: #000000;
+  box-shadow: 0 0 20px var(--glow);
+}
+
+/* Expressive Tracklist & Active Track Highlight */
 .panel-title {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   letter-spacing: 2px;
   margin-bottom: 12px;
-  color: var(--accent-color);
-  border-bottom: 1px solid var(--glow-color);
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
   padding-bottom: 6px;
 }
 
@@ -381,15 +380,15 @@ audio {
 }
 
 .track:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--glow-color);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent);
 }
 
 .track.active {
-  background: var(--accent-color);
+  background: var(--accent);
   color: #000000;
   font-weight: 800;
-  box-shadow: 0 0 12px var(--glow-color);
+  box-shadow: 0 0 15px var(--glow);
 }
 
 .lyrics-container {
@@ -401,9 +400,9 @@ audio {
 .lyrics-header {
   font-size: 0.8rem;
   letter-spacing: 1.5px;
-  color: var(--accent-color);
+  color: var(--accent);
   margin-bottom: 10px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .lyrics-content {
@@ -412,7 +411,7 @@ audio {
   white-space: pre-wrap;
   overflow-y: auto;
   max-height: 180px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 footer {
