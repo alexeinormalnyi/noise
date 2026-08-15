@@ -18,27 +18,29 @@
     background-size: 300px auto;
     background-position: top left;
     background-attachment: scroll;
-    transition: background-image 0.8s ease-in-out;
+    transition: background-color 0.8s ease-in-out, background-image 0.8s ease-in-out, color 0.8s ease-in-out;
     
     color: #00ff00;
     font-family: "Courier New", Courier, monospace;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 10vh;
+    padding-top: 8vh;
+    padding-bottom: 5vh;
     min-height: 100vh;
     margin: 0;
+    box-sizing: border-box;
   }
 
   h1 {
     font-size: 3rem;
     text-transform: uppercase;
-    border: 3px double #00ff00;
+    border: 3px double currentColor;
     padding: 10px;
     margin-bottom: 5px;
     text-shadow: 2px 2px #ff00ff;
     text-align: center;
-    background: rgba(0, 0, 128, 0.7);
+    background: rgba(0, 0, 0, 0.7);
     transition: all 0.5s ease;
   }
 
@@ -86,18 +88,18 @@
   }
 
   .promo-btn {
-    background: #00ff00;
-    color: #000;
+    background: var(--btn-bg, #00ff00);
+    color: var(--btn-color, #000);
     font-family: inherit;
     font-weight: bold;
     text-transform: uppercase;
     padding: 12px;
-    border: 4px outset #00ff00;
+    border: 4px outset var(--btn-border, #00ff00);
     width: 100%;
     cursor: pointer;
     text-align: center;
-    box-shadow: 3px 3px #ff00ff;
-    transition: background 0.2s, transform 0.1s;
+    box-shadow: 3px 3px var(--btn-shadow, #ff00ff);
+    transition: background 0.2s, transform 0.1s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
   }
 
   .promo-btn .arrow-left,
@@ -107,7 +109,8 @@
   }
 
   .promo-btn:hover {
-    background: #ffff00;
+    background: var(--btn-hover-bg, #ffff00);
+    color: var(--btn-hover-color, #000);
   }
 
   .promo-btn:hover .arrow-left {
@@ -126,7 +129,7 @@
   .music-container {
     margin-top: 10px;
     background: rgba(0, 0, 0, 0.85);
-    border: 2px dashed #00ff00;
+    border: 2px dashed currentColor;
     padding: 20px;
     display: none;
     width: 90%;
@@ -137,19 +140,19 @@
   .track {
     margin: 10px 0;
     padding: 5px;
-    border-bottom: 1px solid #00ff00;
+    border-bottom: 1px solid currentColor;
     font-size: 0.9rem;
     cursor: pointer;
   }
 
   .track.active {
-    background: #00ff00;
-    color: #000;
+    background: var(--active-track-bg, #00ff00);
+    color: var(--active-track-color, #000);
   }
 
   .track:hover {
-    background: #00ff00;
-    color: #000;
+    background: var(--active-track-bg, #00ff00);
+    color: var(--active-track-color, #000);
   }
 
   .player-section {
@@ -177,8 +180,8 @@
   .stream-btn {
     flex: 1;
     background: #000;
-    color: #00ff00;
-    border: 2px outset #00ff00;
+    color: currentColor;
+    border: 2px outset currentColor;
     padding: 8px 5px;
     font-family: inherit;
     font-size: 0.75rem;
@@ -191,7 +194,7 @@
   }
 
   .stream-btn:hover {
-    background: #00ff00;
+    background: currentColor;
     color: #000;
   }
 
@@ -201,16 +204,20 @@
   }
 
   footer {
-    margin-top: auto;
+    margin-top: 60px;
     padding: 20px;
     font-size: 0.8rem;
-    color: #00ff00;
+    color: currentColor;
     text-transform: uppercase;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
+    border-top: 1px dashed currentColor;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
   }
 </style>
 </head>
-<body>
+<body id="page-body" style="--btn-bg: #00ff00; --btn-color: #000; --btn-border: #00ff00; --btn-shadow: #ff00ff; --btn-hover-bg: #ffff00; --active-track-bg: #00ff00; --active-track-color: #000;">
 
   <h1 id="main-title">Потлатий & Партнери</h1>
   
@@ -293,6 +300,7 @@
     const tagline = document.getElementById('tagline');
     const promoBtn22 = document.getElementById('promo-btn-22');
     const promoBtnCspg = document.getElementById('promo-btn-cspg');
+    const pageBody = document.getElementById('page-body');
     
     const spotifyLink = document.getElementById('spotify-link');
     const appleLink = document.getElementById('apple-link');
@@ -353,32 +361,76 @@
         tagline.innerText = "P&P AND ALEXEI DOOMOVICH RECORDS";
       }
 
-      // Show/Hide Lists, Set Background Sizes/Repeats, and Update Streaming Links
+      // Show/Hide Lists, Set Backgrounds & Unique UI Themes based on the cover art colors
       if (val === '22') {
+        // Theme: Light blue document / stamp vibe (#4a90e2 text, #eaf2fb bg)
+        pageBody.style.backgroundColor = "#eaf2fb";
+        pageBody.style.color = "#1d4ed8";
+        pageBody.style.setProperty('--btn-bg', '#3b82f6');
+        pageBody.style.setProperty('--btn-color', '#ffffff');
+        pageBody.style.setProperty('--btn-border', '#1d4ed8');
+        pageBody.style.setProperty('--btn-shadow', '#93c5fd');
+        pageBody.style.setProperty('--btn-hover-bg', '#60a5fa');
+        pageBody.style.setProperty('--active-track-bg', '#3b82f6');
+        pageBody.style.setProperty('--active-track-color', '#ffffff');
+
         document.getElementById('list-22').style.display = 'block';
         document.body.style.backgroundImage = "url('22albumcov.png')";
         document.body.style.backgroundRepeat = "repeat";
-        document.body.style.backgroundSize = "250px auto"; // Fixed sizing so it repeats cleanly
+        document.body.style.backgroundSize = "300px auto";
         document.body.style.backgroundAttachment = "scroll";
         playerSection.style.display = 'flex';
         updateLinks('22');
       } else if (val === 'cspg') {
+        // Theme: Brain / anatomical parchment / sepia vintage medical vibe (#d9c393 / #5c4033)
+        pageBody.style.backgroundColor = "#f4ebd0";
+        pageBody.style.color = "#4a3525";
+        pageBody.style.setProperty('--btn-bg', '#8c6239');
+        pageBody.style.setProperty('--btn-color', '#f4ebd0');
+        pageBody.style.setProperty('--btn-border', '#4a3525');
+        pageBody.style.setProperty('--btn-shadow', '#b08968');
+        pageBody.style.setProperty('--btn-hover-bg', '#a67c52');
+        pageBody.style.setProperty('--active-track-bg', '#8c6239');
+        pageBody.style.setProperty('--active-track-color', '#f4ebd0');
+
         document.getElementById('list-cspg').style.display = 'block';
         document.body.style.backgroundImage = "url('csopgnew.png')";
         document.body.style.backgroundRepeat = "repeat";
-        document.body.style.backgroundSize = "250px auto";
+        document.body.style.backgroundSize = "300px auto";
         document.body.style.backgroundAttachment = "scroll";
         playerSection.style.display = 'flex';
         updateLinks('cspg');
       } else if (val === 'cvp') {
+        // Theme: Sepia historic military / Paris postcard vibe (#785e3c / #3b2f2f)
+        pageBody.style.backgroundColor = "#d8cca6";
+        pageBody.style.color = "#2c221e";
+        pageBody.style.setProperty('--btn-bg', '#574231');
+        pageBody.style.setProperty('--btn-color', '#f3eed9');
+        pageBody.style.setProperty('--btn-border', '#2c221e');
+        pageBody.style.setProperty('--btn-shadow', '#a38f71');
+        pageBody.style.setProperty('--btn-hover-bg', '#715640');
+        pageBody.style.setProperty('--active-track-bg', '#574231');
+        pageBody.style.setProperty('--active-track-color', '#f3eed9');
+
         document.getElementById('list-cvp').style.display = 'block';
         document.body.style.backgroundImage = "url('clipcover.png')";
         document.body.style.backgroundRepeat = "repeat";
-        document.body.style.backgroundSize = "250px auto";
+        document.body.style.backgroundSize = "300px auto";
         document.body.style.backgroundAttachment = "scroll";
         playerSection.style.display = 'flex';
         updateLinks('cvp');
       } else {
+        // Default / Home Theme
+        pageBody.style.backgroundColor = "#000080";
+        pageBody.style.color = "#00ff00";
+        pageBody.style.setProperty('--btn-bg', '#00ff00');
+        pageBody.style.setProperty('--btn-color', '#000');
+        pageBody.style.setProperty('--btn-border', '#00ff00');
+        pageBody.style.setProperty('--btn-shadow', '#ff00ff');
+        pageBody.style.setProperty('--btn-hover-bg', '#ffff00');
+        pageBody.style.setProperty('--active-track-bg', '#00ff00');
+        pageBody.style.setProperty('--active-track-color', '#000');
+
         document.body.style.backgroundImage = "none";
         playerSection.style.display = 'none';
       }
