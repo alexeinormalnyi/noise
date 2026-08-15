@@ -55,6 +55,19 @@ body {
   box-shadow: 0 0 15px #ffffff;
 }
 
+/* Icon-Only Close Button */
+.close-btn {
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 0;
+}
+
 /* Header */
 .header-glass {
   padding: 24px 40px;
@@ -183,7 +196,6 @@ h1 {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Force Grayscale on Main Page Covers */
 .album-card-cover {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -219,7 +231,7 @@ h1 {
   text-transform: uppercase;
 }
 
-/* EXPANDED FULLSCREEN MODAL (EXPRESSIVE COLOR MODE) */
+/* EXPANDED FULLSCREEN MODAL (DYNAMIC DYNAMIC MATERIAL YOU THEMING) */
 .expanded-modal {
   --accent: #ffffff;
   --glow: rgba(255, 255, 255, 0.3);
@@ -236,9 +248,9 @@ h1 {
   box-shadow: 0 0 80px var(--glow);
   border-radius: 20px;
   overflow-y: auto;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
 }
 
-/* EXPAND ANIMATION */
 .expanded-modal.active {
   display: flex;
   animation: smoothExpand 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -255,11 +267,11 @@ h1 {
   }
 }
 
-/* Colorized Inner Glass Elements */
 .expanded-modal .glass-panel {
   border-color: var(--accent);
   background: rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 25px var(--glow);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .modal-header {
@@ -269,6 +281,7 @@ h1 {
   margin-bottom: 20px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--accent);
+  transition: border-color 0.4s ease;
 }
 
 .expanded-title {
@@ -277,6 +290,7 @@ h1 {
   letter-spacing: 2px;
   color: var(--accent);
   text-shadow: 0 0 12px var(--glow);
+  transition: color 0.4s ease;
 }
 
 .expanded-layout {
@@ -308,6 +322,7 @@ h1 {
   margin-bottom: 20px;
   border: 2px solid var(--accent);
   box-shadow: 0 0 30px var(--glow);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .album-cover-frame img {
@@ -352,7 +367,6 @@ audio {
   box-shadow: 0 0 20px var(--glow);
 }
 
-/* Expressive Tracklist & Active Track Highlight */
 .panel-title {
   font-size: 0.95rem;
   letter-spacing: 2px;
@@ -360,6 +374,7 @@ audio {
   color: var(--accent);
   border-bottom: 1px solid var(--accent);
   padding-bottom: 6px;
+  transition: color 0.4s ease, border-color 0.4s ease;
 }
 
 .track-list-box {
@@ -403,6 +418,7 @@ audio {
   color: var(--accent);
   margin-bottom: 10px;
   font-weight: 800;
+  transition: color 0.4s ease;
 }
 
 .lyrics-content {
