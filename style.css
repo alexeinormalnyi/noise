@@ -259,8 +259,8 @@ h1 {
   inset: -40%;
   z-index: 0;
   pointer-events: none;
-  filter: blur(100px);
-  opacity: 0.75;
+  filter: blur(90px);
+  opacity: 0.85;
   overflow: hidden;
   will-change: transform;
 }
