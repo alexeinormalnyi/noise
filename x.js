@@ -60,48 +60,110 @@ const albumData = {
 let currentTrackList = [];
 let currentTrackIndex = -1;
 let currentActiveAlbum = null;
-let countAnimId = null;
+const trackDataMap = new Map();
+const activeAnimations = new Map();
 
-function animateListens(targetValue) {
-  const listensEl = document.getElementById('listens-count');
-  if (!listensEl || !currentActiveAlbum) return;
-
-  if (countAnimId) cancelAnimationFrame(countAnimId);
-
-  const start = albumData[currentActiveAlbum].displayedListens || 0;
-  const end = targetValue;
-  const duration = 1000;
+function animateValue(element, startVal, endVal, duration = 1000, suffix = " listens") {
+  if (!element) return;
+  if (activeAnimations.has(element)) {
+    cancelAnimationFrame(activeAnimations.get(element));
+  }
   let startTime = null;
 
   function step(timestamp) {
     if (!startTime) startTime = timestamp;
     const progress = Math.min((timestamp - startTime) / duration, 1);
-    const val = Math.floor(start + (end - start) * progress);
-    albumData[currentActiveAlbum].displayedListens = val;
-    listensEl.textContent = `${val.toLocaleString()} listens`;
+    const val = Math.floor(startVal + (endVal - startVal) * progress);
+    element.textContent = `${val.toLocaleString()}${suffix}`;
     if (progress < 1) {
-      countAnimId = requestAnimationFrame(step);
+      const animId = requestAnimationFrame(step);
+      activeAnimations.set(element, animId);
+    } else {
+      activeAnimations.delete(element);
     }
   }
-  countAnimId = requestAnimationFrame(step);
+  const animId = requestAnimationFrame(step);
+  activeAnimations.set(element, animId);
 }
 
-function updateListensDisplay() {
+function initTrackListens() {
+  const tracks = document.querySelectorAll('.track');
+  tracks.forEach((track) => {
+    let nameEl = track.querySelector('.track-name');
+    if (!nameEl) {
+      const text = track.textContent.trim();
+      track.textContent = '';
+      nameEl = document.createElement('span');
+      nameEl.className = 'track-name';
+      nameEl.textContent = text;
+      track.appendChild(nameEl);
+    }
+
+    let listensEl = track.querySelector('.track-listens');
+    if (!listensEl) {
+      listensEl = document.createElement('span');
+      listensEl.className = 'track-listens';
+      track.appendChild(listensEl);
+    }
+
+    const randomTrackListens = Math.floor(Math.random() * 12000) + 400 + Math.floor(Math.random() * 500);
+    trackDataMap.set(track, {
+      listens: randomTrackListens,
+      displayedListens: 0,
+      element: listensEl
+    });
+
+    animateValue(listensEl, 0, randomTrackListens, 1000);
+    trackDataMap.get(track).displayedListens = randomTrackListens;
+  });
+}
+
+function updateMainPageAlbumListens() {
+  Object.keys(albumData).forEach(key => {
+    const mainEl = document.getElementById(`main-listens-${key}`);
+    if (mainEl) {
+      const start = albumData[key].displayedListens || 0;
+      const end = albumData[key].listens;
+      animateValue(mainEl, start, end, 1000);
+      albumData[key].displayedListens = end;
+    }
+  });
+}
+
+function updateModalListensDisplay() {
   if (currentActiveAlbum && albumData[currentActiveAlbum]) {
-    animateListens(albumData[currentActiveAlbum].listens);
+    const listensEl = document.getElementById('listens-count');
+    if (listensEl) {
+      const start = albumData[currentActiveAlbum].modalDisplayedListens || 0;
+      const end = albumData[currentActiveAlbum].listens;
+      animateValue(listensEl, start, end, 1000);
+      albumData[currentActiveAlbum].modalDisplayedListens = end;
+    }
   }
 }
 
 function initListensCounter() {
+  updateMainPageAlbumListens();
+
   setInterval(() => {
     Object.keys(albumData).forEach(key => {
       albumData[key].listens += Math.floor(Math.random() * 7) + 1;
     });
-    updateListensDisplay();
+    updateMainPageAlbumListens();
+    updateModalListensDisplay();
+
+    trackDataMap.forEach((data) => {
+      const inc = Math.floor(Math.random() * 5) + 1;
+      const start = data.displayedListens;
+      data.listens += inc;
+      animateValue(data.element, start, data.listens, 1000);
+      data.displayedListens = data.listens;
+    });
   }, 4000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  initTrackListens();
   initListensCounter();
 
   const player = document.getElementById('player');
@@ -116,7 +178,6 @@ function openAlbum(albumKey) {
 
   const isSameAlbum = (currentActiveAlbum === albumKey);
   currentActiveAlbum = albumKey;
-  albumData[albumKey].displayedListens = 0;
   const data = albumData[albumKey];
 
   const miniPlayer = document.getElementById('mini-player');
@@ -137,7 +198,8 @@ function openAlbum(albumKey) {
   expandedView.style.setProperty('--album-c3', data.c3);
   expandedView.style.setProperty('--accent', data.accent);
 
-  updateListensDisplay();
+  data.modalDisplayedListens = 0;
+  updateModalListensDisplay();
 
   document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
   const activeList = document.getElementById(`list-${albumKey}`);
@@ -162,7 +224,6 @@ function closeExpandedAlbum() {
   const expandedView = document.getElementById('expanded-view');
   const miniPlayer = document.getElementById('mini-player');
   expandedView.style.display = 'none';
-  if (countAnimId) cancelAnimationFrame(countAnimId);
 
   const player = document.getElementById('player');
   if (player && (player.src || !player.paused) && currentTrackIndex !== -1) {
@@ -226,7 +287,8 @@ function updateMiniPlayerInfo(trackEl) {
     if (miniArtist) miniArtist.innerText = `${data.title} — ${data.tag}`;
   }
   if (miniTitle && trackEl) {
-    miniTitle.innerText = trackEl.innerText || trackEl.textContent;
+    const nameEl = trackEl.querySelector('.track-name');
+    miniTitle.innerText = nameEl ? nameEl.innerText : trackEl.innerText;
   }
 }
 
