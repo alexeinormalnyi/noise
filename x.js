@@ -230,6 +230,8 @@ function openAlbum(albumKey) {
       if (firstTrack) {
         playTrack(firstTrack);
       }
+    } else if (currentTrackIndex !== -1 && currentTrackList[currentTrackIndex]) {
+      updatePlayerTrackInfo(currentTrackList[currentTrackIndex]);
     }
   }
 
