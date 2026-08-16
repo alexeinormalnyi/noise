@@ -29,6 +29,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 80px;
 }
 
 .main-content {
@@ -42,7 +43,8 @@ body {
 
 .glass-card,
 .glass-panel,
-.header-glass {
+.header-glass,
+.mini-player {
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -451,6 +453,77 @@ body {
   overflow-y: auto;
   color: #e2e8f0;
   padding-right: 0.5rem;
+}
+
+.mini-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  border-radius: 16px 16px 0 0;
+  border-bottom: none;
+}
+
+.mini-player.active {
+  display: flex;
+}
+
+.mini-player-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+}
+
+.mini-cover {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: #121620;
+}
+
+.mini-details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.mini-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.mini-artist {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.mini-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.mini-controls .control-btn {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
 }
 
 ::-webkit-scrollbar {
