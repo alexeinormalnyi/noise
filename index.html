@@ -93,6 +93,8 @@
               <button class="control-btn glass-btn" onclick="nextTrack()">NEXT ⏭</button>
             </div>
 
+            <div id="listens-count" class="listens-count"></div>
+
             <div class="streaming-links">
               <a id="spotify-link" href="#" target="_blank" class="stream-btn glass-btn">Spotify</a>
               <a id="apple-link" href="#" target="_blank" class="stream-btn glass-btn">Apple Music</a>
@@ -173,7 +175,6 @@
     © 2026 copyright by Потлатий & Партнери
   </footer>
 
-  <!-- Підключаємо текст пісень з зовнішнього JS-файлу -->
   <script src="lyrics.js"></script>
 
   <script>
@@ -182,6 +183,7 @@
     const expandedCover = document.getElementById('expanded-cover');
     const expandedAlbumTitle = document.getElementById('expanded-album-title');
     const lyricsBox = document.getElementById('lyrics-box');
+    const listensEl = document.getElementById('listens-count');
 
     const spotifyLink = document.getElementById('spotify-link');
     const appleLink = document.getElementById('apple-link');
@@ -241,6 +243,18 @@
       }
     };
 
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!listensEl) return;
+      let count = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
+      listensEl.textContent = `${count.toLocaleString()} listens`;
+
+      setInterval(() => {
+        const increment = Math.floor(Math.random() * 6) + 1;
+        count += increment;
+        listensEl.textContent = `${count.toLocaleString()} listens`;
+      }, 60000);
+    });
+
     function openAlbum(albumKey, clickedElement) {
       if (!albumData[albumKey]) return;
       const data = albumData[albumKey];
@@ -267,12 +281,10 @@
       appleLink.href = data.links.apple;
       ytmusicLink.href = data.links.ytmusic;
 
-      expandedView.classList.add('open');
       expandedView.style.display = 'flex';
     }
 
     function closeExpandedAlbum() {
-      expandedView.classList.remove('open');
       expandedView.style.display = 'none';
       player.pause();
     }
@@ -284,10 +296,9 @@
       const file = trackEl.getAttribute('data-file');
       if (file) {
         player.src = file;
-        player.play().catch(e => console.log('Playback info:', e));
+        player.play().catch(e => console.log('Playback error:', e));
       }
 
-      // Зчитуємо текст із об'єкта lyricsData
       const text = (typeof lyricsData !== 'undefined' && lyricsData[file]) ? lyricsData[file] : 'no lyrics';
 
       if (!text || text.trim() === '' || text.trim() === 'no lyrics') {
