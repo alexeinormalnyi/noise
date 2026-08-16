@@ -721,3 +721,17 @@ Better aim for the neck like Charlie Kirk
 Тытькы Мартына прямо в рот
 Каждому ебл#ну, что тут живьоот`
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  const listensEl = document.getElementById('listens-count');
+  if (!listensEl) return;
+
+  let count = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
+  listensEl.textContent = `${count.toLocaleString()} listens`;
+
+  setInterval(() => {
+    const increment = Math.floor(Math.random() * 6) + 1;
+    count += increment;
+    listensEl.textContent = `${count.toLocaleString()} listens`;
+  }, 60000);
+});
