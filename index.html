@@ -18,10 +18,10 @@
     </header>
 
     <div class="controls-container">
-      <button id="promo-btn-22" class="promo-btn glass-card" onclick="openAlbum('22')">
+      <button id="promo-btn-22" class="promo-btn glass-card" onclick="openAlbum('22', this)">
         <span class="arrow-left">→</span> New Album Release 22 <span class="arrow-right">←</span>
       </button>
-      <button id="promo-btn-cspg" class="promo-btn glass-card" onclick="openAlbum('cspg')">
+      <button id="promo-btn-cspg" class="promo-btn glass-card" onclick="openAlbum('cspg', this)">
         <span class="arrow-left">→</span> Олексій Нормальний - Класика <span class="arrow-right">←</span>
       </button>
 
@@ -35,21 +35,21 @@
     </div>
 
     <div id="albums-grid" class="album-grid">
-      <div class="album-card glass-card" onclick="openAlbum('22')">
+      <div class="album-card glass-card" onclick="openAlbum('22', this)">
         <div class="album-card-cover">
           <img src="22albumcov.png" alt="Album 22" onerror="this.src='icon.ico'">
         </div>
         <div class="album-card-title">22</div>
       </div>
 
-      <div class="album-card glass-card" onclick="openAlbum('cspg')">
+      <div class="album-card glass-card" onclick="openAlbum('cspg', this)">
         <div class="album-card-cover">
           <img src="csopgnew.png" alt="CSPG" onerror="this.src='icon.ico'">
         </div>
         <div class="album-card-title">Constant Stimulation of Penial Glands</div>
       </div>
 
-      <div class="album-card glass-card" onclick="openAlbum('cvp')">
+      <div class="album-card glass-card" onclick="openAlbum('cvp', this)">
         <div class="album-card-cover">
           <img src="clipcover.png" alt="Clip v Parische" onerror="this.src='icon.ico'">
         </div>
@@ -201,9 +201,19 @@
       }
     };
 
-    function openAlbum(albumKey) {
+    function openAlbum(albumKey, clickedElement) {
       if (!albumData[albumKey]) return;
       const data = albumData[albumKey];
+
+      // Find original thumbnail image for transition
+      let sourceImg = null;
+      if (clickedElement) {
+        sourceImg = clickedElement.querySelector('.album-card-cover img');
+      }
+      if (!sourceImg) {
+        const card = document.querySelector(`.album-card[onclick*="${albumKey}"]`);
+        if (card) sourceImg = card.querySelector('.album-card-cover img');
+      }
 
       expandedCover.src = data.cover;
       expandedAlbumTitle.innerText = `${data.title} — ${data.tag}`;
@@ -221,7 +231,54 @@
       appleLink.href = data.links.apple;
       ytmusicLink.href = data.links.ytmusic;
 
-      expandedView.classList.add('active');
+      if (sourceImg) {
+        const firstRect = sourceImg.getBoundingClientRect();
+
+        expandedCover.style.opacity = '0';
+        expandedView.classList.add('active');
+
+        const lastRect = expandedCover.getBoundingClientRect();
+
+        const clone = sourceImg.cloneNode(true);
+        clone.classList.add('expanding-clone');
+        document.body.appendChild(clone);
+
+        Object.assign(clone.style, {
+          position: 'fixed',
+          top: `${firstRect.top}px`,
+          left: `${firstRect.left}px`,
+          width: `${firstRect.width}px`,
+          height: `${firstRect.height}px`,
+          borderRadius: '10px',
+          zIndex: '3000',
+          objectFit: 'cover',
+          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+          pointerEvents: 'none',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+        });
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            Object.assign(clone.style, {
+              top: `${lastRect.top}px`,
+              left: `${lastRect.left}px`,
+              width: `${lastRect.width}px`,
+              height: `${lastRect.height}px`,
+              borderRadius: '12px',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.8)'
+            });
+          });
+        });
+
+        clone.addEventListener('transitionend', () => {
+          expandedCover.style.opacity = '1';
+          clone.remove();
+        }, { once: true });
+
+      } else {
+        expandedCover.style.opacity = '1';
+        expandedView.classList.add('active');
+      }
     }
 
     function closeExpandedAlbum() {
