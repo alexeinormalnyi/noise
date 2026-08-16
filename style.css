@@ -202,6 +202,7 @@ h1 {
   overflow: hidden;
   margin-bottom: 14px;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
 .album-card-cover img {
@@ -249,12 +250,8 @@ h1 {
 }
 
 @keyframes appleFadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .animated-bg {
@@ -306,18 +303,10 @@ h1 {
 }
 
 @keyframes appleFluidMotion {
-  0% {
-    transform: translate3d(0%, 0%, 0) scale(1) rotate(0deg);
-  }
-  33% {
-    transform: translate3d(14%, -12%, 0) scale(1.15) rotate(120deg);
-  }
-  66% {
-    transform: translate3d(-12%, 14%, 0) scale(0.85) rotate(240deg);
-  }
-  100% {
-    transform: translate3d(8%, -6%, 0) scale(1.08) rotate(360deg);
-  }
+  0% { transform: translate3d(0%, 0%, 0) scale(1) rotate(0deg); }
+  33% { transform: translate3d(14%, -12%, 0) scale(1.15) rotate(120deg); }
+  66% { transform: translate3d(-12%, 14%, 0) scale(0.85) rotate(240deg); }
+  100% { transform: translate3d(8%, -6%, 0) scale(1.08) rotate(360deg); }
 }
 
 .modal-content-container {
@@ -360,6 +349,8 @@ h1 {
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   max-width: 420px;
   padding: 24px;
 }
@@ -379,6 +370,19 @@ h1 {
   overflow: hidden;
   margin-bottom: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.95), 
+    0 8px 25px rgba(0, 0, 0, 0.8),
+    0 0 15px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.album-cover-frame:hover {
+  transform: scale(1.01);
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.98), 
+    0 10px 30px rgba(0, 0, 0, 0.85),
+    0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .album-cover-frame img {
@@ -393,13 +397,14 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: auto;
+  margin-top: 0;
 }
 
 audio {
   width: 100%;
   height: 40px;
   filter: invert(1);
+  border-radius: 20px;
 }
 
 .custom-playback-buttons, .streaming-links {
