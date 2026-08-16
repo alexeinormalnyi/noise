@@ -1,491 +1,329 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Потлатий & Партнери</title>
+  <link rel="icon" type="image/x-icon" href="icon.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-body {
-  background-color: #000000 !important;
-  color: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 5vh;
-  padding-bottom: 20px;
-}
+  <div class="main-content" id="main-page">
+    <header class="header-glass">
+      <h1 id="main-title">ПОТЛАТИЙ & ПАРТНЕРИ</h1>
+      <div class="tagline-container">
+        <span id="tagline" class="tagline">P&P AND ALEXEI DOOMOVICH RECORDS</span>
+      </div>
+    </header>
 
-#main-page {
-  width: 100%;
-  max-width: 1000px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 20px;
-  flex: 1;
-}
+    <div class="controls-container">
+      <button id="promo-btn-22" class="promo-btn glass-card" onclick="openAlbum('22', this)">
+        <span class="arrow-left">→</span> New Album Release 22 <span class="arrow-right">←</span>
+      </button>
+      <button id="promo-btn-cspg" class="promo-btn glass-card" onclick="openAlbum('cspg', this)">
+        <span class="arrow-left">→</span> Олексій Нормальний - Класика <span class="arrow-right">←</span>
+      </button>
 
-.glass-panel,
-.glass-card,
-.header-glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-}
+      <div id="social-icons" class="social-icons-container">
+        <a href="https://soundcloud.com" target="_blank" class="social-icon-btn soundcloud" title="SoundCloud"><img src="snd.png" alt="SoundCloud"></a>
+        <a href="https://www.tiktok.com/@potlatiy_3.14tushara" target="_blank" class="social-icon-btn tiktok" title="TikTok"><img src="tt.png" alt="TikTok"></a>
+        <a href="https://www.youtube.com/@ReVanced-j1o" target="_blank" class="social-icon-btn youtube" title="YouTube"><img src="yt.png" alt="YouTube"></a>
+        <a href="https://www.instagram.com/potlatiypartnyori/" target="_blank" class="social-icon-btn instagram" title="Instagram"><img src="inst.png" alt="Instagram"></a>
+        <a href="https://x.com/ptlty_i_part" target="_blank" class="social-icon-btn x-twitter" title="X"><img src="x.png" alt="X"></a>
+      </div>
+    </div>
 
-.glass-btn {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  border-radius: 8px;
-  transition: all 0.25s ease;
-  cursor: pointer;
-}
+    <div id="albums-grid" class="album-grid">
+      <div class="album-card glass-card" onclick="openAlbum('22', this)">
+        <div class="album-card-cover">
+          <img src="22albumcov.png" alt="Album 22" onerror="this.src='icon.ico'">
+        </div>
+        <div class="album-card-title">22</div>
+      </div>
 
-.glass-btn:hover {
-  background: #ffffff;
-  color: #000000;
-}
+      <div class="album-card glass-card" onclick="openAlbum('cspg', this)">
+        <div class="album-card-cover">
+          <img src="csopgnew.png" alt="CSPG" onerror="this.src='icon.ico'">
+        </div>
+        <div class="album-card-title">Constant Stimulation of Penial Glands</div>
+      </div>
 
-.close-btn {
-  width: 38px;
-  height: 38px;
-  font-size: 1.1rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  padding: 0;
-}
+      <div class="album-card glass-card" onclick="openAlbum('cvp', this)">
+        <div class="album-card-cover">
+          <img src="clipcover.png" alt="Clip v Parische" onerror="this.src='icon.ico'">
+        </div>
+        <div class="album-card-title">Clip v Parische</div>
+      </div>
+    </div>
+  </div>
 
-.header-glass {
-  padding: 24px 40px;
-  text-align: center;
-  margin-bottom: 25px;
-  width: 100%;
-  max-width: 600px;
-}
+  <div id="expanded-view" class="expanded-modal">
+    <div class="animated-bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
 
-h1 {
-  font-size: 2.2rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-weight: 900;
-  color: #ffffff;
-}
+    <div class="modal-content-container">
+      <div class="modal-header">
+        <span id="expanded-album-title" class="expanded-title">ALBUM PLAYER</span>
+        <button class="close-btn glass-btn" onclick="closeExpandedAlbum()" aria-label="Close">✕</button>
+      </div>
 
-.tagline {
-  font-size: 0.8rem;
-  letter-spacing: 3px;
-  color: #aaaaaa;
-}
+      <div class="expanded-layout">
+        <div class="panel-left glass-panel">
+          <div class="album-cover-frame">
+            <img id="expanded-cover" src="" alt="Album Cover">
+          </div>
 
-.controls-container {
-  width: 100%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 35px;
-}
+          <div class="player-controls">
+            <audio id="player" controls></audio>
 
-.promo-btn {
-  padding: 14px 20px;
-  color: #ffffff;
-  font-size: 0.85rem;
-  letter-spacing: 1.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.3s ease;
-}
+            <div class="custom-playback-buttons">
+              <button class="control-btn glass-btn" onclick="prevTrack()">⏮ PREV</button>
+              <button class="control-btn glass-btn" onclick="togglePlayPause()">⏯ PLAY / PAUSE</button>
+              <button class="control-btn glass-btn" onclick="nextTrack()">NEXT ⏭</button>
+            </div>
 
-.promo-btn:hover {
-  background: #ffffff;
-  color: #000000;
-}
+            <div class="streaming-links">
+              <a id="spotify-link" href="#" target="_blank" class="stream-btn glass-btn">Spotify</a>
+              <a id="apple-link" href="#" target="_blank" class="stream-btn glass-btn">Apple Music</a>
+              <a id="ytmusic-link" href="#" target="_blank" class="stream-btn glass-btn">YT Music</a>
+            </div>
+          </div>
+        </div>
 
-.social-icons-container {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-top: 5px;
-}
+        <div class="panel-right glass-panel">
+          <h2 class="panel-title">TRACKLIST</h2>
 
-.social-icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  text-decoration: none;
-}
+          <div id="list-22" class="music-container track-list-box">
+            <div class="track" data-file="01 blyuaha muha.mp3" data-lyrics="01_blyuaha muha lyrics..." onclick="playTrack(this)">01. blyuaha muha</div>
+            <div class="track" data-file="02 ce eksperimentalniy hip hop suki.mp3" data-lyrics="02_це експериментальний хiп хоп..." onclick="playTrack(this)">02. це експериментальний хiп хоп суки</div>
+            <div class="track" data-file="03 hype melstroy che.mp3" data-lyrics="03_hype melstroy che..." onclick="playTrack(this)">03. hype melstroy che</div>
+            <div class="track" data-file="04 sintisator noobprohakergod.mp3" onclick="playTrack(this)">04. sintisator noobprohakergod</div>
+            <div class="track" data-file="05 vitaliy ventilator (feat. Vitalya).mp3" onclick="playTrack(this)">05. vitaliy ventilator (feat. Vitalya)</div>
+            <div class="track" data-file="06 status.mp3" onclick="playTrack(this)">06. status</div>
+            <div class="track" data-file="07 altuha nomer 16.mp3" onclick="playTrack(this)">07. альтуха номер 16</div>
+            <div class="track" data-file="08 mezhkontinentalniy zvonok (intro).mp3" onclick="playTrack(this)">08. межконтинентальний звонок (intro)</div>
+            <div class="track" data-file="09 22.mp3" onclick="playTrack(this)">09. 22</div>
+            <div class="track" data-file="10 running (za bitom).mp3" onclick="playTrack(this)">10. running (за бiтом)</div>
+            <div class="track" data-file="11 sperma na dzinsax (feat. chaykovskiy, floor...).mp3" onclick="playTrack(this)">11. sperma na dzinsax</div>
+            <div class="track" data-file="12 martin.mp3" onclick="playTrack(this)">12. martin</div>
+            <div class="track" data-file="13 dimon hendryx.mp3" onclick="playTrack(this)">13. dimon hendryx</div>
+            <div class="track" data-file="14 seks narkota i partneri (prod. Alexei N...).mp3" onclick="playTrack(this)">14. секс наркота i партнери</div>
+            <div class="track" data-file="15 death grips - fors.mp3" onclick="playTrack(this)">15. death grips - форс</div>
+            <div class="track" data-file="16 jpegmafia - loh.mp3" onclick="playTrack(this)">16. jpegmafia - лох</div>
+            <div class="track" data-file="17 tolko lyudey ne zaplakalo ot etoy pesni.mp3" onclick="playTrack(this)">17. только 5% людей не заплакало</div>
+            <div class="track" data-file="18 Clip v Parische (House Limited Edition).mp3" onclick="playTrack(this)">18. Clip v Parische (House Limited)</div>
+            <div class="track" data-file="19 companiya zla.mp3" onclick="playTrack(this)">19. companiya zla</div>
+            <div class="track" data-file="20 smert navalnogo 16.02.24.mp3" onclick="playTrack(this)">20. smert navalnogo 16.02.24</div>
+            <div class="track" data-file="21 gemini pizdun.mp3" onclick="playTrack(this)">21. gemini piz#dun</div>
+            <div class="track" data-file="22 konec alboma (gotovo).mp3" onclick="playTrack(this)">22. konec alboma (gotovo)</div>
+          </div>
 
-.social-icon-btn img {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-}
+          <div id="list-cspg" class="music-container track-list-box">
+            <div class="track" data-file="Constant Stimulation of Penial Glands.mp3" onclick="playTrack(this)">01. Constant Stimulation of Penial Glands</div>
+            <div class="track" data-file="Last Breaths of Baal.mp3" onclick="playTrack(this)">02. Last Breaths of Baal</div>
+            <div class="track" data-file="The Fourth Coming of Christ.mp3" onclick="playTrack(this)">03. The Fourth Coming of Christ</div>
+            <div class="track" data-file="War on Europa.mp3" onclick="playTrack(this)">04. War on Europa</div>
+            <div class="track" data-file="Continous Existence of Judaism.mp3" onclick="playTrack(this)">05. Continous Existence of Judaism</div>
+            <div class="track" data-file="Lizards That Live Underground.mp3" onclick="playTrack(this)">06. Lizards That Live Underground</div>
+            <div class="track" data-file="Dismembered Body Found in the Stale Basement of a Nice Old Lady I Once Knew As Roberta.mp3" onclick="playTrack(this)">07. Dismembered Body Found in the Stale Basement</div>
+          </div>
 
-.social-icon-btn:hover {
-  transform: scale(1.15);
-}
+          <div id="list-cvp" class="music-container track-list-box">
+            <div class="track" data-file="Clip v Parische.mp3" onclick="playTrack(this)">01. Clip v Parische</div>
+          </div>
 
-.social-icon-btn.soundcloud:hover {
-  background: #FF5500;
-  border-color: #FF5500;
-}
+          <div class="lyrics-container glass-panel">
+            <div class="lyrics-header">↻ LYRICS</div>
+            <div id="lyrics-box" class="lyrics-content">Select a track to view lyrics...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-.social-icon-btn.tiktok:hover {
-  background: #000000;
-  border-color: #00f2fe;
-}
+  <footer>
+    © 2026 copyright by Потлатий & Партнери
+  </footer>
 
-.social-icon-btn.youtube:hover {
-  background: #FF0000;
-  border-color: #FF0000;
-}
+  <script>
+    const player = document.getElementById('player');
+    const expandedView = document.getElementById('expanded-view');
+    const expandedCover = document.getElementById('expanded-cover');
+    const expandedAlbumTitle = document.getElementById('expanded-album-title');
+    const lyricsBox = document.getElementById('lyrics-box');
 
-.social-icon-btn.instagram:hover {
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-  border-color: #dc2743;
-}
+    const spotifyLink = document.getElementById('spotify-link');
+    const appleLink = document.getElementById('apple-link');
+    const ytmusicLink = document.getElementById('ytmusic-link');
 
-.social-icon-btn.x-twitter:hover {
-  background: #ffffff;
-  border-color: #ffffff;
-}
+    const albumData = {
+      '22': {
+        title: "Потлатий & Партнери",
+        tag: "Album 22",
+        cover: "22albumcov.png",
+        c1: "#020b1e",
+        c2: "#001638",
+        c3: "#00050d",
+        accent: "#003b8e",
+        links: { spotify: '#', apple: '#', ytmusic: '#' }
+      },
+      'cspg': {
+        title: "Alexei Normalnyi",
+        tag: "Constant Stimulation of Penial Glands",
+        cover: "csopgnew.png",
+        c1: "#2a1208",
+        c2: "#4a2111",
+        c3: "#0f0502",
+        accent: "#6e3519",
+        links: {
+          spotify: 'https://open.spotify.com/album/2Xt4WIICyGiVKsSUJqeXxN?go=1&nd=1',
+          apple: 'https://music.apple.com/ua/album/constant-stimulation-of-penial-glands/1895401622',
+          ytmusic: 'https://music.youtube.com/playlist?list=OLAK5uy_mBKeQ6psKyPgW90CNi_EKRHSkR4EyxBy4'
+        }
+      },
+      'cvp': {
+        title: "Потлатий & Партнери",
+        tag: "Clip v Parische",
+        cover: "clipcover.png",
+        c1: "#ffffff",
+        c2: "#888888",
+        c3: "#222222",
+        accent: "#ffffff",
+        links: {
+          spotify: 'https://open.spotify.com/album/79kVW8XxLtFkNkto2YdtZl?go=1&nd=1',
+          apple: 'https://music.apple.com/ua/album/clip-v-parische-single/1889513888',
+          ytmusic: 'https://music.youtube.com/playlist?list=OLAK5uy_nKaLl6EU7TxB2G0NKvtaWVETPKnfGyg98'
+        }
+      }
+    };
 
-.social-icon-btn.x-twitter:hover img {
-  filter: invert(1);
-}
+    function openAlbum(albumKey, clickedElement) {
+      if (!albumData[albumKey]) return;
+      const data = albumData[albumKey];
 
-.album-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  justify-content: center;
-  width: 100%;
-}
+      let sourceImg = null;
+      if (clickedElement) {
+        sourceImg = clickedElement.querySelector('.album-card-cover img');
+      }
+      if (!sourceImg) {
+        const card = document.querySelector(`.album-card[onclick*="${albumKey}"]`);
+        if (card) sourceImg = card.querySelector('.album-card-cover img');
+      }
 
-.album-card {
-  padding: 16px;
-  width: 240px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
+      expandedCover.src = data.cover;
+      expandedAlbumTitle.innerText = `${data.title} — ${data.tag}`;
 
-.album-card-cover {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
+      expandedView.style.setProperty('--album-c1', data.c1);
+      expandedView.style.setProperty('--album-c2', data.c2);
+      expandedView.style.setProperty('--album-c3', data.c3);
+      expandedView.style.setProperty('--accent', data.accent);
 
-.album-card-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
+      document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
+      const activeList = document.getElementById(`list-${albumKey}`);
+      if (activeList) activeList.style.display = 'block';
 
-.album-card:hover {
-  transform: translateY(-8px) scale(1.03);
-}
+      spotifyLink.href = data.links.spotify;
+      appleLink.href = data.links.apple;
+      ytmusicLink.href = data.links.ytmusic;
 
-.album-card:hover .album-card-cover img {
-  transform: scale(1.05);
-}
+      if (sourceImg) {
+        const firstRect = sourceImg.getBoundingClientRect();
 
-.album-card-title {
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-align: center;
-  text-transform: uppercase;
-}
+        expandedCover.style.opacity = '0';
+        expandedView.classList.add('active');
 
-.expanded-modal {
-  --album-c1: #0044ff;
-  --album-c2: #ffffff;
-  --album-c3: #000000;
-  --accent: #0088ff;
+        const lastRect = expandedCover.getBoundingClientRect();
 
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2000;
-  display: none;
-  background: #020205;
-  overflow: hidden;
-}
+        const clone = sourceImg.cloneNode(true);
+        clone.classList.add('expanding-clone');
+        document.body.appendChild(clone);
 
-.expanded-modal.active {
-  display: flex;
-  animation: appleFadeIn 0.3s ease-out forwards;
-}
+        const deltaX = firstRect.left - lastRect.left;
+        const deltaY = firstRect.top - lastRect.top;
+        const scaleX = firstRect.width / lastRect.width;
+        const scaleY = firstRect.height / lastRect.height;
 
-@keyframes appleFadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
+        Object.assign(clone.style, {
+          position: 'fixed',
+          top: `${lastRect.top}px`,
+          left: `${lastRect.left}px`,
+          width: `${lastRect.width}px`,
+          height: `${lastRect.height}px`,
+          borderRadius: '12px',
+          zIndex: '3000',
+          objectFit: 'cover',
+          transformOrigin: 'top left',
+          transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scaleX}, ${scaleY})`,
+          willChange: 'transform',
+          pointerEvents: 'none',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+        });
 
-.animated-bg {
-  position: absolute;
-  inset: -40%;
-  z-index: 0;
-  pointer-events: none;
-  filter: blur(100px);
-  opacity: 0.75;
-  overflow: hidden;
-  will-change: transform;
-}
+        clone.getBoundingClientRect();
 
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  mix-blend-mode: screen;
-  animation: appleFluidMotion 22s ease-in-out infinite alternate;
-  will-change: transform;
-}
+        requestAnimationFrame(() => {
+          clone.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease';
+          clone.style.transform = 'translate3d(0, 0, 0) scale(1, 1)';
+          clone.style.boxShadow = '0 20px 40px rgba(0,0,0,0.8)';
+        });
 
-.blob-1 {
-  top: 10%;
-  left: 15%;
-  width: 60vw;
-  height: 60vw;
-  background: var(--album-c1);
-  animation-duration: 18s;
-}
+        clone.addEventListener('transitionend', () => {
+          expandedCover.style.opacity = '1';
+          requestAnimationFrame(() => {
+            clone.remove();
+          });
+        }, { once: true });
 
-.blob-2 {
-  bottom: 10%;
-  right: 10%;
-  width: 65vw;
-  height: 65vw;
-  background: var(--album-c2);
-  animation-duration: 25s;
-  animation-delay: -7s;
-}
+      } else {
+        expandedCover.style.opacity = '1';
+        expandedView.classList.add('active');
+      }
+    }
 
-.blob-3 {
-  top: 35%;
-  right: 25%;
-  width: 50vw;
-  height: 50vw;
-  background: var(--album-c3);
-  animation-duration: 21s;
-  animation-delay: -12s;
-}
+    function closeExpandedAlbum() {
+      expandedView.classList.remove('active');
+      player.pause();
+    }
 
-@keyframes appleFluidMotion {
-  0% {
-    transform: translate3d(0%, 0%, 0) scale(1) rotate(0deg);
-  }
-  33% {
-    transform: translate3d(14%, -12%, 0) scale(1.15) rotate(120deg);
-  }
-  66% {
-    transform: translate3d(-12%, 14%, 0) scale(0.85) rotate(240deg);
-  }
-  100% {
-    transform: translate3d(8%, -6%, 0) scale(1.08) rotate(360deg);
-  }
-}
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && expandedView.classList.contains('active')) {
+        closeExpandedAlbum();
+      }
+    });
 
-.modal-content-container {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 30px 40px;
-  max-width: 1280px;
-  margin: 0 auto;
-}
+    function playTrack(element) {
+      const currentList = element.parentElement;
+      currentList.querySelectorAll('.track').forEach(t => t.classList.remove('active'));
+      element.classList.add('active');
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
+      const fileName = element.getAttribute('data-file');
+      const lyrics = element.getAttribute('data-lyrics') || "Lyrics for this track are currently unavailable.";
+      lyricsBox.innerText = lyrics;
 
-.expanded-title {
-  font-size: 1.3rem;
-  font-weight: 900;
-  letter-spacing: 2px;
-  color: #ffffff;
-}
+      player.src = fileName;
+      player.load();
+      player.play().catch(e => console.log("Playback failed"));
+    }
 
-.expanded-layout {
-  display: flex;
-  gap: 25px;
-  flex: 1;
-  min-height: 0;
-  align-items: stretch;
-}
+    function togglePlayPause() {
+      if (player.paused) { player.play(); } else { player.pause(); }
+    }
 
-.panel-left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  max-width: 420px;
-  padding: 24px;
-}
+    function prevTrack() {
+      const activeTrack = document.querySelector('.track.active');
+      if (activeTrack && activeTrack.previousElementSibling) playTrack(activeTrack.previousElementSibling);
+    }
 
-.panel-right {
-  flex: 1.5;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
+    function nextTrack() {
+      const activeTrack = document.querySelector('.track.active');
+      if (activeTrack && activeTrack.nextElementSibling) playTrack(activeTrack.nextElementSibling);
+    }
 
-.album-cover-frame {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.album-cover-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.player-controls {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: auto;
-}
-
-audio {
-  width: 100%;
-  height: 40px;
-  filter: invert(1);
-}
-
-.custom-playback-buttons, .streaming-links {
-  display: flex;
-  gap: 8px;
-}
-
-.control-btn, .stream-btn {
-  flex: 1;
-  padding: 12px 8px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-align: center;
-  text-decoration: none;
-}
-
-.panel-title {
-  font-size: 1rem;
-  letter-spacing: 2px;
-  margin-bottom: 14px;
-  color: rgba(255, 255, 255, 0.9);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  padding-bottom: 8px;
-  font-weight: 800;
-}
-
-.track-list-box {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 20px;
-  min-height: 140px;
-  padding-right: 4px;
-}
-
-.track {
-  padding: 12px 16px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.2s ease;
-  color: #ffffff;
-}
-
-.track:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.track.active {
-  background: rgba(255, 255, 255, 0.95);
-  color: #000000;
-  font-weight: 900;
-  border-color: #ffffff;
-}
-
-.lyrics-container {
-  padding: 20px;
-  flex: 1.2;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.lyrics-header {
-  font-size: 0.8rem;
-  letter-spacing: 1.5px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 10px;
-  font-weight: 800;
-}
-
-.lyrics-content {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  white-space: pre-wrap;
-  overflow-y: auto;
-  flex: 1;
-  color: #ffffff;
-}
-
-footer {
-  margin-top: auto;
-  padding: 20px;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
-  color: #666666;
-  text-align: center;
-}
-
-@media (max-width: 820px) {
-  .modal-content-container { padding: 16px; }
-  .expanded-layout { flex-direction: column; overflow-y: auto; }
-  .panel-left { max-width: 100%; width: 100%; }
-  .panel-right { min-height: 400px; }
-}
+    player.addEventListener('ended', nextTrack);
+  </script>
+</body>
+</html>
