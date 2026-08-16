@@ -193,7 +193,7 @@ body {
   letter-spacing: 0.3px;
 }
 
-/* Expanded Modal View with Dynamic Fly-In / Direct Transitions */
+/* Expanded Modal View - Universal Fly-In / Fly-Out Animation */
 .expanded-modal {
   position: fixed;
   top: 0;
@@ -211,33 +211,17 @@ body {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  will-change: transform, opacity;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0.5s;
-}
-
-/* Initial load / No Miniplayer present: Smooth center scale/fade transition */
-.expanded-modal.mode-direct {
-  transform: scale(0.92) translateY(20px);
-}
-
-.expanded-modal.mode-direct.active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: scale(1) translateY(0);
-}
-
-/* Miniplayer present: Apple Music-style Fly-In / Fly-Out from bottom */
-.expanded-modal.mode-fly {
-  transform: translateY(100%) scale(0.95);
+  transform: translateY(100%);
   transform-origin: center bottom;
+  will-change: transform, opacity;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, visibility 0.45s;
 }
 
-.expanded-modal.mode-fly.active {
+.expanded-modal.active {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 .animated-bg {
@@ -512,6 +496,7 @@ body {
   padding-right: 0.5rem;
 }
 
+/* Desktop Mini Player */
 .mini-player {
   position: fixed;
   bottom: 0;
@@ -588,6 +573,49 @@ body {
 .mini-controls .control-btn {
   padding: 0.5rem 0.8rem;
   font-size: 0.85rem;
+}
+
+/* Mobile-Specific Mini Player Overrides */
+@media (max-width: 600px) {
+  body {
+    padding-bottom: 70px;
+  }
+
+  .mini-player {
+    padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .mini-cover {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+  }
+
+  .mini-player-info {
+    gap: 0.5rem;
+  }
+
+  .mini-title {
+    font-size: 0.82rem;
+  }
+
+  .mini-artist {
+    font-size: 0.72rem;
+  }
+
+  .mini-controls {
+    gap: 0.25rem;
+  }
+
+  .mini-controls .control-btn {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .mini-controls .btn-text {
+    display: none;
+  }
 }
 
 ::-webkit-scrollbar {
