@@ -1,4 +1,3 @@
-// Release Configuration with Separate Listens Counts
 const albumData = {
   '22': {
     title: "Потлатий & Партнери",
@@ -8,7 +7,8 @@ const albumData = {
     c2: "#1a2233",
     c3: "#080d1a",
     accent: "#a5b4fc",
-    listens: 18420,
+    listens: 15000 + Math.floor(Math.random() * 8000),
+    displayedListens: 0,
     links: { spotify: '#', apple: '#', ytmusic: '#' }
   },
   '22demos': {
@@ -19,7 +19,8 @@ const albumData = {
     c2: "#111827",
     c3: "#030712",
     accent: "#818cf8",
-    listens: 4210,
+    listens: 3000 + Math.floor(Math.random() * 2500),
+    displayedListens: 0,
     links: { spotify: '#', apple: '#', ytmusic: '#' }
   },
   'cspg': {
@@ -30,7 +31,8 @@ const albumData = {
     c2: "#360a00",
     c3: "#1a0300",
     accent: "#ff5500",
-    listens: 31250,
+    listens: 28000 + Math.floor(Math.random() * 12000),
+    displayedListens: 0,
     links: {
       spotify: 'https://open.spotify.com/album/2Xt4WIICyGiVKsSUJqeXxN?go=1&nd=1',
       apple: 'https://music.apple.com/ua/album/constant-stimulation-of-penial-glands/1895401622',
@@ -45,7 +47,8 @@ const albumData = {
     c2: "#1e293b",
     c3: "#0f172a",
     accent: "#38bdf8",
-    listens: 9840,
+    listens: 8000 + Math.floor(Math.random() * 5000),
+    displayedListens: 0,
     links: {
       spotify: 'https://open.spotify.com/album/79kVW8XxLtFkNkto2YdtZl?go=1&nd=1',
       apple: 'https://music.apple.com/ua/album/clip-v-parische-single/1889513888',
@@ -57,22 +60,45 @@ const albumData = {
 let currentTrackList = [];
 let currentTrackIndex = -1;
 let currentActiveAlbum = null;
+let countAnimId = null;
+
+function animateListens(targetValue) {
+  const listensEl = document.getElementById('listens-count');
+  if (!listensEl || !currentActiveAlbum) return;
+
+  if (countAnimId) cancelAnimationFrame(countAnimId);
+
+  const start = albumData[currentActiveAlbum].displayedListens || 0;
+  const end = targetValue;
+  const duration = 1000;
+  let startTime = null;
+
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    const val = Math.floor(start + (end - start) * progress);
+    albumData[currentActiveAlbum].displayedListens = val;
+    listensEl.textContent = `${val.toLocaleString()} listens`;
+    if (progress < 1) {
+      countAnimId = requestAnimationFrame(step);
+    }
+  }
+  countAnimId = requestAnimationFrame(step);
+}
 
 function updateListensDisplay() {
-  const listensEl = document.getElementById('listens-count');
-  if (listensEl && currentActiveAlbum && albumData[currentActiveAlbum]) {
-    const count = albumData[currentActiveAlbum].listens;
-    listensEl.textContent = `${count.toLocaleString()} listens`;
+  if (currentActiveAlbum && albumData[currentActiveAlbum]) {
+    animateListens(albumData[currentActiveAlbum].listens);
   }
 }
 
 function initListensCounter() {
   setInterval(() => {
     Object.keys(albumData).forEach(key => {
-      albumData[key].listens += Math.floor(Math.random() * 4) + 1;
+      albumData[key].listens += Math.floor(Math.random() * 7) + 1;
     });
     updateListensDisplay();
-  }, 10000);
+  }, 4000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -83,6 +109,7 @@ function openAlbum(albumKey) {
   if (!albumData[albumKey]) return;
   
   currentActiveAlbum = albumKey;
+  albumData[albumKey].displayedListens = 0;
   const data = albumData[albumKey];
 
   const expandedView = document.getElementById('expanded-view');
@@ -123,6 +150,7 @@ function closeExpandedAlbum() {
   const expandedView = document.getElementById('expanded-view');
   const player = document.getElementById('player');
   expandedView.style.display = 'none';
+  if (countAnimId) cancelAnimationFrame(countAnimId);
   currentActiveAlbum = null;
   if (player) player.pause();
 }
