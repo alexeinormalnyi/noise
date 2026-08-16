@@ -165,20 +165,20 @@
         title: "Потлатий & Партнери",
         tag: "Album 22",
         cover: "22albumcov.png",
-        c1: "#0066ff",
-        c2: "#00d2ff",
-        c3: "#002b80",
-        accent: "#00aeff",
+        c1: "#0044ff",
+        c2: "#ffffff",
+        c3: "#000000",
+        accent: "#0088ff",
         links: { spotify: '#', apple: '#', ytmusic: '#' }
       },
       'cspg': {
         title: "Alexei Normalnyi",
         tag: "Constant Stimulation of Penial Glands",
         cover: "csopgnew.png",
-        c1: "#d2691e",
-        c2: "#ff7f50",
-        c3: "#5c1d00",
-        accent: "#ffa07a",
+        c1: "#2a1208",
+        c2: "#4a2111",
+        c3: "#0f0502",
+        accent: "#6e3519",
         links: {
           spotify: 'https://open.spotify.com/album/2Xt4WIICyGiVKsSUJqeXxN?go=1&nd=1',
           apple: 'https://music.apple.com/ua/album/constant-stimulation-of-penial-glands/1895401622',
@@ -205,7 +205,6 @@
       if (!albumData[albumKey]) return;
       const data = albumData[albumKey];
 
-      // Find original thumbnail image for transition
       let sourceImg = null;
       if (clickedElement) {
         sourceImg = clickedElement.querySelector('.album-card-cover img');
@@ -243,31 +242,33 @@
         clone.classList.add('expanding-clone');
         document.body.appendChild(clone);
 
+        const deltaX = firstRect.left - lastRect.left;
+        const deltaY = firstRect.top - lastRect.top;
+        const scaleX = firstRect.width / lastRect.width;
+        const scaleY = firstRect.height / lastRect.height;
+
         Object.assign(clone.style, {
           position: 'fixed',
-          top: `${firstRect.top}px`,
-          left: `${firstRect.left}px`,
-          width: `${firstRect.width}px`,
-          height: `${firstRect.height}px`,
-          borderRadius: '10px',
+          top: `${lastRect.top}px`,
+          left: `${lastRect.left}px`,
+          width: `${lastRect.width}px`,
+          height: `${lastRect.height}px`,
+          borderRadius: '12px',
           zIndex: '3000',
           objectFit: 'cover',
-          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+          transformOrigin: 'top left',
+          transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scaleX}, ${scaleY})`,
+          willChange: 'transform',
           pointerEvents: 'none',
           boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
         });
 
+        clone.getBoundingClientRect();
+
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            Object.assign(clone.style, {
-              top: `${lastRect.top}px`,
-              left: `${lastRect.left}px`,
-              width: `${lastRect.width}px`,
-              height: `${lastRect.height}px`,
-              borderRadius: '12px',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.8)'
-            });
-          });
+          clone.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease';
+          clone.style.transform = 'translate3d(0, 0, 0) scale(1, 1)';
+          clone.style.boxShadow = '0 20px 40px rgba(0,0,0,0.8)';
         });
 
         clone.addEventListener('transitionend', () => {
