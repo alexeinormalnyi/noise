@@ -193,6 +193,7 @@ body {
   letter-spacing: 0.3px;
 }
 
+/* Expanded Modal View with Dynamic Fly-In / Direct Transitions */
 .expanded-modal {
   position: fixed;
   top: 0;
@@ -202,11 +203,41 @@ body {
   background-color: var(--album-c3, #060911);
   background: radial-gradient(circle at center, var(--album-c2, #101622) 0%, var(--album-c3, #060911) 100%);
   z-index: 1000;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
   overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0.5s;
+}
+
+/* Initial load / No Miniplayer present: Smooth center scale/fade transition */
+.expanded-modal.mode-direct {
+  transform: scale(0.92) translateY(20px);
+}
+
+.expanded-modal.mode-direct.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+}
+
+/* Miniplayer present: Apple Music-style Fly-In / Fly-Out from bottom */
+.expanded-modal.mode-fly {
+  transform: translateY(100%) scale(0.95);
+  transform-origin: center bottom;
+}
+
+.expanded-modal.mode-fly.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
 }
 
 .animated-bg {
@@ -497,7 +528,8 @@ body {
   transform: translateY(120%);
   opacity: 0;
   visibility: hidden;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0.4s;
+  will-change: transform, opacity;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0.45s;
 }
 
 .mini-player.active {
