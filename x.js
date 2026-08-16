@@ -15,10 +15,10 @@ const albumData = {
     title: "Потлатий & Партнери",
     tag: "22 Demos",
     cover: "22demos.png",
-    c1: "#1e293b",
-    c2: "#111827",
-    c3: "#030712",
-    accent: "#818cf8",
+    c1: "#1b332b",
+    c2: "#11221a",
+    c3: "#05140d",
+    accent: "#34d399",
     listens: 3000 + Math.floor(Math.random() * 2500),
     displayedListens: 0,
     links: { spotify: '#', apple: '#', ytmusic: '#' }
@@ -103,14 +103,24 @@ function initListensCounter() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initListensCounter();
+
+  const player = document.getElementById('player');
+  if (player) {
+    player.addEventListener('play', syncPlayPauseState);
+    player.addEventListener('pause', syncPlayPauseState);
+  }
 });
 
 function openAlbum(albumKey) {
   if (!albumData[albumKey]) return;
-  
+
+  const isSameAlbum = (currentActiveAlbum === albumKey);
   currentActiveAlbum = albumKey;
   albumData[albumKey].displayedListens = 0;
   const data = albumData[albumKey];
+
+  const miniPlayer = document.getElementById('mini-player');
+  if (miniPlayer) miniPlayer.classList.remove('active');
 
   const expandedView = document.getElementById('expanded-view');
   const expandedCover = document.getElementById('expanded-cover');
@@ -133,9 +143,11 @@ function openAlbum(albumKey) {
   const activeList = document.getElementById(`list-${albumKey}`);
   if (activeList) {
     activeList.style.display = 'block';
-    const firstTrack = activeList.querySelector('.track');
-    if (firstTrack) {
-      playTrack(firstTrack);
+    if (!isSameAlbum || currentTrackIndex === -1) {
+      const firstTrack = activeList.querySelector('.track');
+      if (firstTrack) {
+        playTrack(firstTrack);
+      }
     }
   }
 
@@ -148,10 +160,28 @@ function openAlbum(albumKey) {
 
 function closeExpandedAlbum() {
   const expandedView = document.getElementById('expanded-view');
-  const player = document.getElementById('player');
+  const miniPlayer = document.getElementById('mini-player');
   expandedView.style.display = 'none';
   if (countAnimId) cancelAnimationFrame(countAnimId);
-  currentActiveAlbum = null;
+
+  const player = document.getElementById('player');
+  if (player && (player.src || !player.paused) && currentTrackIndex !== -1) {
+    if (miniPlayer) miniPlayer.classList.add('active');
+  } else {
+    currentActiveAlbum = null;
+  }
+}
+
+function reopenFullPlayer() {
+  if (currentActiveAlbum) {
+    openAlbum(currentActiveAlbum);
+  }
+}
+
+function dismissMiniPlayer() {
+  const miniPlayer = document.getElementById('mini-player');
+  const player = document.getElementById('player');
+  if (miniPlayer) miniPlayer.classList.remove('active');
   if (player) player.pause();
 }
 
@@ -180,6 +210,35 @@ function playTrack(trackEl) {
   if (parentBox) {
     currentTrackList = Array.from(parentBox.querySelectorAll('.track'));
     currentTrackIndex = currentTrackList.indexOf(trackEl);
+  }
+
+  updateMiniPlayerInfo(trackEl);
+}
+
+function updateMiniPlayerInfo(trackEl) {
+  const miniCover = document.getElementById('mini-cover');
+  const miniTitle = document.getElementById('mini-title');
+  const miniArtist = document.getElementById('mini-artist');
+
+  if (currentActiveAlbum && albumData[currentActiveAlbum]) {
+    const data = albumData[currentActiveAlbum];
+    if (miniCover) miniCover.src = data.cover;
+    if (miniArtist) miniArtist.innerText = `${data.title} — ${data.tag}`;
+  }
+  if (miniTitle && trackEl) {
+    miniTitle.innerText = trackEl.innerText || trackEl.textContent;
+  }
+}
+
+function syncPlayPauseState() {
+  const player = document.getElementById('player');
+  const miniPlayBtn = document.getElementById('mini-play-btn');
+  if (!player || !miniPlayBtn) return;
+
+  if (player.paused) {
+    miniPlayBtn.innerText = '⏯ PLAY';
+  } else {
+    miniPlayBtn.innerText = '⏸ PAUSE';
   }
 }
 
