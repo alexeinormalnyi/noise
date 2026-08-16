@@ -63,6 +63,11 @@ let currentActiveAlbum = null;
 const trackDataMap = new Map();
 const activeAnimations = new Map();
 
+function cleanTrackName(name) {
+  if (!name) return "";
+  return name.replace(/^\d+[\s.\-_]+/g, '').trim();
+}
+
 function animateValue(element, startVal, endVal, duration = 1000, suffix = " listens") {
   if (!element) return;
   if (activeAnimations.has(element)) {
@@ -210,13 +215,15 @@ function openAlbum(albumKey) {
   const appleLink = document.getElementById('apple-link');
   const ytmusicLink = document.getElementById('ytmusic-link');
 
-  expandedCover.src = data.cover;
-  expandedAlbumTitle.innerText = `${data.title} — ${data.tag}`;
+  if (expandedCover) expandedCover.src = data.cover;
+  if (expandedAlbumTitle) expandedAlbumTitle.innerText = `${data.title} — ${data.tag}`;
 
-  expandedView.style.setProperty('--album-c1', data.c1);
-  expandedView.style.setProperty('--album-c2', data.c2);
-  expandedView.style.setProperty('--album-c3', data.c3);
-  expandedView.style.setProperty('--accent', data.accent);
+  if (expandedView) {
+    expandedView.style.setProperty('--album-c1', data.c1);
+    expandedView.style.setProperty('--album-c2', data.c2);
+    expandedView.style.setProperty('--album-c3', data.c3);
+    expandedView.style.setProperty('--accent', data.accent);
+  }
 
   data.modalDisplayedListens = 0;
   updateModalListensDisplay();
@@ -225,9 +232,12 @@ function openAlbum(albumKey) {
   const activeList = document.getElementById(`list-${albumKey}`);
   if (activeList) {
     activeList.style.display = 'flex';
+    currentTrackList = Array.from(activeList.querySelectorAll('.track'));
+
     if (!isSameAlbum || currentTrackIndex === -1) {
-      const firstTrack = activeList.querySelector('.track');
+      const firstTrack = currentTrackList[0];
       if (firstTrack) {
+        currentTrackIndex = 0;
         playTrack(firstTrack);
       }
     } else if (currentTrackIndex !== -1 && currentTrackList[currentTrackIndex]) {
@@ -239,8 +249,10 @@ function openAlbum(albumKey) {
   if (appleLink) appleLink.href = data.links.apple;
   if (ytmusicLink) ytmusicLink.href = data.links.ytmusic;
 
-  void expandedView.offsetHeight;
-  expandedView.classList.add('active');
+  if (expandedView) {
+    void expandedView.offsetHeight;
+    expandedView.classList.add('active');
+  }
 }
 
 function closeExpandedAlbum() {
@@ -250,7 +262,7 @@ function closeExpandedAlbum() {
 
   const hasTrackPlayingOrLoaded = player && (player.src || !player.paused) && currentTrackIndex !== -1;
 
-  expandedView.classList.remove('active');
+  if (expandedView) expandedView.classList.remove('active');
 
   if (hasTrackPlayingOrLoaded && miniPlayer) {
     miniPlayer.classList.add('active');
@@ -287,10 +299,12 @@ function playTrack(trackEl) {
 
   const text = (typeof lyricsData !== 'undefined' && lyricsData[file]) ? lyricsData[file] : 'no lyrics';
 
-  if (!text || text.trim() === '' || text.trim() === 'no lyrics') {
-    lyricsBox.innerText = 'Текст відсутній / No lyrics available';
-  } else {
-    lyricsBox.innerText = text;
+  if (lyricsBox) {
+    if (!text || text.trim() === '' || text.trim() === 'no lyrics') {
+      lyricsBox.innerText = 'Текст відсутній / No lyrics available';
+    } else {
+      lyricsBox.innerText = text;
+    }
   }
 
   const parentBox = trackEl.closest('.track-list-box');
@@ -317,6 +331,8 @@ function updatePlayerTrackInfo(trackEl) {
     songName = nameSpan ? nameSpan.innerText.trim() : trackEl.innerText.trim();
   }
 
+  songName = cleanTrackName(songName);
+
   if (trackNameEl) trackNameEl.innerText = songName || "Select a Track";
   if (albumNameEl) albumNameEl.innerText = albumName;
 }
@@ -331,7 +347,8 @@ function updateMiniPlayerInfo(trackEl) {
   if (miniCover) miniCover.src = data.cover;
 
   const nameEl = trackEl.querySelector('.track-name');
-  const songName = nameEl ? nameEl.innerText.trim() : trackEl.innerText.trim();
+  let songName = nameEl ? nameEl.innerText.trim() : trackEl.innerText.trim();
+  songName = cleanTrackName(songName);
   const albumName = data.tag || data.title;
 
   if (miniTitle) {
