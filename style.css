@@ -29,7 +29,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 80px;
+  padding-bottom: 90px;
 }
 
 .main-content {
@@ -193,7 +193,7 @@ body {
   letter-spacing: 0.3px;
 }
 
-/* Expanded Modal View - Universal Fly-In / Fly-Out Animation */
+/* Expanded Modal View */
 .expanded-modal {
   position: fixed;
   top: 0;
@@ -235,43 +235,53 @@ body {
   pointer-events: none;
 }
 
+/* Smoother, faster, and vibrant flying background blobs */
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.2;
-  animation: floatBlob 12s infinite alternate ease-in-out;
+  filter: blur(60px);
+  opacity: 0.42;
+  mix-blend-mode: screen;
+  will-change: transform;
+  animation: floatBlob 5.5s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
 .blob-1 {
-  width: 400px;
-  height: 400px;
+  width: 480px;
+  height: 480px;
   background: var(--album-c1);
-  top: -100px;
-  left: -100px;
+  top: -120px;
+  left: -120px;
 }
 
 .blob-2 {
-  width: 500px;
-  height: 500px;
+  width: 580px;
+  height: 580px;
   background: var(--accent);
-  bottom: -150px;
-  right: -150px;
-  animation-delay: -4s;
+  bottom: -180px;
+  right: -180px;
+  animation-delay: -2s;
 }
 
 .blob-3 {
-  width: 300px;
-  height: 300px;
+  width: 380px;
+  height: 380px;
   background: var(--album-c2);
-  top: 40%;
-  left: 50%;
-  animation-delay: -8s;
+  top: 35%;
+  left: 45%;
+  animation-delay: -3.8s;
 }
 
 @keyframes floatBlob {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(60px, 40px) scale(1.1); }
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(90px, -60px) scale(1.22) rotate(90deg);
+  }
+  100% {
+    transform: translate(-50px, 80px) scale(0.95) rotate(180deg);
+  }
 }
 
 .modal-content-container {
@@ -496,7 +506,7 @@ body {
   padding-right: 0.5rem;
 }
 
-/* Desktop Mini Player */
+/* Mini Player Layout */
 .mini-player {
   position: fixed;
   bottom: 0;
@@ -563,11 +573,18 @@ body {
   overflow: hidden;
 }
 
+.mini-controls-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
 .mini-controls {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex-shrink: 0;
 }
 
 .mini-controls .control-btn {
@@ -575,10 +592,19 @@ body {
   font-size: 0.85rem;
 }
 
-/* Mobile-Specific Mini Player Overrides */
+.mini-listens-count {
+  font-size: 0.78rem;
+  color: #a5b4fc;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-align: right;
+  padding-right: 0.2rem;
+}
+
+/* Mobile Mini Player Overrides */
 @media (max-width: 600px) {
   body {
-    padding-bottom: 70px;
+    padding-bottom: 85px;
   }
 
   .mini-player {
@@ -615,6 +641,10 @@ body {
 
   .mini-controls .btn-text {
     display: none;
+  }
+
+  .mini-listens-count {
+    font-size: 0.7rem;
   }
 }
 
