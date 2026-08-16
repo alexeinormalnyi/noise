@@ -224,7 +224,7 @@ function openAlbum(albumKey) {
   document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
   const activeList = document.getElementById(`list-${albumKey}`);
   if (activeList) {
-    activeList.style.display = 'block';
+    activeList.style.display = 'flex';
     if (!isSameAlbum || currentTrackIndex === -1) {
       const firstTrack = activeList.querySelector('.track');
       if (firstTrack) {
@@ -297,22 +297,39 @@ function playTrack(trackEl) {
     currentTrackIndex = currentTrackList.indexOf(trackEl);
   }
 
+  updatePlayerTrackInfo(trackEl);
   updateMiniPlayerInfo(trackEl);
+}
+
+function updatePlayerTrackInfo(trackEl) {
+  const trackNameEl = document.getElementById('player-track-name');
+  const albumNameEl = document.getElementById('player-album-name');
+  if (!currentActiveAlbum || !albumData[currentActiveAlbum]) return;
+
+  const data = albumData[currentActiveAlbum];
+  const albumName = data.tag || data.title;
+
+  let songName = "";
+  if (trackEl) {
+    const nameSpan = trackEl.querySelector('.track-name');
+    songName = nameSpan ? nameSpan.innerText.trim() : trackEl.innerText.trim();
+  }
+
+  if (trackNameEl) trackNameEl.innerText = songName || "Select a Track";
+  if (albumNameEl) albumNameEl.innerText = albumName;
 }
 
 function updateMiniPlayerInfo(trackEl) {
   const miniCover = document.getElementById('mini-cover');
   const miniTitle = document.getElementById('mini-title');
-  const miniArtist = document.getElementById('mini-artist');
 
   if (!trackEl || !currentActiveAlbum || !albumData[currentActiveAlbum]) return;
 
   const data = albumData[currentActiveAlbum];
   if (miniCover) miniCover.src = data.cover;
-  if (miniArtist) miniArtist.innerText = data.title;
 
   const nameEl = trackEl.querySelector('.track-name');
-  const songName = nameEl ? nameEl.innerText : trackEl.innerText;
+  const songName = nameEl ? nameEl.innerText.trim() : trackEl.innerText.trim();
   const albumName = data.tag || data.title;
 
   if (miniTitle) {
