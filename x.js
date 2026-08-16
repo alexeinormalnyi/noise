@@ -234,16 +234,12 @@ function openAlbum(albumKey) {
     activeList.style.display = 'flex';
     currentTrackList = Array.from(activeList.querySelectorAll('.track'));
 
-    let trackToPlay = null;
     if (!isSameAlbum || currentTrackIndex === -1 || !currentTrackList[currentTrackIndex]) {
       currentTrackIndex = 0;
-      trackToPlay = currentTrackList[0];
-    } else {
-      trackToPlay = currentTrackList[currentTrackIndex];
     }
 
+    const trackToPlay = currentTrackList[currentTrackIndex] || currentTrackList[0];
     if (trackToPlay) {
-      // Immediately populate track name and album name so it never says "Select a Track"
       const trackNameEl = document.getElementById('player-track-name');
       const albumNameEl = document.getElementById('player-album-name');
       const nameSpan = trackToPlay.querySelector('.track-name');
