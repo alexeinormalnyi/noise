@@ -165,10 +165,10 @@
         title: "Потлатий & Партнери",
         tag: "Album 22",
         cover: "22albumcov.png",
-        c1: "#002680",
-        c2: "#0055ff",
-        c3: "#030e30",
-        accent: "#1a66ff",
+        c1: "#ffffff",
+        c2: "#1a2233",
+        c3: "#080d1a",
+        accent: "#d9e6ff",
         links: { spotify: '#', apple: '#', ytmusic: '#' }
       },
       'cspg': {
@@ -224,7 +224,13 @@
 
       document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
       const activeList = document.getElementById(`list-${albumKey}`);
-      if (activeList) activeList.style.display = 'block';
+      if (activeList) {
+        activeList.style.display = 'block';
+        const firstTrack = activeList.querySelector('.track');
+        if (firstTrack) {
+          playTrack(firstTrack);
+        }
+      }
 
       spotifyLink.href = data.links.spotify;
       appleLink.href = data.links.apple;
