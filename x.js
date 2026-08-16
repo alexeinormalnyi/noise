@@ -181,7 +181,11 @@ function openAlbum(albumKey) {
   const data = albumData[albumKey];
 
   const miniPlayer = document.getElementById('mini-player');
-  if (miniPlayer) miniPlayer.classList.remove('active');
+  const isMiniActive = miniPlayer && miniPlayer.classList.contains('active');
+
+  if (miniPlayer) {
+    miniPlayer.classList.remove('active');
+  }
 
   const expandedView = document.getElementById('expanded-view');
   const expandedCover = document.getElementById('expanded-cover');
@@ -217,18 +221,39 @@ function openAlbum(albumKey) {
   if (appleLink) appleLink.href = data.links.apple;
   if (ytmusicLink) ytmusicLink.href = data.links.ytmusic;
 
-  expandedView.style.display = 'flex';
+  // Set animation mode depending on whether miniplayer was active
+  if (isMiniActive) {
+    expandedView.classList.remove('mode-direct');
+    expandedView.classList.add('mode-fly');
+  } else {
+    expandedView.classList.remove('mode-fly');
+    expandedView.classList.add('mode-direct');
+  }
+
+  // Trigger animation frame for CSS transitions
+  void expandedView.offsetHeight;
+  expandedView.classList.add('active');
 }
 
 function closeExpandedAlbum() {
   const expandedView = document.getElementById('expanded-view');
   const miniPlayer = document.getElementById('mini-player');
-  expandedView.style.display = 'none';
-
   const player = document.getElementById('player');
-  if (player && (player.src || !player.paused) && currentTrackIndex !== -1) {
-    if (miniPlayer) miniPlayer.classList.add('active');
+
+  const hasTrackPlayingOrLoaded = player && (player.src || !player.paused) && currentTrackIndex !== -1;
+
+  if (hasTrackPlayingOrLoaded) {
+    // Fly down to miniplayer (Apple Music style collapse)
+    expandedView.classList.remove('mode-direct');
+    expandedView.classList.add('mode-fly');
+    expandedView.classList.remove('active');
+
+    if (miniPlayer) {
+      miniPlayer.classList.add('active');
+    }
   } else {
+    // Initial state / No track playing: Smooth fade out in place
+    expandedView.classList.remove('active');
     currentActiveAlbum = null;
   }
 }
