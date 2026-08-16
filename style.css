@@ -237,17 +237,15 @@ h1 {
 
 .expanded-modal.active {
   display: flex;
-  animation: appleModalExpand 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: appleFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes appleModalExpand {
+@keyframes appleFadeIn {
   0% {
     opacity: 0;
-    transform: scale(0.92);
   }
   100% {
     opacity: 1;
-    transform: scale(1);
   }
 }
 
@@ -378,6 +376,7 @@ h1 {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: opacity 0.1s ease;
 }
 
 .player-controls {
