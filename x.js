@@ -1,7 +1,7 @@
 const albumData = {
   '22': {
     title: "Потлатий & Партнери",
-    tag: "Album 22",
+    tag: "22",
     cover: "22albumcov.png",
     c1: "#2d3748",
     c2: "#1a2233",
@@ -110,6 +110,7 @@ function initTrackListens() {
     trackDataMap.set(track, {
       listens: randomTrackListens,
       displayedListens: 0,
+      miniDisplayedListens: 0,
       element: listensEl
     });
 
@@ -142,6 +143,21 @@ function updateModalListensDisplay() {
   }
 }
 
+function updateMiniPlayerTrackListens() {
+  const miniListensEl = document.getElementById('mini-listens-count');
+  if (!miniListensEl || currentTrackIndex === -1 || !currentTrackList[currentTrackIndex]) return;
+
+  const activeTrackEl = currentTrackList[currentTrackIndex];
+  const trackData = trackDataMap.get(activeTrackEl);
+
+  if (trackData) {
+    const start = trackData.miniDisplayedListens || 0;
+    const end = trackData.listens;
+    animateValue(miniListensEl, start, end, 1000);
+    trackData.miniDisplayedListens = end;
+  }
+}
+
 function initListensCounter() {
   updateMainPageAlbumListens();
 
@@ -159,6 +175,8 @@ function initListensCounter() {
       animateValue(data.element, start, data.listens, 1000);
       data.displayedListens = data.listens;
     });
+
+    updateMiniPlayerTrackListens();
   }, 4000);
 }
 
@@ -219,7 +237,6 @@ function openAlbum(albumKey) {
   if (appleLink) appleLink.href = data.links.apple;
   if (ytmusicLink) ytmusicLink.href = data.links.ytmusic;
 
-  // Trigger fly-in transition from bottom on every open
   void expandedView.offsetHeight;
   expandedView.classList.add('active');
 }
@@ -288,16 +305,21 @@ function updateMiniPlayerInfo(trackEl) {
   const miniTitle = document.getElementById('mini-title');
   const miniArtist = document.getElementById('mini-artist');
 
-  if (currentActiveAlbum && albumData[currentActiveAlbum]) {
-    const data = albumData[currentActiveAlbum];
-    if (miniCover) miniCover.src = data.cover;
-    if (miniArtist) miniArtist.innerText = data.title;
+  if (!trackEl || !currentActiveAlbum || !albumData[currentActiveAlbum]) return;
+
+  const data = albumData[currentActiveAlbum];
+  if (miniCover) miniCover.src = data.cover;
+  if (miniArtist) miniArtist.innerText = data.title;
+
+  const nameEl = trackEl.querySelector('.track-name');
+  const songName = nameEl ? nameEl.innerText : trackEl.innerText;
+  const albumName = data.tag || data.title;
+
+  if (miniTitle) {
+    miniTitle.innerText = `${songName} - ${albumName}`;
   }
 
-  if (miniTitle && trackEl) {
-    const nameEl = trackEl.querySelector('.track-name');
-    miniTitle.innerText = nameEl ? nameEl.innerText : trackEl.innerText;
-  }
+  updateMiniPlayerTrackListens();
 }
 
 function syncPlayPauseState() {
