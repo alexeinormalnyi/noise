@@ -1,48 +1,36 @@
-// Listens Counter Logic
-function initListensCounter() {
-  const listensEl = document.getElementById('listens-count');
-  if (!listensEl) return;
-
-  let count = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
-  listensEl.textContent = `${count.toLocaleString()} listens`;
-
-  setInterval(() => {
-    const increment = Math.floor(Math.random() * 6) + 1;
-    count += increment;
-    listensEl.textContent = `${count.toLocaleString()} listens`;
-  }, 60000);
-}
-
-// Album Data Configuration
+// Release Configuration with Separate Listens Counts
 const albumData = {
   '22': {
     title: "Потлатий & Партнери",
     tag: "Album 22",
     cover: "22albumcov.png",
-    c1: "#ffffff",
+    c1: "#2d3748",
     c2: "#1a2233",
     c3: "#080d1a",
-    accent: "#d9e6ff",
+    accent: "#a5b4fc",
+    listens: 18420,
     links: { spotify: '#', apple: '#', ytmusic: '#' }
   },
   '22demos': {
     title: "Потлатий & Партнери",
     tag: "22 Demos",
     cover: "22demos.png",
-    c1: "#ffffff",
-    c2: "#1a2233",
-    c3: "#080d1a",
-    accent: "#d9e6ff",
+    c1: "#1e293b",
+    c2: "#111827",
+    c3: "#030712",
+    accent: "#818cf8",
+    listens: 4210,
     links: { spotify: '#', apple: '#', ytmusic: '#' }
   },
   'cspg': {
     title: "Alexei Normalnyi",
     tag: "Constant Stimulation of Penial Glands",
     cover: "csopgnew.png",
-    c1: "#8a0e00",
-    c2: "#d93800",
-    c3: "#2e0500",
-    accent: "#ff4500",
+    c1: "#5c1000",
+    c2: "#360a00",
+    c3: "#1a0300",
+    accent: "#ff5500",
+    listens: 31250,
     links: {
       spotify: 'https://open.spotify.com/album/2Xt4WIICyGiVKsSUJqeXxN?go=1&nd=1',
       apple: 'https://music.apple.com/ua/album/constant-stimulation-of-penial-glands/1895401622',
@@ -53,10 +41,11 @@ const albumData = {
     title: "Потлатий & Партнери",
     tag: "Clip v Parische",
     cover: "clipcover.png",
-    c1: "#ffffff",
-    c2: "#888888",
-    c3: "#222222",
-    accent: "#ffffff",
+    c1: "#334155",
+    c2: "#1e293b",
+    c3: "#0f172a",
+    accent: "#38bdf8",
+    listens: 9840,
     links: {
       spotify: 'https://open.spotify.com/album/79kVW8XxLtFkNkto2YdtZl?go=1&nd=1',
       apple: 'https://music.apple.com/ua/album/clip-v-parische-single/1889513888',
@@ -67,21 +56,41 @@ const albumData = {
 
 let currentTrackList = [];
 let currentTrackIndex = -1;
+let currentActiveAlbum = null;
+
+function updateListensDisplay() {
+  const listensEl = document.getElementById('listens-count');
+  if (listensEl && currentActiveAlbum && albumData[currentActiveAlbum]) {
+    const count = albumData[currentActiveAlbum].listens;
+    listensEl.textContent = `${count.toLocaleString()} listens`;
+  }
+}
+
+function initListensCounter() {
+  setInterval(() => {
+    Object.keys(albumData).forEach(key => {
+      albumData[key].listens += Math.floor(Math.random() * 4) + 1;
+    });
+    updateListensDisplay();
+  }, 10000);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   initListensCounter();
 });
 
-function openAlbum(albumKey, clickedElement) {
+function openAlbum(albumKey) {
+  if (!albumData[albumKey]) return;
+  
+  currentActiveAlbum = albumKey;
+  const data = albumData[albumKey];
+
   const expandedView = document.getElementById('expanded-view');
   const expandedCover = document.getElementById('expanded-cover');
   const expandedAlbumTitle = document.getElementById('expanded-album-title');
   const spotifyLink = document.getElementById('spotify-link');
   const appleLink = document.getElementById('apple-link');
   const ytmusicLink = document.getElementById('ytmusic-link');
-
-  if (!albumData[albumKey]) return;
-  const data = albumData[albumKey];
 
   expandedCover.src = data.cover;
   expandedAlbumTitle.innerText = `${data.title} — ${data.tag}`;
@@ -90,6 +99,8 @@ function openAlbum(albumKey, clickedElement) {
   expandedView.style.setProperty('--album-c2', data.c2);
   expandedView.style.setProperty('--album-c3', data.c3);
   expandedView.style.setProperty('--accent', data.accent);
+
+  updateListensDisplay();
 
   document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
   const activeList = document.getElementById(`list-${albumKey}`);
@@ -112,6 +123,7 @@ function closeExpandedAlbum() {
   const expandedView = document.getElementById('expanded-view');
   const player = document.getElementById('player');
   expandedView.style.display = 'none';
+  currentActiveAlbum = null;
   if (player) player.pause();
 }
 
