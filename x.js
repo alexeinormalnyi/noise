@@ -234,14 +234,26 @@ function openAlbum(albumKey) {
     activeList.style.display = 'flex';
     currentTrackList = Array.from(activeList.querySelectorAll('.track'));
 
+    let trackToPlay = null;
     if (!isSameAlbum || currentTrackIndex === -1 || !currentTrackList[currentTrackIndex]) {
       currentTrackIndex = 0;
-      const firstTrack = currentTrackList[0];
-      if (firstTrack) {
-        playTrack(firstTrack);
-      }
+      trackToPlay = currentTrackList[0];
     } else {
-      updatePlayerTrackInfo(currentTrackList[currentTrackIndex]);
+      trackToPlay = currentTrackList[currentTrackIndex];
+    }
+
+    if (trackToPlay) {
+      // Immediately populate track name and album name so it never says "Select a Track"
+      const trackNameEl = document.getElementById('player-track-name');
+      const albumNameEl = document.getElementById('player-album-name');
+      const nameSpan = trackToPlay.querySelector('.track-name');
+      const rawName = nameSpan ? nameSpan.innerText.trim() : trackToPlay.innerText.trim();
+      const cleanedName = cleanTrackName(rawName);
+
+      if (trackNameEl) trackNameEl.innerText = cleanedName || data.tag || data.title;
+      if (albumNameEl) albumNameEl.innerText = data.tag || data.title;
+
+      playTrack(trackToPlay);
     }
   }
 
