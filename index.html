@@ -171,6 +171,23 @@
     </div>
   </div>
 
+  <div id="mini-player" class="mini-player glass-panel">
+    <div class="mini-player-info" onclick="reopenFullPlayer()">
+      <img id="mini-cover" src="" alt="Album Cover" class="mini-cover">
+      <div class="mini-details">
+        <div id="mini-title" class="mini-title">Track Title</div>
+        <div id="mini-artist" class="mini-artist">Artist</div>
+      </div>
+    </div>
+    <div class="mini-controls">
+      <button class="control-btn glass-btn" onclick="prevTrack()">⏮ PREV</button>
+      <button id="mini-play-btn" class="control-btn glass-btn" onclick="togglePlayPause()">⏯ PLAY</button>
+      <button class="control-btn glass-btn" onclick="nextTrack()">NEXT ⏭</button>
+      <button class="control-btn glass-btn" onclick="reopenFullPlayer()">⤢ EXPAND</button>
+      <button class="control-btn glass-btn" onclick="dismissMiniPlayer()">✕</button>
+    </div>
+  </div>
+
   <footer>
     © 2026 copyright by Потлатий & Партнери
   </footer>
