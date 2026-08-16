@@ -349,6 +349,10 @@ body {
   gap: 1rem;
 }
 
+.panel-left {
+  align-items: center;
+}
+
 .panel-right {
   overflow-y: auto;
   max-height: 80vh;
@@ -369,31 +373,39 @@ body {
   object-fit: cover;
 }
 
-/* Track Info under Cover */
+/* Track Info Directly Centered Under Cover */
 .current-track-info {
   text-align: center;
-  margin: 0.4rem 0 0.1rem 0;
+  margin: 0.6rem 0 0.2rem 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   word-break: break-word;
 }
 
 .player-track-name {
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #ffffff;
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: 0.5px;
+  text-align: center;
 }
 
 .player-album-name {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--accent, #a5b4fc);
-  margin-top: 0.3rem;
+  margin-top: 0.35rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-align: center;
 }
 
 .player-controls {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -523,7 +535,7 @@ body {
   padding-right: 0.5rem;
 }
 
-/* Mobile Adjustments for Expanded Modal */
+/* Mobile Fixes for Track Selector & Player Layout */
 @media (max-width: 850px) {
   .expanded-modal {
     padding: 1rem 0.75rem;
@@ -539,7 +551,8 @@ body {
   }
 
   .track-list-box {
-    max-height: 320px;
+    max-height: 350px;
+    overflow-y: auto;
   }
 }
 
@@ -632,7 +645,7 @@ body {
   padding-right: 0.2rem;
 }
 
-/* Mobile Mini Player Overrides */
+/* Mobile Mini Player Responsive Adjustments */
 @media (max-width: 600px) {
   body {
     padding-bottom: 85px;
