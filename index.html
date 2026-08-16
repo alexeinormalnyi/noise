@@ -69,7 +69,7 @@
     </div>
   </div>
 
-  <div id="expanded-view" class="expanded-modal mode-direct">
+  <div id="expanded-view" class="expanded-modal">
     <div class="animated-bg">
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
@@ -184,11 +184,11 @@
       </div>
     </div>
     <div class="mini-controls">
-      <button class="control-btn glass-btn" onclick="prevTrack()">⏮ PREV</button>
-      <button id="mini-play-btn" class="control-btn glass-btn" onclick="togglePlayPause()">⏯ PLAY</button>
-      <button class="control-btn glass-btn" onclick="nextTrack()">NEXT ⏭</button>
-      <button class="control-btn glass-btn" onclick="reopenFullPlayer()">⤢ EXPAND</button>
-      <button class="control-btn glass-btn" onclick="dismissMiniPlayer()">✕</button>
+      <button class="control-btn glass-btn" onclick="prevTrack()" title="Previous">⏮<span class="btn-text"> PREV</span></button>
+      <button id="mini-play-btn" class="control-btn glass-btn" onclick="togglePlayPause()" title="Play/Pause">⏯<span class="btn-text"> PLAY</span></button>
+      <button class="control-btn glass-btn" onclick="nextTrack()" title="Next">NEXT<span class="btn-text"> ⏭</span></button>
+      <button class="control-btn glass-btn" onclick="reopenFullPlayer()" title="Expand">⤢<span class="btn-text"> EXPAND</span></button>
+      <button class="control-btn glass-btn" onclick="dismissMiniPlayer()" title="Close">✕</button>
     </div>
   </div>
 
