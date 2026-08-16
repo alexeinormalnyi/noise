@@ -42,6 +42,13 @@
         <div class="album-card-title">22</div>
       </div>
 
+      <div class="album-card glass-card" onclick="openAlbum('22demos', this)">
+        <div class="album-card-cover">
+          <img src="22demos.png" alt="22 Demos" onerror="this.src='icon.ico'">
+        </div>
+        <div class="album-card-title">22 Demos</div>
+      </div>
+
       <div class="album-card glass-card" onclick="openAlbum('cspg', this)">
         <div class="album-card-cover">
           <img src="csopgnew.png" alt="CSPG" onerror="this.src='icon.ico'">
@@ -122,6 +129,23 @@
             <div class="track" data-file="22 konec alboma (gotovo).mp3" onclick="playTrack(this)">22. konec alboma (gotovo)</div>
           </div>
 
+          <div id="list-22demos" class="music-container track-list-box">
+            <div class="track" data-file="01 clip v parische (Demo).mp3" onclick="playTrack(this)">01. clip v parische (Demo)</div>
+            <div class="track" data-file="02 jpegmafia - лох (Demo).mp3" onclick="playTrack(this)">02. jpegmafia - лох (Demo)</div>
+            <div class="track" data-file="03 jpegmafia - лох (Cut Demo).mp3" onclick="playTrack(this)">03. jpegmafia - лох (Cut Demo)</div>
+            <div class="track" data-file="04 zapoy (Demo).mp3" onclick="playTrack(this)">04. zapoy (Demo)</div>
+            <div class="track" data-file="05 interluda (Demo).mp3" onclick="playTrack(this)">05. interluda (Demo)</div>
+            <div class="track" data-file="06 rsheen (Demo).mp3" onclick="playTrack(this)">06. rsheen (Demo)</div>
+            <div class="track" data-file="07 діджей поломаний холодильник (Demo).mp3" onclick="playTrack(this)">07. діджей поломаний холодильник (Demo)</div>
+            <div class="track" data-file="08 status (Demo).mp3" onclick="playTrack(this)">08. status (Demo)</div>
+            <div class="track" data-file="09 lozinskiy na bite (Demo).mp3" onclick="playTrack(this)">09. lozinskiy na bite (Demo)</div>
+            <div class="track" data-file="10 dom (Demo).mp3" onclick="playTrack(this)">10. dom (Demo)</div>
+            <div class="track" data-file="11 3 son (Demo).mp3" onclick="playTrack(this)">11. 3 son (Demo)</div>
+            <div class="track" data-file="12 4 son (Demo).mp3" onclick="playTrack(this)">12. 4 son (Demo)</div>
+            <div class="track" data-file="13 birds (Demo).mp3" onclick="playTrack(this)">13. birds (Demo)</div>
+            <div class="track" data-file="14 konec alboma (Demo).mp3" onclick="playTrack(this)">14. konec alboma (Demo)</div>
+          </div>
+
           <div id="list-cspg" class="music-container track-list-box">
             <div class="track" data-file="Constant Stimulation of Penial Glands.mp3" onclick="playTrack(this)">01. Constant Stimulation of Penial Glands</div>
             <div class="track" data-file="Last Breaths of Baal.mp3" onclick="playTrack(this)">02. Last Breaths of Baal</div>
@@ -165,6 +189,16 @@
         title: "Потлатий & Партнери",
         tag: "Album 22",
         cover: "22albumcov.png",
+        c1: "#ffffff",
+        c2: "#1a2233",
+        c3: "#080d1a",
+        accent: "#d9e6ff",
+        links: { spotify: '#', apple: '#', ytmusic: '#' }
+      },
+      '22demos': {
+        title: "Потлатий & Партнери",
+        tag: "22 Demos",
+        cover: "22demos.png",
         c1: "#ffffff",
         c2: "#1a2233",
         c3: "#080d1a",
