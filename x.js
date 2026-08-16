@@ -234,13 +234,13 @@ function openAlbum(albumKey) {
     activeList.style.display = 'flex';
     currentTrackList = Array.from(activeList.querySelectorAll('.track'));
 
-    if (!isSameAlbum || currentTrackIndex === -1) {
+    if (!isSameAlbum || currentTrackIndex === -1 || !currentTrackList[currentTrackIndex]) {
+      currentTrackIndex = 0;
       const firstTrack = currentTrackList[0];
       if (firstTrack) {
-        currentTrackIndex = 0;
         playTrack(firstTrack);
       }
-    } else if (currentTrackIndex !== -1 && currentTrackList[currentTrackIndex]) {
+    } else {
       updatePlayerTrackInfo(currentTrackList[currentTrackIndex]);
     }
   }
