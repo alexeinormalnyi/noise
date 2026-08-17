@@ -6,6 +6,9 @@
   --album-c2: #101622;
   --album-c3: #060911;
 
+  /* Dynamic Viewport Height Fix Variable */
+  --app-height: 100dvh;
+
   /* Dynamic Main Page Theme Tokens */
   --main-c1: rgba(255, 255, 255, 0.35);
   --main-c1-dark: rgba(30, 30, 35, 0.8);
@@ -37,7 +40,7 @@ img:not([src]), img[src=""] {
 html, body {
   width: 100%;
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: var(--app-height);
   background-color: var(--main-bg-color) !important;
   color: var(--text-main);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
@@ -57,7 +60,7 @@ body {
 body.modal-open {
   overflow: hidden !important;
   height: 100vh !important;
-  height: 100dvh !important;
+  height: var(--app-height) !important;
 }
 
 /* Flying Ambient Mesh for Main Page */
@@ -67,7 +70,7 @@ body.modal-open {
   left: 0;
   width: 100vw;
   height: 100vh;
-  height: 100dvh;
+  height: var(--app-height);
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -324,14 +327,14 @@ body.modal-open {
   letter-spacing: 0.3px;
 }
 
-/* Expanded Player Modal - Completely Opaque Background to Prevent Bleed-Through */
+/* Expanded Player Modal - Uses dynamic app height to avoid mobile address bar cutoffs */
 .expanded-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  height: 100dvh;
+  height: var(--app-height);
   background-color: var(--album-c3, #060911) !important;
   background: radial-gradient(circle at center, var(--album-c2, #101622) 0%, var(--album-c3, #060911) 100%) !important;
   z-index: 10000;
