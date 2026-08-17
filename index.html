@@ -9,33 +9,42 @@
 </head>
 <body>
 
+  <!-- Flying Ambient Blobs for Main Page -->
+  <div class="ambient-bg">
+    <div class="liquid-blob blob-main-1"></div>
+    <div class="liquid-blob blob-main-2"></div>
+    <div class="liquid-blob blob-main-3"></div>
+    <div class="liquid-blob blob-main-cursor" id="blob-cursor"></div>
+  </div>
+
   <div class="main-content" id="main-page">
-    <header class="header-glass">
+    <header class="header-glass glass-card">
       <h1 id="main-title">ПОТЛАТИЙ & ПАРТНЕРИ</h1>
       <div class="tagline-container">
         <span id="tagline" class="tagline">P&P AND ALEXEI DOOMOVICH RECORDS</span>
       </div>
+
+      <!-- Main Screen Media Link Buttons -->
+      <div id="header-media-links" class="media-links-container">
+        <a href="https://soundcloud.com/potlatiypartnyori?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" class="media-link-btn sc-link" title="SoundCloud"><img src="snd.png" alt="SoundCloud"></a>
+        <a href="https://www.tiktok.com/@potlatiy_3.14tushara" target="_blank" class="media-link-btn tt-link" title="TikTok"><img src="tt.png" alt="TikTok"></a>
+        <a href="https://www.youtube.com/@ReVanced-j1o" target="_blank" class="media-link-btn yt-link" title="YouTube"><img src="yt.png" alt="YouTube"></a>
+        <a href="https://www.instagram.com/potlatiypartnyori/" target="_blank" class="media-link-btn ig-link" title="Instagram"><img src="inst.png" alt="Instagram"></a>
+        <a href="https://x.com/ptlty_i_part" target="_blank" class="media-link-btn x-link" title="X"><img src="x.png" alt="X"></a>
+      </div>
     </header>
 
     <div class="controls-container">
-      <button id="promo-btn-22" class="promo-btn glass-card" onclick="openAlbum('22')">
+      <button id="promo-btn-22" class="promo-btn glass-card" onclick="openAlbum('22', this)">
         <span class="arrow-left">→</span> New Album Release 22 <span class="arrow-right">←</span>
       </button>
-      <button id="promo-btn-cspg" class="promo-btn glass-card" onclick="openAlbum('cspg')">
+      <button id="promo-btn-cspg" class="promo-btn glass-card" onclick="openAlbum('cspg', this)">
         <span class="arrow-left">→</span> Олексій Нормальний - Класика <span class="arrow-right">←</span>
       </button>
-
-      <div id="social-icons" class="social-icons-container">
-        <a href="https://soundcloud.com/potlatiypartnyori?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" class="social-icon-btn soundcloud" title="SoundCloud"><img src="snd.png" alt="SoundCloud"></a>
-        <a href="https://www.tiktok.com/@potlatiy_3.14tushara" target="_blank" class="social-icon-btn tiktok" title="TikTok"><img src="tt.png" alt="TikTok"></a>
-        <a href="https://www.youtube.com/@ReVanced-j1o" target="_blank" class="social-icon-btn youtube" title="YouTube"><img src="yt.png" alt="YouTube"></a>
-        <a href="https://www.instagram.com/potlatiypartnyori/" target="_blank" class="social-icon-btn instagram" title="Instagram"><img src="inst.png" alt="Instagram"></a>
-        <a href="https://x.com/ptlty_i_part" target="_blank" class="social-icon-btn x-twitter" title="X"><img src="x.png" alt="X"></a>
-      </div>
     </div>
 
     <div id="albums-grid" class="album-grid">
-      <div class="album-card glass-card" onclick="openAlbum('22')">
+      <div class="album-card glass-card" onclick="openAlbum('22', this)">
         <div class="album-card-cover">
           <img src="22albumcov.png" alt="Album 22" onerror="this.src='icon.ico'">
         </div>
@@ -43,7 +52,7 @@
         <div class="album-card-listens" id="main-listens-22">0 listens</div>
       </div>
 
-      <div class="album-card glass-card" onclick="openAlbum('22demos')">
+      <div class="album-card glass-card" onclick="openAlbum('22demos', this)">
         <div class="album-card-cover">
           <img src="22demos.png" alt="22 Demos" onerror="this.src='icon.ico'">
         </div>
@@ -51,7 +60,7 @@
         <div class="album-card-listens" id="main-listens-22demos">0 listens</div>
       </div>
 
-      <div class="album-card glass-card" onclick="openAlbum('cspg')">
+      <div class="album-card glass-card" onclick="openAlbum('cspg', this)">
         <div class="album-card-cover">
           <img src="csopgnew.png" alt="CSPG" onerror="this.src='icon.ico'">
         </div>
@@ -59,7 +68,7 @@
         <div class="album-card-listens" id="main-listens-cspg">0 listens</div>
       </div>
 
-      <div class="album-card glass-card" onclick="openAlbum('cvp')">
+      <div class="album-card glass-card" onclick="openAlbum('cvp', this)">
         <div class="album-card-cover">
           <img src="clipcover.png" alt="Clip v Parische" onerror="this.src='icon.ico'">
         </div>
@@ -69,11 +78,12 @@
     </div>
   </div>
 
-  <div id="expanded-view" class="expanded-modal">
+  <div id="expanded-view" class="expanded-modal" style="display: none;">
     <div class="animated-bg">
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
       <div class="blob blob-3"></div>
+      <div class="blob blob-4"></div>
     </div>
 
     <div class="modal-content-container">
@@ -85,7 +95,7 @@
       <div class="expanded-layout">
         <div class="panel-left glass-panel">
           <div class="album-cover-frame">
-            <img id="expanded-cover" src="" alt="Album Cover">
+            <img id="expanded-cover" alt="Album Cover">
           </div>
 
           <div class="current-track-info">
@@ -180,9 +190,9 @@
     </div>
   </div>
 
-  <div id="mini-player" class="mini-player glass-panel">
+  <div id="mini-player" class="mini-player glass-panel" style="display: none;">
     <div class="mini-player-info" onclick="reopenFullPlayer()">
-      <img id="mini-cover" src="" alt="Album Cover" class="mini-cover">
+      <img id="mini-cover" alt="Album Cover" class="mini-cover">
       <div class="mini-details">
         <div id="mini-title" class="mini-title">Track Name - Album Name</div>
       </div>
