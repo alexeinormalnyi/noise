@@ -63,6 +63,16 @@ let currentActiveAlbum = null;
 const trackDataMap = new Map();
 const activeAnimations = new Map();
 
+// Dynamic Mobile Viewport Height Calculation Fix (Crucial for Real Mobile Browsers like Pixel Chrome)
+const setAppHeight = () => {
+  const doc = document.documentElement;
+  doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+};
+
+window.addEventListener('resize', setAppHeight);
+window.addEventListener('orientationchange', setAppHeight);
+setAppHeight();
+
 // Cursor Following Ambient Blob Logic
 document.addEventListener('mousemove', (e) => {
   const cursorBlob = document.getElementById('blob-cursor');
@@ -224,6 +234,7 @@ function initListensCounter() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  setAppHeight();
   initTrackListens();
   initListensCounter();
 
@@ -278,6 +289,7 @@ function animateArtworkFlyIn(sourceImg, targetImg) {
 function openAlbum(albumKey, originElement = null) {
   if (!albumData[albumKey]) return;
 
+  setAppHeight();
   const isSameAlbum = (currentActiveAlbum === albumKey);
   currentActiveAlbum = albumKey;
   const data = albumData[albumKey];
