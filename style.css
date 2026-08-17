@@ -779,6 +779,12 @@ body.modal-open {
 
 /* Mobile Responsiveness Rules */
 @media (max-width: 850px) {
+  /* Hides the flying blobs and ambient mesh to prevent mobile GPU glitching */
+  .ambient-bg,
+  .animated-bg {
+    display: none !important;
+  }
+
   .expanded-modal {
     padding: 1rem 0.75rem;
     padding-bottom: calc(1rem + env(safe-area-inset-bottom));
