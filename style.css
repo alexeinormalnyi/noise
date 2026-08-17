@@ -777,6 +777,29 @@ body.modal-open {
   padding-right: 0.2rem;
 }
 
+/* Desktop-only Album Cover Fly-In */
+@media (min-width: 851px) {
+  .expanded-modal:not(.active) .album-cover-frame {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  
+  .expanded-modal.active .album-cover-frame {
+    animation: coverFlyIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  @keyframes coverFlyIn {
+    0% {
+      opacity: 0;
+      transform: translateY(50px) scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
 /* Mobile Responsiveness Rules */
 @media (max-width: 850px) {
   /* Hides the flying blobs and ambient mesh to prevent mobile GPU glitching */
