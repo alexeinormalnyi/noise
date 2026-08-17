@@ -63,7 +63,6 @@ let currentActiveAlbum = null;
 const trackDataMap = new Map();
 const activeAnimations = new Map();
 
-// Cursor Following Ambient Blob Logic (Disabled on touch devices for performance)
 document.addEventListener('mousemove', (e) => {
   const cursorBlob = document.getElementById('blob-cursor');
   if (cursorBlob) {
@@ -72,7 +71,6 @@ document.addEventListener('mousemove', (e) => {
   }
 });
 
-// Dynamic Theme Switchers
 function applyMainPageTheme(albumKey) {
   if (!albumKey || !albumData[albumKey]) return;
   const data = albumData[albumKey];
