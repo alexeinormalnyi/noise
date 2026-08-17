@@ -283,6 +283,7 @@ function openAlbum(albumKey, originElement = null) {
   const data = albumData[albumKey];
 
   applyMainPageTheme(albumKey);
+  document.body.classList.add('modal-open');
 
   let sourceImg = null;
   if (originElement && originElement.querySelector('img')) {
@@ -367,6 +368,8 @@ function closeExpandedAlbum() {
   const miniPlayer = document.getElementById('mini-player');
   const player = document.getElementById('player');
 
+  document.body.classList.remove('modal-open');
+
   const hasTrackPlayingOrLoaded = player && (player.src || !player.paused) && currentTrackIndex !== -1;
 
   if (expandedView) {
@@ -397,6 +400,9 @@ function reopenFullPlayer() {
 function dismissMiniPlayer() {
   const miniPlayer = document.getElementById('mini-player');
   const player = document.getElementById('player');
+
+  document.body.classList.remove('modal-open');
+
   if (miniPlayer) {
     miniPlayer.classList.remove('active');
     setTimeout(() => {
