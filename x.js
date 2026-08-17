@@ -62,29 +62,7 @@ let currentTrackIndex = -1;
 let currentActiveAlbum = null;
 const trackDataMap = new Map();
 const activeAnimations = new Map();
-
-// Layout and Timeout Fix Utilities
-let savedScrollY = 0;
-let isScrollLocked = false;
 let modalStateTimeout;
-
-function lockBodyScroll() {
-  if (isScrollLocked) return;
-  savedScrollY = window.scrollY;
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${savedScrollY}px`;
-  document.body.style.width = '100%';
-  isScrollLocked = true;
-}
-
-function unlockBodyScroll() {
-  if (!isScrollLocked) return;
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.width = '';
-  window.scrollTo(0, savedScrollY);
-  isScrollLocked = false;
-}
 
 document.addEventListener('mousemove', (e) => {
   const cursorBlob = document.getElementById('blob-cursor');
@@ -255,59 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-function animateArtworkFlyIn(sourceImg, targetImg) {
-  if (!sourceImg || !targetImg) {
-    if (targetImg) targetImg.style.opacity = '1';
-    return;
-  }
-
-  const startRect = sourceImg.getBoundingClientRect();
-  // Protection against calculating bounds right on layout change
-  if (!startRect.width || !startRect.height) {
-    targetImg.style.opacity = '1';
-    return;
-  }
-
-  // Clear existing duplicate clones blocking screen
-  const existingClone = document.getElementById('fly-in-clone');
-  if (existingClone) existingClone.remove();
-
-  targetImg.style.opacity = '0';
-
-  const clone = sourceImg.cloneNode(true);
-  clone.id = 'fly-in-clone';
-  clone.style.position = 'fixed';
-  clone.style.top = `${startRect.top}px`;
-  clone.style.left = `${startRect.left}px`;
-  clone.style.width = `${startRect.width}px`;
-  clone.style.height = `${startRect.height}px`;
-  clone.style.borderRadius = getComputedStyle(sourceImg).borderRadius || '16px';
-  clone.style.zIndex = '99999';
-  clone.style.objectFit = 'cover';
-  clone.style.pointerEvents = 'none';
-  clone.style.boxShadow = '0 20px 50px rgba(0,0,0,0.85)';
-  clone.style.transition = 'all 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
-
-  document.body.appendChild(clone);
-
-  requestAnimationFrame(() => {
-    const finalRect = targetImg.getBoundingClientRect();
-
-    clone.style.top = `${finalRect.top}px`;
-    clone.style.left = `${finalRect.left}px`;
-    clone.style.width = `${finalRect.width}px`;
-    clone.style.height = `${finalRect.height}px`;
-    clone.style.borderRadius = '20px';
-
-    setTimeout(() => {
-      targetImg.style.opacity = '1';
-      if (clone.parentNode) {
-        clone.parentNode.removeChild(clone);
-      }
-    }, 550);
-  });
-}
-
 function openAlbum(albumKey, originElement = null) {
   if (!albumData[albumKey]) return;
 
@@ -317,15 +242,6 @@ function openAlbum(albumKey, originElement = null) {
 
   applyMainPageTheme(albumKey);
   document.body.classList.add('modal-open');
-  lockBodyScroll();
-
-  let sourceImg = null;
-  if (originElement && originElement.querySelector('img')) {
-    sourceImg = originElement.querySelector('img');
-  } else {
-    const matchingCard = document.querySelector(`.album-card[onclick*="'${albumKey}'"] img`);
-    if (matchingCard) sourceImg = matchingCard;
-  }
 
   const miniPlayer = document.getElementById('mini-player');
   if (miniPlayer) {
@@ -386,20 +302,12 @@ function openAlbum(albumKey, originElement = null) {
   if (appleLink) appleLink.href = data.links.apple;
   if (ytmusicLink) ytmusicLink.href = data.links.ytmusic;
 
-  // Clear timeout to prevent race condition when rapidly opening/closing
   if (modalStateTimeout) clearTimeout(modalStateTimeout);
 
   if (expandedView) {
     expandedView.style.display = 'flex';
-    void expandedView.offsetWidth; // Force Reflow
+    void expandedView.offsetWidth;
     expandedView.classList.add('active');
-
-    if (sourceImg && expandedCover) {
-      // Provide short delay for flex grid calculation on mobile devices
-      setTimeout(() => {
-        animateArtworkFlyIn(sourceImg, expandedCover);
-      }, 20); 
-    }
   }
 }
 
@@ -409,7 +317,6 @@ function closeExpandedAlbum() {
   const player = document.getElementById('player');
 
   document.body.classList.remove('modal-open');
-  unlockBodyScroll(); 
 
   const hasTrackPlayingOrLoaded = player && (player.src || !player.paused) && currentTrackIndex !== -1;
 
@@ -421,7 +328,7 @@ function closeExpandedAlbum() {
       if (!expandedView.classList.contains('active')) {
         expandedView.style.display = 'none';
       }
-    }, 350);
+    }, 300);
   }
 
   if (hasTrackPlayingOrLoaded && miniPlayer) {
@@ -436,7 +343,6 @@ function closeExpandedAlbum() {
 
 function reopenFullPlayer() {
   if (currentActiveAlbum) {
-    // Pass miniPlayer context so it animates upwards correctly instead of pulling from hidden list
     const miniPlayer = document.getElementById('mini-player');
     openAlbum(currentActiveAlbum, miniPlayer);
   }
@@ -447,7 +353,6 @@ function dismissMiniPlayer() {
   const player = document.getElementById('player');
 
   document.body.classList.remove('modal-open');
-  unlockBodyScroll();
 
   if (modalStateTimeout) clearTimeout(modalStateTimeout);
 
