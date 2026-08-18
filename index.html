@@ -18,66 +18,135 @@
   </div>
 
   <div class="main-content" id="main-page">
-    <header class="header-glass glass-card">
-      <h1 id="main-title">ПОТЛАТИЙ & ПАРТНЕРИ</h1>
-      <div class="tagline-container">
-        <span id="tagline" class="tagline">P&P AND ALEXEI DOOMOVICH RECORDS</span>
+    
+    <!-- Modern Liquid Glass Top Navigation -->
+    <nav class="top-nav glass-card">
+      <div class="nav-brand">
+        <span class="brand-title">P&P RECORDS</span>
+        <span class="brand-subtitle">featuring Alexei Doomovich and Symphonic Electronic</span>
+      </div>
+      
+      <div class="nav-links">
+        <button id="nav-home" class="nav-link active" onclick="switchTab('home')">Home</button>
+        <button id="nav-clips" class="nav-link" onclick="switchTab('clips')">Clips</button>
+        <button id="nav-equalizers" class="nav-link" onclick="switchTab('equalizers')">Equalizers</button>
+        <button id="nav-platforms" class="nav-link" onclick="switchTab('platforms')">Platforms</button>
       </div>
 
-      <!-- Main Screen Media Link Buttons -->
-      <div id="header-media-links" class="media-links-container">
+      <div class="nav-socials media-links-container">
         <a href="https://soundcloud.com/potlatiypartnyori?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" class="media-link-btn sc-link" title="SoundCloud"><img src="snd.png" alt="SoundCloud"></a>
         <a href="https://www.tiktok.com/@potlatiy_3.14tushara" target="_blank" class="media-link-btn tt-link" title="TikTok"><img src="tt.png" alt="TikTok"></a>
         <a href="https://www.youtube.com/@ReVanced-j1o" target="_blank" class="media-link-btn yt-link" title="YouTube"><img src="yt.png" alt="YouTube"></a>
         <a href="https://www.instagram.com/potlatiypartnyori/" target="_blank" class="media-link-btn ig-link" title="Instagram"><img src="inst.png" alt="Instagram"></a>
         <a href="https://x.com/ptlty_i_part" target="_blank" class="media-link-btn x-link" title="X"><img src="x.png" alt="X"></a>
       </div>
-    </header>
+    </nav>
 
-    <div class="controls-container">
-      <button id="promo-btn-22" class="promo-btn glass-card" onclick="openAlbum('22', this)">
-        <span class="arrow-left">→</span> New Album Release 22 <span class="arrow-right">←</span>
-      </button>
-      <button id="promo-btn-cspg" class="promo-btn glass-card" onclick="openAlbum('cspg', this)">
-        <span class="arrow-left">→</span> Олексій Нормальний - Класика <span class="arrow-right">←</span>
-      </button>
+    <!-- SECTION: HOME (Main Page) -->
+    <div id="section-home" class="page-section active">
+      <div class="controls-container">
+        <button id="promo-btn-22" class="promo-btn glass-card" onclick="openAlbum('22', this)">
+          <span class="arrow-left">→</span> New Album Release 22 <span class="arrow-right">←</span>
+        </button>
+        <button id="promo-btn-cspg" class="promo-btn glass-card" onclick="openAlbum('cspg', this)">
+          <span class="arrow-left">→</span> Олексій Нормальний - Класика <span class="arrow-right">←</span>
+        </button>
+      </div>
+
+      <div id="albums-grid" class="album-grid">
+        <div class="album-card glass-card" onclick="openAlbum('22', this)">
+          <div class="album-card-cover">
+            <img src="22albumcov.png" alt="Album 22" onerror="this.src='icon.ico'">
+          </div>
+          <div class="album-card-title">22</div>
+          <div class="album-card-listens" id="main-listens-22">0 listens</div>
+        </div>
+
+        <div class="album-card glass-card" onclick="openAlbum('22demos', this)">
+          <div class="album-card-cover">
+            <img src="22demos.png" alt="22 Demos" onerror="this.src='icon.ico'">
+          </div>
+          <div class="album-card-title">22 Demos</div>
+          <div class="album-card-listens" id="main-listens-22demos">0 listens</div>
+        </div>
+
+        <div class="album-card glass-card" onclick="openAlbum('cspg', this)">
+          <div class="album-card-cover">
+            <img src="csopgnew.png" alt="CSPG" onerror="this.src='icon.ico'">
+          </div>
+          <div class="album-card-title">Constant Stimulation of Penial Glands</div>
+          <div class="album-card-listens" id="main-listens-cspg">0 listens</div>
+        </div>
+
+        <div class="album-card glass-card" onclick="openAlbum('cvp', this)">
+          <div class="album-card-cover">
+            <img src="clipcover.png" alt="Clip v Parische" onerror="this.src='icon.ico'">
+          </div>
+          <div class="album-card-title">Clip v Parische</div>
+          <div class="album-card-listens" id="main-listens-cvp">0 listens</div>
+        </div>
+      </div>
     </div>
 
-    <div id="albums-grid" class="album-grid">
-      <div class="album-card glass-card" onclick="openAlbum('22', this)">
-        <div class="album-card-cover">
-          <img src="22albumcov.png" alt="Album 22" onerror="this.src='icon.ico'">
-        </div>
-        <div class="album-card-title">22</div>
-        <div class="album-card-listens" id="main-listens-22">0 listens</div>
-      </div>
-
-      <div class="album-card glass-card" onclick="openAlbum('22demos', this)">
-        <div class="album-card-cover">
-          <img src="22demos.png" alt="22 Demos" onerror="this.src='icon.ico'">
-        </div>
-        <div class="album-card-title">22 Demos</div>
-        <div class="album-card-listens" id="main-listens-22demos">0 listens</div>
-      </div>
-
-      <div class="album-card glass-card" onclick="openAlbum('cspg', this)">
-        <div class="album-card-cover">
-          <img src="csopgnew.png" alt="CSPG" onerror="this.src='icon.ico'">
-        </div>
-        <div class="album-card-title">Constant Stimulation of Penial Glands</div>
-        <div class="album-card-listens" id="main-listens-cspg">0 listens</div>
-      </div>
-
-      <div class="album-card glass-card" onclick="openAlbum('cvp', this)">
-        <div class="album-card-cover">
-          <img src="clipcover.png" alt="Clip v Parische" onerror="this.src='icon.ico'">
-        </div>
-        <div class="album-card-title">Clip v Parische</div>
-        <div class="album-card-listens" id="main-listens-cvp">0 listens</div>
+    <!-- SECTION: CLIPS -->
+    <div id="section-clips" class="page-section">
+      <h2 class="section-heading">Офіційні Кліпи</h2>
+      <div id="clips-grid" class="yt-grid">
+        <!-- Rendered dynamically via x.js -->
       </div>
     </div>
+
+    <!-- SECTION: EQUALIZERS -->
+    <div id="section-equalizers" class="page-section">
+      <h2 class="section-heading">22 - Потлатий & Партнери</h2>
+      <div id="eqs-grid" class="yt-grid">
+        <!-- Rendered dynamically via x.js -->
+      </div>
+    </div>
+
+    <!-- SECTION: PLATFORMS -->
+    <div id="section-platforms" class="page-section">
+      
+      <!-- Artist 1 -->
+      <div class="artist-section">
+        <h2 class="section-heading artist-heading">Потлатий & Партнери</h2>
+        <div class="platforms-grid">
+          <a href="https://music.apple.com/us/artist/potlatiy-partnyori/1889513694" class="platform-card glass-card">
+            <div class="platform-name">Apple Music</div>
+          </a>
+          <a href="https://open.spotify.com/artist/0wkSc3e1uH1IR74jevoHq7" class="platform-card glass-card">
+            <div class="platform-name">Spotify</div>
+          </a>
+          <a href="https://music.youtube.com/playlist?list=OLAK5uy_nKaLl6EU7TxB2G0NKvtaWVETPKnfGyg98" class="platform-card glass-card">
+            <div class="platform-name">YouTube Music</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Artist 2 -->
+      <div class="artist-section" style="margin-top: 1.5rem;">
+        <h2 class="section-heading artist-heading" style="border-left-color: #ff5500;">Alexei Normalnyi</h2>
+        <div class="platforms-grid">
+          <a href="https://music.apple.com/us/artist/alexei-normalnyi/1895401386" target="_blank" class="platform-card glass-card">
+            <div class="platform-name">Apple Music</div>
+          </a>
+          <a href="https://www.deezer.com/us/artist/386727481" class="platform-card glass-card">
+            <div class="platform-name">Deezer</div>
+          </a>
+          <a href="https://open.spotify.com/artist/5Uoz8QpVv2QtMJHDhMZkXv" target="_blank" class="platform-card glass-card">
+            <div class="platform-name">Spotify</div>
+          </a>
+          <a href="https://music.youtube.com/playlist?list=OLAK5uy_mBKeQ6psKyPgW90CNi_EKRHSkR4EyxBy4" target="_blank" class="platform-card glass-card">
+            <div class="platform-name">YouTube Music</div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
+  <!-- Expanded Player Modal -->
   <div id="expanded-view" class="expanded-modal" style="display: none;">
     <div class="animated-bg">
       <div class="blob blob-1"></div>
