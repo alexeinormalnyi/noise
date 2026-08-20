@@ -25,9 +25,8 @@ const albumData = {
     c2: "#1a2233",
     c3: "#080d1a",
     accent: "#a5b4fc",
-    listens: 15000 + Math.floor(Math.random() * 8000),
-    displayedListens: 0,
-    links: { spotify: '#', apple: '#', ytmusic: '#' }
+    status: 'released',
+    links: { soundcloud: 'https://soundcloud.com/potlatiypartnyori/sets/22a' } 
   },
   '22demos': {
     title: "Потлатий & Партнери",
@@ -37,9 +36,8 @@ const albumData = {
     c2: "#11221a",
     c3: "#05140d",
     accent: "#34d399",
-    listens: 3000 + Math.floor(Math.random() * 2500),
-    displayedListens: 0,
-    links: { spotify: '#', apple: '#', ytmusic: '#' }
+    status: 'unreleased',
+    links: {}
   },
   'cspg': {
     title: "Alexei Normalnyi",
@@ -49,8 +47,7 @@ const albumData = {
     c2: "#360a00",
     c3: "#1a0300",
     accent: "#ff5500",
-    listens: 28000 + Math.floor(Math.random() * 12000),
-    displayedListens: 0,
+    status: 'released',
     links: {
       spotify: 'https://open.spotify.com/album/2Xt4WIICyGiVKsSUJqeXxN?go=1&nd=1',
       apple: 'https://music.apple.com/ua/album/constant-stimulation-of-penial-glands/1895401622',
@@ -65,24 +62,46 @@ const albumData = {
     c2: "#1e293b",
     c3: "#0f172a",
     accent: "#38bdf8",
-    listens: 8000 + Math.floor(Math.random() * 5000),
-    displayedListens: 0,
+    status: 'released',
     links: {
       spotify: 'https://open.spotify.com/album/79kVW8XxLtFkNkto2YdtZl?go=1&nd=1',
       apple: 'https://music.apple.com/ua/album/clip-v-parische-single/1889513888',
       ytmusic: 'https://music.youtube.com/playlist?list=OLAK5uy_nKaLl6EU7TxB2G0NKvtaWVETPKnfGyg98'
     }
+  },
+  'jungle': {
+    title: "Потлатий & Партнери",
+    tag: "Jungle Sub-volume 01",
+    cover: "jngl.png",
+    c1: "#142612",
+    c2: "#0c170b",
+    c3: "#050a05",
+    accent: "#4ade80",
+    status: 'unreleased',
+    links: {}
+  },
+  'soon': {
+    title: "Потлатий & Партнери",
+    tag: "Coming soon",
+    cover: "question.png",
+    c1: "#2d2d2d",
+    c2: "#1a1a1a",
+    c3: "#0d0d0d",
+    accent: "#a3a3a3",
+    status: 'unreleased',
+    links: {}
   }
 };
 
 let currentTrackList = [];
 let currentTrackIndex = -1;
-let currentActiveAlbum = null;
+let currentActiveAlbum = null; 
+let currentlyPlayingAlbum = null; 
+let currentPlayingTrackElement = null; 
 const trackDataMap = new Map();
 const activeAnimations = new Map();
 let modalStateTimeout;
 
-// Tracking state for Video auto-pause and auto-resume behavior
 let wasAudioPlayingBeforeVideo = false;
 
 document.addEventListener('mousemove', (e) => {
@@ -93,7 +112,6 @@ document.addEventListener('mousemove', (e) => {
   }
 });
 
-// Navigation Tab Switcher
 function switchTab(tabId) {
   document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
   document.getElementById('section-' + tabId).classList.add('active');
@@ -102,7 +120,6 @@ function switchTab(tabId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Generate Video Cards dynamically
 function renderVideos() {
   const clipsGrid = document.getElementById('clips-grid');
   const eqsGrid = document.getElementById('eqs-grid');
@@ -143,14 +160,11 @@ function createVideoCard(fileName, folder, title) {
     videoEl.preload = 'metadata';
     videoEl.src = `${folder}/${fileName}`;
 
-    // PAUSE BACKGROUND MUSIC WHEN A VIDEO PLAYS
     videoEl.addEventListener('play', (e) => {
-      // 1. Pause any other currently playing videos 
       document.querySelectorAll('video').forEach(vid => {
         if (vid !== e.target && !vid.paused) vid.pause();
       });
 
-      // 2. Safely pause the main background music player and remember its state
       const player = document.getElementById('player');
       if (player && !player.paused) {
         wasAudioPlayingBeforeVideo = true;
@@ -158,21 +172,35 @@ function createVideoCard(fileName, folder, title) {
       }
     });
 
-    // RESUME BACKGROUND MUSIC WHEN A VIDEO STOPS OR PAUSES
     const handleVideoStop = () => {
       const player = document.getElementById('player');
-      
-      // Ensure no other videos are actively playing before resuming
       const isAnyVideoPlaying = Array.from(document.querySelectorAll('video')).some(vid => !vid.paused);
       
       if (!isAnyVideoPlaying && player && wasAudioPlayingBeforeVideo) {
         player.play().catch(e => console.log('Playback resume error:', e));
-        wasAudioPlayingBeforeVideo = false; // Reset state
+        wasAudioPlayingBeforeVideo = false;
       }
     };
 
     videoEl.addEventListener('pause', handleVideoStop);
-    videoEl.addEventListener('ended', handleVideoStop);
+
+    if (folder === 'eqs') {
+      videoEl.addEventListener('ended', (e) => {
+        handleVideoStop();
+        
+        const parentGrid = e.target.closest('.yt-grid');
+        if (parentGrid) {
+          const videos = Array.from(parentGrid.querySelectorAll('video'));
+          const currentIndex = videos.indexOf(e.target);
+          if (currentIndex !== -1 && currentIndex < videos.length - 1) {
+            const nextVideo = videos[currentIndex + 1];
+            nextVideo.play().catch(err => console.log('Auto-play next visualizer prevented by browser:', err));
+          }
+        }
+      });
+    } else {
+      videoEl.addEventListener('ended', handleVideoStop);
+    }
 
     videoWrapper.appendChild(videoEl);
   } else {
@@ -282,74 +310,50 @@ function initTrackListens() {
   });
 }
 
-function updateMainPageAlbumListens() {
-  Object.keys(albumData).forEach(key => {
-    const mainEl = document.getElementById(`main-listens-${key}`);
-    if (mainEl) {
-      const start = albumData[key].displayedListens || 0;
-      const end = albumData[key].listens;
-      animateValue(mainEl, start, end, 1000);
-      albumData[key].displayedListens = end;
-    }
-  });
-}
-
 function initListensCounter() {
-  updateMainPageAlbumListens();
   setInterval(() => {
-    Object.keys(albumData).forEach(key => albumData[key].listens += Math.floor(Math.random() * 7) + 1);
-    updateMainPageAlbumListens();
-    
-    if (currentActiveAlbum && albumData[currentActiveAlbum]) {
-      const listensEl = document.getElementById('listens-count');
-      if (listensEl) {
-        const start = albumData[currentActiveAlbum].modalDisplayedListens || 0;
-        const end = albumData[currentActiveAlbum].listens;
-        animateValue(listensEl, start, end, 1000);
-        albumData[currentActiveAlbum].modalDisplayedListens = end;
-      }
-    }
-
     trackDataMap.forEach((data) => {
       const start = data.displayedListens;
       data.listens += Math.floor(Math.random() * 5) + 1;
       animateValue(data.element, start, data.listens, 1000);
       data.displayedListens = data.listens;
     });
-
-    const miniListensEl = document.getElementById('mini-listens-count');
-    if (miniListensEl && currentTrackIndex !== -1 && currentTrackList[currentTrackIndex]) {
-      const activeTrackEl = currentTrackList[currentTrackIndex];
-      const trackData = trackDataMap.get(activeTrackEl);
-      if (trackData) {
-        const start = trackData.miniDisplayedListens || 0;
-        const end = trackData.listens;
-        animateValue(miniListensEl, start, end, 1000);
-        trackData.miniDisplayedListens = end;
-      }
-    }
   }, 4000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderVideos(); // Auto-generates videos on load
+  renderVideos();
   initTrackListens();
   initListensCounter();
+
+  Object.keys(albumData).forEach(key => {
+    const statusEl = document.getElementById(`status-${key}`);
+    if (statusEl) {
+      const isReleased = albumData[key].status === 'released';
+      statusEl.innerText = isReleased ? 'Released' : 'Unreleased';
+      statusEl.className = 'album-card-status ' + (isReleased ? 'status-released' : 'status-unreleased');
+    }
+  });
 
   const player = document.getElementById('player');
   if (player) {
     player.addEventListener('play', syncPlayPauseState);
     player.addEventListener('pause', syncPlayPauseState);
+    player.addEventListener('ended', nextTrack); 
   }
 });
 
 function openAlbum(albumKey, originElement = null) {
   if (!albumData[albumKey]) return;
-  const isSameAlbum = (currentActiveAlbum === albumKey);
   currentActiveAlbum = albumKey;
   const data = albumData[albumKey];
 
-  applyMainPageTheme(albumKey);
+  if (currentlyPlayingAlbum) {
+    applyMainPageTheme(currentlyPlayingAlbum);
+  } else {
+    applyMainPageTheme(albumKey);
+  }
+
   document.body.classList.add('modal-open');
 
   const miniPlayer = document.getElementById('mini-player');
@@ -364,15 +368,23 @@ function openAlbum(albumKey, originElement = null) {
   const spotifyLink = document.getElementById('spotify-link');
   const appleLink = document.getElementById('apple-link');
   const ytmusicLink = document.getElementById('ytmusic-link');
+  const soundcloudLink = document.getElementById('soundcloud-link');
 
-  if (expandedCover) expandedCover.src = data.cover;
+  // Fix: Show the cover image of the currently playing album if audio is active, otherwise use the opened album's cover
+  const displayCoverAlbumKey = (currentlyPlayingAlbum && albumData[currentlyPlayingAlbum]) ? currentlyPlayingAlbum : albumKey;
+  const displayCoverData = albumData[displayCoverAlbumKey];
+
+  if (expandedCover) expandedCover.src = displayCoverData.cover;
   if (expandedAlbumTitle) expandedAlbumTitle.innerText = `${data.title} — ${data.tag}`;
 
   if (expandedView) {
-    expandedView.style.setProperty('--album-c1', data.c1);
-    expandedView.style.setProperty('--album-c2', data.c2);
-    expandedView.style.setProperty('--album-c3', data.c3);
-    expandedView.style.setProperty('--accent', data.accent);
+    const themeAlbumKey = currentlyPlayingAlbum || albumKey;
+    const themeData = albumData[themeAlbumKey] || data;
+
+    expandedView.style.setProperty('--album-c1', themeData.c1);
+    expandedView.style.setProperty('--album-c2', themeData.c2);
+    expandedView.style.setProperty('--album-c3', themeData.c3);
+    expandedView.style.setProperty('--accent', themeData.accent);
   }
 
   document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
@@ -381,15 +393,67 @@ function openAlbum(albumKey, originElement = null) {
     activeList.style.display = 'flex';
     currentTrackList = Array.from(activeList.querySelectorAll('.track'));
 
-    if (!isSameAlbum || currentTrackIndex === -1 || !currentTrackList[currentTrackIndex]) currentTrackIndex = 0;
-    const trackToPlay = currentTrackList[currentTrackIndex] || currentTrackList[0];
-    
-    if (trackToPlay) playTrack(trackToPlay);
+    if (currentlyPlayingAlbum === albumKey && currentPlayingTrackElement) {
+      currentTrackList.forEach(el => el.classList.remove('active'));
+      currentPlayingTrackElement.classList.add('active');
+      currentTrackIndex = currentTrackList.indexOf(currentPlayingTrackElement);
+      
+      const rawFile = currentPlayingTrackElement.getAttribute('data-file');
+      const lyricsBox = document.getElementById('lyrics-box');
+      const text = (typeof lyricsData !== 'undefined' && lyricsData[rawFile]) ? lyricsData[rawFile] : 'no lyrics';
+      if (lyricsBox) lyricsBox.innerText = (!text || text.trim() === '' || text === 'no lyrics') ? 'Текст відсутній / No lyrics available' : text;
+    } else {
+      const player = document.getElementById('player');
+      const isPlayingOrLoaded = player && player.src && player.src !== window.location.href && player.currentSrc !== "";
+
+      if (!isPlayingOrLoaded) {
+        currentTrackIndex = currentTrackList.length > 0 ? 0 : -1;
+        const trackToPlay = currentTrackList[currentTrackIndex];
+        if (trackToPlay) {
+          playTrack(trackToPlay);
+        }
+      } else {
+        currentTrackList.forEach(el => el.classList.remove('active'));
+        if (currentlyPlayingAlbum === albumKey && currentPlayingTrackElement) {
+          currentPlayingTrackElement.classList.add('active');
+          currentTrackIndex = currentTrackList.indexOf(currentPlayingTrackElement);
+        } else {
+          currentTrackIndex = 0;
+        }
+        updatePlayerTrackInfo(currentlyPlayingAlbum === albumKey ? currentPlayingTrackElement : null);
+        updateMiniPlayerInfo(currentlyPlayingAlbum === albumKey ? currentPlayingTrackElement : null);
+      }
+    }
   }
 
-  if (spotifyLink) spotifyLink.href = data.links.spotify;
-  if (appleLink) appleLink.href = data.links.apple;
-  if (ytmusicLink) ytmusicLink.href = data.links.ytmusic;
+  if (soundcloudLink) soundcloudLink.onclick = null;
+  
+  if (albumKey === '22' || albumKey === '22demos' || albumKey === 'jungle' || albumKey === 'soon') {
+    if (spotifyLink) spotifyLink.style.display = 'none';
+    if (appleLink) appleLink.style.display = 'none';
+    if (ytmusicLink) ytmusicLink.style.display = 'none';
+    
+    if (soundcloudLink) {
+      soundcloudLink.style.display = 'inline-block';
+      if (albumKey === '22demos' || albumKey === 'jungle' || albumKey === 'soon') {
+        soundcloudLink.innerText = 'UNRELEASED';
+        soundcloudLink.href = '#';
+        soundcloudLink.onclick = (e) => {
+          e.preventDefault();
+          closeExpandedAlbum();
+          switchTab('home');
+        };
+      } else {
+        soundcloudLink.innerText = 'SoundCloud';
+        soundcloudLink.href = data.links?.soundcloud || '#';
+      }
+    }
+  } else {
+    if (spotifyLink) { spotifyLink.style.display = 'inline-block'; spotifyLink.href = data.links?.spotify || '#'; }
+    if (appleLink) { appleLink.style.display = 'inline-block'; appleLink.href = data.links?.apple || '#'; }
+    if (ytmusicLink) { ytmusicLink.style.display = 'inline-block'; ytmusicLink.href = data.links?.ytmusic || '#'; }
+    if (soundcloudLink) soundcloudLink.style.display = 'none';
+  }
 
   if (modalStateTimeout) clearTimeout(modalStateTimeout);
 
@@ -423,12 +487,14 @@ function closeExpandedAlbum() {
     miniPlayer.classList.add('active');
   } else {
     currentActiveAlbum = null;
+    currentlyPlayingAlbum = null;
     resetMainPageTheme();
   }
 }
 
 function reopenFullPlayer() {
-  if (currentActiveAlbum) openAlbum(currentActiveAlbum, document.getElementById('mini-player'));
+  const targetAlbum = currentlyPlayingAlbum || currentActiveAlbum;
+  if (targetAlbum) openAlbum(targetAlbum, document.getElementById('mini-player'));
 }
 
 function dismissMiniPlayer() {
@@ -442,6 +508,8 @@ function dismissMiniPlayer() {
     setTimeout(() => { if (!miniPlayer.classList.contains('active')) miniPlayer.style.display = 'none'; }, 450);
   }
   if (player) player.pause();
+  currentlyPlayingAlbum = null;
+  currentPlayingTrackElement = null;
   resetMainPageTheme();
 }
 
@@ -449,13 +517,39 @@ function playTrack(trackEl) {
   const player = document.getElementById('player');
   const lyricsBox = document.getElementById('lyrics-box');
   
-  // Wipe video tracking state so playing a new audio track won't interfere
   wasAudioPlayingBeforeVideo = false;
+
+  const parentBox = trackEl.closest('.track-list-box');
+  if (parentBox) {
+    const boxId = parentBox.id; 
+    if (boxId && boxId.startsWith('list-')) {
+      currentlyPlayingAlbum = boxId.replace('list-', '');
+    }
+  }
+
+  currentPlayingTrackElement = trackEl;
+
+  applyMainPageTheme(currentlyPlayingAlbum);
+
+  const expandedView = document.getElementById('expanded-view');
+  if (expandedView && currentlyPlayingAlbum && albumData[currentlyPlayingAlbum]) {
+    const data = albumData[currentlyPlayingAlbum];
+    expandedView.style.setProperty('--album-c1', data.c1);
+    expandedView.style.setProperty('--album-c2', data.c2);
+    expandedView.style.setProperty('--album-c3', data.c3);
+    expandedView.style.setProperty('--accent', data.accent);
+
+    // Also update the expanded album cover image immediately if modal is open
+    const expandedCover = document.getElementById('expanded-cover');
+    if (expandedCover) expandedCover.src = data.cover;
+  }
 
   document.querySelectorAll('.track').forEach(el => el.classList.remove('active'));
   trackEl.classList.add('active');
 
-  const file = trackEl.getAttribute('data-file');
+  const rawFile = trackEl.getAttribute('data-file');
+  const file = rawFile ? (rawFile.startsWith('music/') ? rawFile : `music/${rawFile}`) : '';
+
   if (file && player) {
     if (!decodeURIComponent(player.src).endsWith(file)) {
       player.src = file;
@@ -465,10 +559,9 @@ function playTrack(trackEl) {
     }
   }
 
-  const text = (typeof lyricsData !== 'undefined' && lyricsData[file]) ? lyricsData[file] : 'no lyrics';
+  const text = (typeof lyricsData !== 'undefined' && lyricsData[rawFile]) ? lyricsData[rawFile] : 'no lyrics';
   if (lyricsBox) lyricsBox.innerText = (!text || text.trim() === '' || text === 'no lyrics') ? 'Текст відсутній / No lyrics available' : text;
 
-  const parentBox = trackEl.closest('.track-list-box');
   if (parentBox) {
     currentTrackList = Array.from(parentBox.querySelectorAll('.track'));
     currentTrackIndex = currentTrackList.indexOf(trackEl);
@@ -481,12 +574,17 @@ function playTrack(trackEl) {
 function updatePlayerTrackInfo(trackEl) {
   const trackNameEl = document.getElementById('player-track-name');
   const albumNameEl = document.getElementById('player-album-name');
-  if (!currentActiveAlbum || !albumData[currentActiveAlbum]) return;
+  
+  const targetAlbum = currentlyPlayingAlbum || currentActiveAlbum;
+  if (!targetAlbum || !albumData[targetAlbum]) return;
 
-  if (!trackEl && currentTrackList.length > 0) trackEl = currentTrackList[Math.max(0, currentTrackIndex)];
+  if (!trackEl && currentlyPlayingAlbum === targetAlbum) {
+    trackEl = currentPlayingTrackElement;
+  }
 
-  const data = albumData[currentActiveAlbum];
+  const data = albumData[targetAlbum];
   let songName = "";
+  
   if (trackEl) {
     const nameSpan = trackEl.querySelector('.track-name');
     songName = nameSpan ? nameSpan.textContent.trim() : trackEl.textContent.trim();
@@ -500,11 +598,18 @@ function updatePlayerTrackInfo(trackEl) {
 function updateMiniPlayerInfo(trackEl) {
   const miniCover = document.getElementById('mini-cover');
   const miniTitle = document.getElementById('mini-title');
+  
+  // Fix: Ensure mini-player references the currently playing album data rather than currentActiveAlbum if different
+  const targetAlbum = currentlyPlayingAlbum || currentActiveAlbum;
+  if (!targetAlbum || !albumData[targetAlbum]) return;
 
-  if (!trackEl && currentTrackList.length > 0) trackEl = currentTrackList[Math.max(0, currentTrackIndex)];
-  if (!trackEl || !currentActiveAlbum || !albumData[currentActiveAlbum]) return;
+  if (!trackEl && currentlyPlayingAlbum === targetAlbum) {
+    trackEl = currentPlayingTrackElement;
+  }
+  
+  if (!trackEl) return;
 
-  const data = albumData[currentActiveAlbum];
+  const data = albumData[targetAlbum];
   if (miniCover) miniCover.src = data.cover;
 
   const nameEl = trackEl.querySelector('.track-name');
@@ -533,9 +638,8 @@ function nextTrack() {
 
 function togglePlayPause() {
   const player = document.getElementById('player');
-  if (!player) return;
+  if (!player || !player.src || player.currentSrc === "" || player.src.endsWith(window.location.host + '/')) return;
   
-  // Wipe video tracking state so manual interactions aren't superseded 
   wasAudioPlayingBeforeVideo = false;
 
   player.paused ? player.play() : player.pause();

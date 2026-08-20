@@ -6,6 +6,20 @@
   <title>Потлатий & Партнери</title>
   <link rel="icon" type="image/x-icon" href="icon.ico">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Custom layout adjustment to shift the last two albums to the right as shown in your image */
+    @media (min-width: 950px) {
+      #albums-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      #albums-grid .album-card:nth-last-child(2) {
+        grid-column: 2;
+      }
+      #albums-grid .album-card:nth-last-child(1) {
+        grid-column: 3;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -29,7 +43,7 @@
       <div class="nav-links">
         <button id="nav-home" class="nav-link active" onclick="switchTab('home')">Home</button>
         <button id="nav-clips" class="nav-link" onclick="switchTab('clips')">Clips</button>
-        <button id="nav-equalizers" class="nav-link" onclick="switchTab('equalizers')">Equalizers</button>
+        <button id="nav-equalizers" class="nav-link" onclick="switchTab('equalizers')">Visualizers</button>
         <button id="nav-platforms" class="nav-link" onclick="switchTab('platforms')">Platforms</button>
       </div>
 
@@ -59,7 +73,8 @@
             <img src="22albumcov.png" alt="Album 22" onerror="this.src='icon.ico'">
           </div>
           <div class="album-card-title">22</div>
-          <div class="album-card-listens" id="main-listens-22">0 listens</div>
+          <div class="album-card-artist">Потлатий & Партнери</div>
+          <div class="album-card-status" id="status-22"></div>
         </div>
 
         <div class="album-card glass-card" onclick="openAlbum('22demos', this)">
@@ -67,7 +82,8 @@
             <img src="22demos.png" alt="22 Demos" onerror="this.src='icon.ico'">
           </div>
           <div class="album-card-title">22 Demos</div>
-          <div class="album-card-listens" id="main-listens-22demos">0 listens</div>
+          <div class="album-card-artist">Потлатий & Партнери</div>
+          <div class="album-card-status" id="status-22demos"></div>
         </div>
 
         <div class="album-card glass-card" onclick="openAlbum('cspg', this)">
@@ -75,7 +91,8 @@
             <img src="csopgnew.png" alt="CSPG" onerror="this.src='icon.ico'">
           </div>
           <div class="album-card-title">Constant Stimulation of Penial Glands</div>
-          <div class="album-card-listens" id="main-listens-cspg">0 listens</div>
+          <div class="album-card-artist">Alexei Normalnyi</div>
+          <div class="album-card-status" id="status-cspg"></div>
         </div>
 
         <div class="album-card glass-card" onclick="openAlbum('cvp', this)">
@@ -83,7 +100,28 @@
             <img src="clipcover.png" alt="Clip v Parische" onerror="this.src='icon.ico'">
           </div>
           <div class="album-card-title">Clip v Parische</div>
-          <div class="album-card-listens" id="main-listens-cvp">0 listens</div>
+          <div class="album-card-artist">Потлатий & Партнери</div>
+          <div class="album-card-status" id="status-cvp"></div>
+        </div>
+
+        <!-- New Album: Jungle Sub-volume 01 -->
+        <div class="album-card glass-card" onclick="openAlbum('jungle', this)">
+          <div class="album-card-cover">
+            <img src="jngl.png" alt="Jungle Sub-volume 01" onerror="this.src='icon.ico'">
+          </div>
+          <div class="album-card-title">Jungle Sub-volume 01</div>
+          <div class="album-card-artist">Iroquois Plissken</div>
+          <div class="album-card-status" id="status-jungle"></div>
+        </div>
+
+        <!-- New Album: Coming Soon -->
+        <div class="album-card glass-card" onclick="openAlbum('soon', this)">
+          <div class="album-card-cover">
+            <img src="question.png" alt="Coming soon" onerror="this.src='icon.ico'">
+          </div>
+          <div class="album-card-title">COMING SOON</div>
+          <div class="album-card-artist">Потлатий & Партнери</div>
+          <div class="album-card-status" id="status-soon"></div>
         </div>
       </div>
     </div>
@@ -181,12 +219,11 @@
               <button class="control-btn glass-btn" onclick="nextTrack()">NEXT ⏭</button>
             </div>
 
-            <div id="listens-count" class="listens-count"></div>
-
             <div class="streaming-links">
               <a id="spotify-link" href="#" target="_blank" class="stream-btn glass-btn">Spotify</a>
               <a id="apple-link" href="#" target="_blank" class="stream-btn glass-btn">Apple Music</a>
               <a id="ytmusic-link" href="#" target="_blank" class="stream-btn glass-btn">YT Music</a>
+              <a id="soundcloud-link" href="#" target="_blank" class="stream-btn glass-btn" style="display: none;">SoundCloud</a>
             </div>
           </div>
         </div>
@@ -246,8 +283,25 @@
             <div class="track" data-file="Dismembered Body Found in the Stale Basement of a Nice Old Lady I Once Knew As Roberta.mp3" onclick="playTrack(this)">07. Dismembered Body Found in the Stale Basement</div>
           </div>
 
+          <div id="list-jungle" class="music-container track-list-box">
+            <div class="track" data-file="Cults.mp3" onclick="playTrack(this)">
+[ 01 : Cults ]</div>
+            <div class="track" data-file="Music.mp3" onclick="playTrack(this)">
+[ 02 : Music ]</div>
+            <div class="track" data-file="13's.mp3" onclick="playTrack(this)">[ 03 : 13's ]
+</div>
+            <div class="track" data-file="Evil Break.mp3" onclick="playTrack(this)">[ 04 : Evil Break ]
+</div>
+            <div class="track" data-file="Soloin' Through Pt. 1.mp3" onclick="playTrack(this)">[ 05 : Soloin' Thru Pt. I ]
+</div>
+          </div>
+
           <div id="list-cvp" class="music-container track-list-box">
             <div class="track" data-file="Clip v Parische.mp3" onclick="playTrack(this)">01. Clip v Parische</div>
+          </div>
+
+          <div id="list-soon" class="music-container track-list-box">
+            <!-- Tracks will be added once available -->
           </div>
 
           <div class="lyrics-container glass-panel">
@@ -275,7 +329,6 @@
         <button class="control-btn glass-btn" onclick="reopenFullPlayer()" title="Expand">⤢</button>
         <button class="control-btn glass-btn" onclick="dismissMiniPlayer()" title="Close">✕</button>
       </div>
-      <div id="mini-listens-count" class="mini-listens-count">0 listens</div>
     </div>
   </div>
 
