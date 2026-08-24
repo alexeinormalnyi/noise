@@ -70,7 +70,7 @@ const albumData = {
     }
   },
   'jungle': {
-    title: "Потлатий & Партнери",
+    title: "Iroquois Plissken",
     tag: "Jungle Sub-volume 01",
     cover: "jngl.png",
     c1: "#142612",
@@ -78,7 +78,7 @@ const albumData = {
     c3: "#050a05",
     accent: "#4ade80",
     status: 'unreleased',
-    links: {}
+    links: { soundcloud: 'https://soundcloud.com/potlatiypartnyori' }
   },
   'soon': {
     title: "Потлатий & Партнери",
@@ -348,11 +348,8 @@ function openAlbum(albumKey, originElement = null) {
   currentActiveAlbum = albumKey;
   const data = albumData[albumKey];
 
-  if (currentlyPlayingAlbum) {
-    applyMainPageTheme(currentlyPlayingAlbum);
-  } else {
-    applyMainPageTheme(albumKey);
-  }
+  // Instantly enforce the selected album theme across the app
+  applyMainPageTheme(albumKey);
 
   document.body.classList.add('modal-open');
 
@@ -370,21 +367,33 @@ function openAlbum(albumKey, originElement = null) {
   const ytmusicLink = document.getElementById('ytmusic-link');
   const soundcloudLink = document.getElementById('soundcloud-link');
 
-  // Fix: Show the cover image of the currently playing album if audio is active, otherwise use the opened album's cover
-  const displayCoverAlbumKey = (currentlyPlayingAlbum && albumData[currentlyPlayingAlbum]) ? currentlyPlayingAlbum : albumKey;
-  const displayCoverData = albumData[displayCoverAlbumKey];
-
-  if (expandedCover) expandedCover.src = displayCoverData.cover;
+  // Enforce selected album visual information strictly
+  if (expandedCover) expandedCover.src = data.cover;
   if (expandedAlbumTitle) expandedAlbumTitle.innerText = `${data.title} — ${data.tag}`;
 
   if (expandedView) {
-    const themeAlbumKey = currentlyPlayingAlbum || albumKey;
-    const themeData = albumData[themeAlbumKey] || data;
+    expandedView.style.setProperty('--album-c1', data.c1);
+    expandedView.style.setProperty('--album-c2', data.c2);
+    expandedView.style.setProperty('--album-c3', data.c3);
+    expandedView.style.setProperty('--accent', data.accent);
+  }
 
-    expandedView.style.setProperty('--album-c1', themeData.c1);
-    expandedView.style.setProperty('--album-c2', themeData.c2);
-    expandedView.style.setProperty('--album-c3', themeData.c3);
-    expandedView.style.setProperty('--accent', themeData.accent);
+  // Handle the 'Currently Playing Banner' Logic
+  const banner = document.getElementById('modal-now-playing-banner');
+  if (currentlyPlayingAlbum && currentlyPlayingAlbum !== albumKey) {
+    if (banner) {
+      banner.style.display = 'flex';
+      const pData = albumData[currentlyPlayingAlbum];
+      let songName = "Track";
+      if (currentPlayingTrackElement) {
+         const n = currentPlayingTrackElement.querySelector('.track-name');
+         songName = cleanTrackName(n ? n.textContent.trim() : currentPlayingTrackElement.textContent.trim());
+      }
+      const textEl = document.getElementById('modal-now-playing-text');
+      if (textEl) textEl.innerText = `${songName} - ${pData.tag || pData.title}`;
+    }
+  } else {
+    if (banner) banner.style.display = 'none';
   }
 
   document.querySelectorAll('.track-list-box').forEach(el => el.style.display = 'none');
@@ -420,10 +429,10 @@ function openAlbum(albumKey, originElement = null) {
         } else {
           currentTrackIndex = 0;
         }
-        updatePlayerTrackInfo(currentlyPlayingAlbum === albumKey ? currentPlayingTrackElement : null);
-        updateMiniPlayerInfo(currentlyPlayingAlbum === albumKey ? currentPlayingTrackElement : null);
       }
     }
+    updatePlayerTrackInfo();
+    updateMiniPlayerInfo(currentlyPlayingAlbum === albumKey ? currentPlayingTrackElement : null);
   }
 
   if (soundcloudLink) soundcloudLink.onclick = null;
@@ -435,7 +444,7 @@ function openAlbum(albumKey, originElement = null) {
     
     if (soundcloudLink) {
       soundcloudLink.style.display = 'inline-block';
-      if (albumKey === '22demos' || albumKey === 'jungle' || albumKey === 'soon') {
+      if (albumKey === '22demos' || albumKey === 'soon') {
         soundcloudLink.innerText = 'UNRELEASED';
         soundcloudLink.href = '#';
         soundcloudLink.onclick = (e) => {
@@ -485,6 +494,8 @@ function closeExpandedAlbum() {
     miniPlayer.style.display = 'flex';
     void miniPlayer.offsetWidth;
     miniPlayer.classList.add('active');
+    // Important theme reset: when you close modal, theme snaps back to the playing album
+    if (currentlyPlayingAlbum) applyMainPageTheme(currentlyPlayingAlbum);
   } else {
     currentActiveAlbum = null;
     currentlyPlayingAlbum = null;
@@ -529,7 +540,11 @@ function playTrack(trackEl) {
 
   currentPlayingTrackElement = trackEl;
 
+  // The moment we play a track, shift theme to this new album
   applyMainPageTheme(currentlyPlayingAlbum);
+
+  const banner = document.getElementById('modal-now-playing-banner');
+  if (banner) banner.style.display = 'none';
 
   const expandedView = document.getElementById('expanded-view');
   if (expandedView && currentlyPlayingAlbum && albumData[currentlyPlayingAlbum]) {
@@ -539,7 +554,6 @@ function playTrack(trackEl) {
     expandedView.style.setProperty('--album-c3', data.c3);
     expandedView.style.setProperty('--accent', data.accent);
 
-    // Also update the expanded album cover image immediately if modal is open
     const expandedCover = document.getElementById('expanded-cover');
     if (expandedCover) expandedCover.src = data.cover;
   }
@@ -567,7 +581,7 @@ function playTrack(trackEl) {
     currentTrackIndex = currentTrackList.indexOf(trackEl);
   }
 
-  updatePlayerTrackInfo(trackEl);
+  updatePlayerTrackInfo();
   updateMiniPlayerInfo(trackEl);
 }
 
@@ -575,16 +589,23 @@ function updatePlayerTrackInfo(trackEl) {
   const trackNameEl = document.getElementById('player-track-name');
   const albumNameEl = document.getElementById('player-album-name');
   
-  const targetAlbum = currentlyPlayingAlbum || currentActiveAlbum;
+  const targetAlbum = currentActiveAlbum;
   if (!targetAlbum || !albumData[targetAlbum]) return;
+
+  const data = albumData[targetAlbum];
+
+  // Display 'Select a track' if viewing another album
+  if (currentlyPlayingAlbum && currentlyPlayingAlbum !== targetAlbum) {
+    if (trackNameEl) trackNameEl.innerText = "Select a Track";
+    if (albumNameEl) albumNameEl.innerText = data.tag || data.title;
+    return;
+  }
 
   if (!trackEl && currentlyPlayingAlbum === targetAlbum) {
     trackEl = currentPlayingTrackElement;
   }
-
-  const data = albumData[targetAlbum];
-  let songName = "";
   
+  let songName = "";
   if (trackEl) {
     const nameSpan = trackEl.querySelector('.track-name');
     songName = nameSpan ? nameSpan.textContent.trim() : trackEl.textContent.trim();
@@ -599,7 +620,6 @@ function updateMiniPlayerInfo(trackEl) {
   const miniCover = document.getElementById('mini-cover');
   const miniTitle = document.getElementById('mini-title');
   
-  // Fix: Ensure mini-player references the currently playing album data rather than currentActiveAlbum if different
   const targetAlbum = currentlyPlayingAlbum || currentActiveAlbum;
   if (!targetAlbum || !albumData[targetAlbum]) return;
 

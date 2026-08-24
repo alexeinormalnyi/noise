@@ -199,6 +199,12 @@
         <button class="close-btn glass-btn" onclick="closeExpandedAlbum()" aria-label="Close">✕</button>
       </div>
 
+      <!-- NEW: Mini Banner showing the active playing track if browsing another album -->
+      <div id="modal-now-playing-banner" class="modal-now-playing-banner glass-panel" style="display: none;" onclick="if(currentlyPlayingAlbum) openAlbum(currentlyPlayingAlbum)">
+        <span>🔊 Now Playing: <strong id="modal-now-playing-text">Track - Album</strong></span>
+        <button class="glass-btn control-btn">View Album</button>
+      </div>
+
       <div class="expanded-layout">
         <div class="panel-left glass-panel">
           <div class="album-cover-frame">
@@ -211,7 +217,7 @@
           </div>
 
           <div class="player-controls">
-            <audio id="player" controls></audio>
+            <audio id="player" controls controlsList="nodownload"></audio>
 
             <div class="custom-playback-buttons">
               <button class="control-btn glass-btn" onclick="prevTrack()">⏮ PREV</button>
